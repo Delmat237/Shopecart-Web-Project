@@ -1,103 +1,79 @@
-// ✅ Récupérer l'utilisateur connecté
-let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-let users = JSON.parse(localStorage.getItem("users")) || [];
+document.addEventListener("DOMContentLoaded", () => {
 
-// ✅ Si aucun utilisateur n'est connecté → redirection vers login
-if (!currentUser) {
+  // ✅ Récupérer l'utilisateur sauvegardé par le script login
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  // ✅ Si aucun utilisateur connecté → redirection
+  if (!user) {
     alert("Vous devez d'abord vous connecter !");
-    window.location.href = "login.html"; // change si ton fichier login a un autre nom
-}
+    window.location.href = "login.html";
+    return;
+  }
 
-// ✅ Pré-remplir les champs du formulaire avec les données de l'utilisateur
-window.onload = () => {
-    // Récupérer l'utilisateur depuis localStorage
-    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || {name:"", email:"", phone:"", address:"", password:""};
+  // ✅ Pré-remplir les champs à l'ouverture
+  window.onload = () => {
+    document.querySelector('input[name="firstName"]')?.value = user.name || "";
+    document.querySelector('input[name="lastName"]')?.value = user.lastName || "";
+    document.querySelector('input[type="email"]')?.value = user.email || "";
+    document.querySelector('input[name="phone"]')?.value = user.phone || "";
+    document.querySelector('input[name="address"]')?.value = user.address || "";
 
-    // Pré-remplir les champs du formulaire
-    document.querySelector('input[name="firstName"]')?.value = currentUser.name;
-    document.querySelector('input[name="lastName"]')?.value = currentUser.lastName || "";
-    document.querySelector('input[type="email"]')?.value = currentUser.email;
-    document.querySelector('input[name="phone"]')?.value = currentUser.phone || "";
-    document.querySelector('input[name="address"]')?.value = currentUser.address || "";
+    // Sidebar (si présente)
+    document.querySelector(".sidebar .name")?.textContent = `${user.name || ""} ${user.lastName || ""}`;
+    document.querySelector(".sidebar .email")?.textContent = user.email || "";
+  };
 
-    // Mettre à jour l'affichage de la sidebar
-    document.querySelector(".sidebar .name").textContent = currentUser.name + " " + (currentUser.lastName || "");
-    document.querySelector(".sidebar .email").textContent = currentUser.email;
-};
+  // ✅ Bouton "Sauvegarder le profil"
+  document.querySelector(".btn.btn-primary")?.addEventListener("click", () => {
 
-// Fonction pour sauvegarder le profil
-document.querySelector(".btn.btn-primary")?.addEventListener("click", () => {
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || {email:""};
-
-    // Récupérer les nouvelles valeurs du formulaire
     let updatedUser = {
-        ...currentUser,
-        name: document.querySelector('input[name="firstName"]')?.value,
-        lastName: document.querySelector('input[name="lastName"]')?.value,
-        email: document.querySelector('input[type="email"]')?.value,
-        phone: document.querySelector('input[name="phone"]')?.value,
-        address: document.querySelector('input[name="address"]')?.value,
-        password: currentUser.password
+      ...user,
+      name: document.querySelector('input[name="firstName"]')?.value,
+      lastName: document.querySelector('input[name="lastName"]')?.value,
+      email: document.querySelector('input[type="email"]')?.value,
+      phone: document.querySelector('input[name="phone"]')?.value,
+      address: document.querySelector('input[name="address"]')?.value
     };
 
-    // Vérifier si quelque chose a changé
-    const isModified = JSON.stringify(currentUser) !== JSON.stringify(updatedUser);
+    const isModified = JSON.stringify(user) !== JSON.stringify(updatedUser);
 
-    if(isModified){
-        // Mettre à jour ou ajouter l'utilisateur dans users
-        let found = false;
-        users = users.map(user => {
-            if(user.email === currentUser.email){
-                found = true;
-                return updatedUser;
-            }
-            return user;
-        });
-        if(!found) users.push(updatedUser);
+    if (isModified) {
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      alert("✅ Profil mis à jour avec succès !");
 
-        // Sauvegarder
-        localStorage.setItem("users", JSON.stringify(users));
-        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+      // Update live display
+      document.querySelector(".sidebar .name")?.textContent = `${updatedUser.name} ${updatedUser.lastName || ""}`;
+      document.querySelector(".sidebar .email")?.textContent = updatedUser.email;
 
-        alert("✅ Profil mis à jour avec succès !");
-        // Mettre à jour l'affichage de la sidebar
-        document.querySelector(".sidebar .name").textContent = updatedUser.name + " " + (updatedUser.lastName || "");
-        document.querySelector(".sidebar .email").textContent = updatedUser.email;
+      user = updatedUser; // update current memory
     } else {
-        alert("ℹ️ Aucun changement détecté, rien n'a été modifié.");
+      alert("ℹ️ Aucun changement détecté.");
     }
-});
+  });
 
-// Fonction pour changer le mot de passe
-document.querySelector("#security .btn.btn-primary")?.addEventListener("click", () => {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
+  // ✅ Changer mot de passe
+  document.querySelector("#security .btn.btn-primary")?.addEventListener("click", () => {
     const oldPassword = document.querySelector('#security input[placeholder="Mot de passe actuel"]')?.value;
     const newPassword = document.querySelector('#security input[placeholder="Nouveau mot de passe"]')?.value;
     const confirmPassword = document.querySelector('#security input[placeholder="Confirmer le nouveau mot de passe"]')?.value;
 
-    if(oldPassword !== currentUser.password){
-        alert("❌ Ancien mot de passe incorrect !");
-        return;
+    if (oldPassword !== user.password) {
+      alert("❌ Ancien mot de passe incorrect !");
+      return;
     }
-    if(newPassword !== confirmPassword){
-        alert("❌ Les mots de passe ne correspondent pas !");
-        return;
+    if (newPassword !== confirmPassword) {
+      alert("❌ Les mots de passe ne correspondent pas !");
+      return;
     }
-    if(newPassword === ""){
-        alert("❌ Le mot de passe ne peut pas être vide !");
-        return;
+    if (newPassword === "") {
+      alert("❌ Le mot de passe ne peut pas être vide !");
+      return;
     }
 
-    // Mise à jour du mot de passe
-    currentUser.password = newPassword;
-    users = users.map(user => user.email === currentUser.email ? currentUser : user);
-
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    user.password = newPassword;
+    localStorage.setItem("user", JSON.stringify(user));
 
     alert("✅ Mot de passe changé avec succès !");
-});
+  });
 
+});

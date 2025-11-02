@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="/assets/css/products_casque.css"> 
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
-    <script src="/assets/js/product_filtres_manettes.js" defer></script> 
+    <script src="/assets/js/product_filtres.js" defer></script> 
     <script src="/assets/js/product_navigation_manettes.js" defer></script> 
-    <script src="/assets/js/product_pagination_manettes.js" defer></script> 
+    <script src="/assets/js/product_pagination.js" defer></script> 
     <script defer src="/assets/js/newsletter.js"></script>
     <script src="/assets/js/cart-manager.js" defer></script>
+    <script src="/assets/js/carousel_auto.js" defer></script> 
 </head>
 
 <body class="body-bg">
@@ -199,7 +200,7 @@
                 <input type="radio" name="filters" id="none"  checked hidden>
 
                 <div class="filter-dropdown" tabindex="0">
-                    <input type="radio" name="filters" id="prix-toggle" checked hidden >
+                    <input type="radio" name="filters" id="prix-toggle" hidden >
                     <label for="prix-toggle" class="tag-button">
                         Prix <span class="dropdown-arrow">▼</span>
                     </label>
@@ -211,7 +212,7 @@
                     </div>
                 </div>
                 <div class="filter-dropdown" tabindex="0">
-                    <input type="radio" name="filters" id="marques-manettes-toggle" checked hidden>
+                    <input type="radio" name="filters" id="marques-toggle"hidden>
                     <label for="marques-toggle" class="tag-button">
                         Marques <span class="dropdown-arrow">▼</span>
                     </label>
@@ -220,14 +221,12 @@
                         <a href="#" data-brand="microsoft"><i class="fab fa-xbox"></i> Microsoft (Xbox)</a>
                         <a href="#" data-brand="nintendo"><i class="fas fa-gamepad"></i> Nintendo</a>
                         <a href="#" data-brand="razer"><i class="fas fa-snake"></i> Razer</a>
-                        <a href="#" data-brand="logitech"><i class="fas fa-mouse-pointer"></i> Logitech</a>
-                        <a href="#" data-brand="nacon"><i class="fas fa-trophy"></i> Nacon</a>
-                        <a href="#" data-brand="8bitdo"><i class="fas fa-robot"></i> 8BitDo</a>
+                      
                     </div>
                 </div>
 
                 <div class="filter-dropdown" tabindex="0">
-                    <input type="radio" name="filters" id="notes-toggle" checked hidden>
+                    <input type="radio" name="filters" id="notes-toggle"  hidden>
                     <label for="notes-toggle" class="tag-button">
                         Notes <span class="dropdown-arrow">▼</span>
                     </label>
@@ -236,15 +235,14 @@
                         <a href="#" data-rating="4.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5 étoiles)</a>
                         <a href="#" data-rating="4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (4.0 étoiles)</a>
                         <a href="#" data-rating="3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (3.0 étoiles)</a>
-                        <a href="#" data-rating="2"><i class="fas fa-star"></i><i class="fas fa-star"></i> (2.0 étoiles)</a>
-                        <a href="#" data-rating="1"><i class="fas fa-star"></i> (1.0 étoile)</a>
+                       
                     </div>
                 </div>
             </div>
  
       
         <section class="products-section">
-            <h2 class="section-title" id="title-for-you">
+            <h2 class="section-title" id="title-best-sellers">
                 <span class="gradient-blue-purple">Manettes pour vous</span>
             </h2>
             <p class="section-subtitle">Sélection basée sur vos plateformes favorites</p>

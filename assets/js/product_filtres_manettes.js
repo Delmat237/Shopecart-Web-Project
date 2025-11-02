@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const productCards = document.querySelectorAll('#products-for-you-grid .product-card');
     const filterDropdownLinks = document.querySelectorAll('.tag-buttons-group .dropdown-content a');
     const allFiltersButton = document.querySelector('.filter-button.primary-filter');
-    const filterNone = document.getElementById('none'); // Utilisé pour fermer le dropdown après clic
+    const filterNone = document.getElementById('none');
+    
+    // Sélectionner tous les inputs radio des filtres
+    const filterToggles = document.querySelectorAll('input[name="filters"]');
 
     let activeFilters = {
         price: null,
@@ -47,15 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 let lowerBound, upperBound;
                 
                 if (minRating === 5) {
-                    // Pour 5.0, on veut [4.75, 5.1] (souvent 4.8, 4.9, 5.0)
                     lowerBound = 4.75;
-                    upperBound = 5.1; // Pour inclure 5.0 exact
+                    upperBound = 5.1;
                 } else if (minRating === 4.5) {
-                    // Pour 4.5, on veut [4.25, 4.75[
                     lowerBound = 4.25;
                     upperBound = 4.75; 
                 } else {
-                    // Pour 4, 3, 2, 1 (strict sur l'entier/demi-étoile) : [N.0, N.5[
                     lowerBound = minRating;
                     upperBound = minRating + 0.5;
                 }
@@ -96,11 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-   
     const resetFilters = () => {
         activeFilters = { price: null, brand: null, rating: null };
         productCards.forEach(card => {
-            card.style.display = ''; // Réinitialiser l'affichage
+            card.style.display = '';
             card.classList.remove('filtered-out');
         });
         
@@ -118,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Identifie le type de filtre et met à jour l'état (avec désactivation des autres catégories)
+            // Identifie le type de filtre et met à jour l'état
             const dataAttributes = e.currentTarget.dataset;
             
             // Un seul filtre est actif à la fois (marque, prix ou note)
@@ -128,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             applyFilters();
 
-            // Fermer le dropdown
+            // IMPORTANT : Fermer TOUS les dropdowns après avoir cliqué
             filterNone.checked = true;
         });
     });
@@ -136,5 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gérer le bouton "Tous les filtres" pour réinitialiser
     allFiltersButton.addEventListener('click', () => {
         resetFilters();
+    });
+    
+    // Optionnel : Fermer le dropdown si on clique en dehors
+    document.addEventListener('click', (e) => {
+        // Vérifier si le clic est en dehors des filtres
+        const isClickInsideFilter = e.target.closest('.filter-dropdown') || 
+                                    e.target.closest('.tag-buttons-group') ||
+                                    e.target.closest('.filter-button');
+        
+        if (!isClickInsideFilter) {
+            filterNone.checked = true;
+        }
     });
 });

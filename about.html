@@ -39,11 +39,11 @@
 
       <ul class="nav-links" id="navLinks">
         <li class="categories-dropdown">
-          <!-- Checkbox pour le sous-menu des catégories -->
-          <label for="categories-toggle">
+          <!-- Label pour le sous-menu des catégories -->
+          <label for="categories-toggle" class="categories-label" id="categoriesLabel">
             Catégories <span class="dropdown-arrow">▼</span>
           </label>
-          <div class="dropdown-content">
+          <div class="dropdown-content" id="dropdownContent">
             <a href="/pages/products_ordi.html"><i class="fas fa-laptop"></i> Ordinateurs portables</a>
             <a href="/pages/products_tel.html"><i class="fas fa-mobile-alt"></i> Téléphones</a>
             <a href="/pages/product_casque.html"><i class="fas fa-headphones"></i> Casques & Écouteurs</a>
@@ -61,14 +61,31 @@
         <li><a href="/Blog.html">Blog</a></li>
       </ul>
 
-      <div class="search-bar"  id="searchBar">
+      <div class="search-bar" id="searchBar">
         <input type="text" placeholder="Rechercher un produit..." class="search-input">
       </div>
 
-      <div class="user-actions"  id="userActions">
-        <a href="/account.html" class="account-icon"><i class="fa-regular fa-user"></i> <span>Mon Compte</span></a>
-        <a href="/panier.html" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span>Panier</span> <span
-            class="cart-count">3</span></a>
+      <div class="user-actions" id="userActions">
+        <!-- Bouton conditionnel Mon compte / Se connecter -->
+        <a href="/account.html" class="account-icon" id="accountButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Mon Compte</span>
+        </a>
+        <a href="/login.html" class="account-icon" id="loginButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Se connecter</span>
+        </a>
+
+        <a href="/panier.html" class="cart-icon">
+          <i class="fas fa-shopping-cart"></i> <span>Panier</span>
+          <span class="cart-count"></span>
+        </a>
+
+        <!-- Dark Mode Toggle amélioré -->
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Basculer le mode sombre">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="dark-mode-text">Mode sombre</span>
+        </button>
+      </div>
       </div>
     </nav>
 
@@ -152,12 +169,68 @@
 
     <!-- Team Section -->
     <section class="team">
-        <div class="container">
-            <h2 class="section-title">Notre Équipe</h2>
+      <h2 class="section-title">Notre Équipe</h2>
             <p class="team-intro">
                 Une équipe passionnée et expérimentée au service de vos besoins technologiques
             </p>
+        <div class="team-scroll team-right-to-left">
+          <div class="container">
             <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="/assets/images/ALD.png" alt="CHEF">
+                    </div>
+                    <h3>AZANGUE</h3>
+                    <p class="member-role">CEO</p>
+                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="#" alt="Sountsa Pio">
+                    </div>
+                    <h3>Sountsa Pio</h3>
+                    <p class="member-role">Responsable Achats</p>
+                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="#" alt="Roy">
+                    </div>
+                    <h3>Roy</h3>
+                    <p class="member-role">Responsable Achats</p>
+                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="#" alt="Daryl">
+                    </div>
+                    <h3>Daryl</h3>
+                    <p class="member-role">Responsable Achats</p>
+                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="#" alt="Gabrielle">
+                    </div>
+                    <h3>Gabrielle</h3>
+                    <p class="member-role">Responsable Achats</p>
+                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="#" alt="Sountsa Pio">
+                    </div>
+                    <h3>Sountsa Pio</h3>
+                    <p class="member-role">Responsable Achats</p>
+                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="team-scroll team-left-to-right">
+          <div class="container">
+            <div class="team-grid1">
                 <div class="team-member">
                     <div class="member-photo">
                         <img src="#" alt="Samuel">
@@ -208,45 +281,12 @@
                 </div>
                 <div class="team-member">
                     <div class="member-photo">
-                        <img src="#" alt="Azangue">
+                        <img src="/assets/images/ALD.png" alt="CHEF">
                     </div>
-                    <h3>Azangue</h3>
-                    <p class="member-role">Responsable Achats</p>
+                    <h3>AZANGUE</h3>
+                    <p class="member-role">CEO</p>
                     <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
                 </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        <img src="#" alt="Sountsa Pio">
-                    </div>
-                    <h3>Sountsa Pio</h3>
-                    <p class="member-role">Responsable Achats</p>
-                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        <img src="#" alt="Roy">
-                    </div>
-                    <h3>Roy</h3>
-                    <p class="member-role">Responsable Achats</p>
-                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        <img src="#" alt="Daryl">
-                    </div>
-                    <h3>Daryl</h3>
-                    <p class="member-role">Responsable Achats</p>
-                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        <img src="#" alt="Gabrielle">
-                    </div>
-                    <h3>Gabrielle</h3>
-                    <p class="member-role">Responsable Achats</p>
-                    <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
-                </div>
-
                 <div class="team-member">
                     <div class="member-photo">
                         <img src="#" alt="Sountsa Pio">
@@ -256,6 +296,7 @@
                     <p class="member-bio">Experte en sourcing et relations fournisseurs</p>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

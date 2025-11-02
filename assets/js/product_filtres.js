@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!noResultsMessage) {
                 noResultsMessage = document.createElement('p');
                 noResultsMessage.classList.add('no-results-message');
-                noResultsMessage.textContent = "No products match these filter criteria.";
+                noResultsMessage.textContent = "No products.";
                 // Append it to the grid container
                 productGrid.appendChild(noResultsMessage);
             }

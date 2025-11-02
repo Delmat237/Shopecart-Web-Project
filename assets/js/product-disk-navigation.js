@@ -235,86 +235,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// ============================================
-// PANIER - VERSION ROBUSTE AVEC EVENT DELEGATION
-// ============================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    // --- debug : voir si le script est inclus plusieurs fois
-    if (!document.body.dataset.cartScriptLoaded) {
-        document.body.dataset.cartScriptLoaded = "true";
-    } else {
-        console.warn('cart script already loaded on this page (possible double include).');
-    }
-
-    // Event delegation pour tout le clic pertinent
-    document.addEventListener('click', function (e) {
-        // 1) boutons + / - (class .quantity-btn)
-        const qtyBtn = e.target.closest('.quantity-btn');
-        if (qtyBtn) {
-            e.stopPropagation();
-            handleQuantityClick.call(qtyBtn, e);
-            return;
-        }
-
-        // 2) bouton "Ajouter au panier" sur page détail (class .btn-add)
-        const addBtn = e.target.closest('.btn-add');
-        if (addBtn) {
-            e.preventDefault();
-            e.stopPropagation();
-            // protection anti-multi-clic rapide
-            if (addBtn.disabled) return;
-            addBtn.disabled = true;
-            setTimeout(() => addBtn.disabled = false, 500); // 0.5s
-
-            // collecte des infos à partir du conteneur le plus proche
-            const container = addBtn.closest('.product-detail') || document;
-            const title = container.querySelector('.product-title')?.textContent?.trim();
-            const price = container.querySelector('.main-price')?.textContent?.trim();
-            const image = container.querySelector('#main-image')?.src || container.querySelector('.main-product-image img')?.src || '';
-            const color = container.querySelector('#selected-color')?.textContent?.trim() || '';
-            const qty = parseInt(container.querySelector('.quantity-display')?.textContent) || 1;
-
-            if (!title || !price) {
-                console.warn('Impossible d\'ajouter : title ou price manquant');
-                return;
-            }
-
-            // debug : afficher combien d'appels on réalise
-            console.debug('addBtn clicked -> calling addToCart once for', title);
-
-            addToCart({ title, price, quantity: qty, image, color });
-            return;
-        }
-
-        // 3) boutons "add-to-cart" dans les cartes produits (liste)
-        const quickBtn = e.target.closest('.add-to-cart-btn');
-        if (quickBtn) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (quickBtn.disabled) return;
-            quickBtn.disabled = true;
-            setTimeout(() => quickBtn.disabled = false, 500);
-
-            const card = quickBtn.closest('.product-card');
-            if (!card) return;
-
-            const product = {
-                title: card.querySelector('.product-title-card')?.textContent?.trim() || '',
-                price: card.querySelector('.product-price')?.textContent?.trim() || '',
-                quantity: 1,
-                image: card.querySelector('.product-image')?.src || ''
-            };
-
-            console.debug('quick add clicked -> calling addToCart for', product.title);
-            addToCart(product);
-            return;
-        }
-    });
-
-    // initial cart count sync
-    updateCartCount();
-});
+origin/tp/2-js-dynamics
 
 /* ----------------------
    Handlers & Utilities

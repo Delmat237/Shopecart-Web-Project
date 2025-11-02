@@ -2,17 +2,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const productCards = document.querySelectorAll('#products-for-you-grid .product-card');
     const filterDropdownLinks = document.querySelectorAll('.tag-buttons-group .dropdown-content a');
     const allFiltersButton = document.querySelector('.filter-button.primary-filter');
-    const filterNone = document.getElementById('none');
+    const filterNone = document.getElementById('none'); 
     
-    // Sélectionner tous les inputs radio des filtres
-    const filterToggles = document.querySelectorAll('input[name="filters"]');
-
+    // State object to hold the currently active filters
     let activeFilters = {
         price: null,
         brand: null,
         rating: null
     };
 
+    /**
+     * Applies the filters to all product cards.
+     */
     const applyFilters = () => {
         let matchingCards = [];
         
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const price = parseFloat(card.dataset.priceRaw) || 0;
             const rating = parseFloat(card.dataset.ratingRaw) || 0;
 
-            // 1. Filtrage par Marque
+            // 1. Brand Filtering (Case-insensitive partial match)
             if (activeFilters.brand) {
                 const filterBrandNormalized = activeFilters.brand.toLowerCase();
                 if (!brand.includes(filterBrandNormalized)) {
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 2. Filtrage par Prix
+            // 2. Price Filtering (Range check)
             if (matches && activeFilters.price) {
                 const [minStr, maxStr] = activeFilters.price.split('-');
                 const minPrice = parseFloat(minStr);
@@ -42,22 +43,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 3. Filtrage par Note (LOGIQUE STRICTE)
+            // 3. Rating Filtering (Strict range logic)
             if (matches && activeFilters.rating) {
                 const minRating = parseFloat(activeFilters.rating);
 
-                // Détermine la fourchette stricte
+                // Define the strict rating boundaries based on the input
                 let lowerBound, upperBound;
                 
                 if (minRating === 5) {
                     lowerBound = 4.75;
-                    upperBound = 5.1;
+                    upperBound = 5.1; // Effectively filters up to 5.0
                 } else if (minRating === 4.5) {
                     lowerBound = 4.25;
                     upperBound = 4.75; 
                 } else {
                     lowerBound = minRating;
-                    upperBound = minRating + 0.5;
+                    upperBound = minRating + 0.5; // e.g., 4 -> 4.5 (exclusive of 4.5)
                 }
                 
                 if (rating < lowerBound || rating >= upperBound) {
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // Masquer/Afficher l'élément
+            // Collect matching cards
             if (matches) {
                 matchingCards.push(card);
                 card.classList.remove('filtered-out');
@@ -73,11 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.classList.add('filtered-out');
             }
             
-            // Applique le style pour masquer/afficher
-            card.style.display = matches ? '' : 'none';
+            // Hide all cards initially; visibility is handled below
+            card.style.display = 'none';
         });
         
-        // Optionnel : Afficher un message si aucun produit ne correspond
+        // --- Display Logic ---
+        // Only show the first 10 matching cards (as per the first script's original limit)
+        matchingCards.slice(0, 10).forEach(card => {
+            card.style.display = '';
+        });
+
+        // Handle "No Results" message
         const productGrid = document.getElementById('products-for-you-grid');
         let noResultsMessage = productGrid.querySelector('.no-results-message');
         
@@ -85,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!noResultsMessage) {
                 noResultsMessage = document.createElement('p');
                 noResultsMessage.classList.add('no-results-message');
-                noResultsMessage.textContent = "Aucun produit ne correspond à ces critères de filtre.";
+                noResultsMessage.textContent = "No products match these filter criteria.";
+                // Append it to the grid container
                 productGrid.appendChild(noResultsMessage);
             }
             noResultsMessage.style.display = '';
@@ -96,10 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    /**
+     * Resets all filters and shows all product cards.
+     */
     const resetFilters = () => {
         activeFilters = { price: null, brand: null, rating: null };
         productCards.forEach(card => {
-            card.style.display = '';
+            card.style.display = ''; // Show all
             card.classList.remove('filtered-out');
         });
         
@@ -108,38 +119,40 @@ document.addEventListener('DOMContentLoaded', () => {
             noResultsMessage.style.display = 'none';
         }
 
+        // Reset the dropdown toggle state
         filterNone.checked = true; 
     };
 
-    // --- Écouteurs d'Événements ---
+    // --- Event Listeners ---
 
+    // 1. Dropdown Filter Links
     filterDropdownLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Identifie le type de filtre et met à jour l'état
+            // Set the active filter based on the clicked link's data attributes
             const dataAttributes = e.currentTarget.dataset;
             
-            // Un seul filtre est actif à la fois (marque, prix ou note)
+            // Only one filter type (price, brand, or rating) is active at a time
             activeFilters.price = dataAttributes.price || null;
             activeFilters.brand = dataAttributes.brand || null;
             activeFilters.rating = dataAttributes.rating || null;
             
             applyFilters();
 
-            // IMPORTANT : Fermer TOUS les dropdowns après avoir cliqué
+            // Close the dropdown after clicking (assuming 'none' is the radio/checkbox input)
             filterNone.checked = true;
         });
     });
 
-    // Gérer le bouton "Tous les filtres" pour réinitialiser
+    // 2. "All Filters" Button (Reset)
     allFiltersButton.addEventListener('click', () => {
         resetFilters();
     });
     
-    // Optionnel : Fermer le dropdown si on clique en dehors
+    // 3. Optional: Close dropdown on outside click
     document.addEventListener('click', (e) => {
-        // Vérifier si le clic est en dehors des filtres
+        // Check if the click target or any ancestor is part of the filter UI
         const isClickInsideFilter = e.target.closest('.filter-dropdown') || 
                                     e.target.closest('.tag-buttons-group') ||
                                     e.target.closest('.filter-button');

@@ -35,8 +35,8 @@
 
       <ul class="nav-links" id="navLinks">
         <li class="categories-dropdown">
-          <!-- Label pour le sous-menu des catégories -->
-          <label for="categories-toggle" class="categories-label" id="categoriesLabel">
+          <!-- Checkbox pour le sous-menu des catégories -->
+          <label for="categories-toggle">
             Catégories <span class="dropdown-arrow">▼</span>
           </label>
           <div class="dropdown-content" id="dropdownContent">
@@ -61,26 +61,14 @@
         <input type="text" placeholder="Rechercher un produit..." class="search-input">
       </div>
 
-      <div class="user-actions" id="userActions">
-        <!-- Bouton conditionnel Mon compte / Se connecter -->
-        <a href="/account.html" class="account-icon" id="accountButton" style="display: none;">
-          <i class="fa-regular fa-user"></i> <span>Mon Compte</span>
-        </a>
-        <a href="/login.html" class="account-icon" id="loginButton" style="display: none;">
-          <i class="fa-regular fa-user"></i> <span>Se connecter</span>
-        </a>
-
-        <a href="/panier.html" class="cart-icon">
-          <i class="fas fa-shopping-cart"></i> <span>Panier</span>
-          <span class="cart-count"></span>
-        </a>
-
-        <!-- Dark Mode Toggle amélioré -->
-        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Basculer le mode sombre">
-          <i class="fas fa-moon"></i>
-          <i class="fas fa-sun"></i>
-          <span class="dark-mode-text">Mode sombre</span>
-        </button>
+      <div class="user-actions"  id="userActions">
+        <a href="/account.html" class="account-icon"><i class="fa-regular fa-user"></i> <span>Mon Compte</span></a>
+        <a href="/panier.html" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span>Panier</span> <span
+            class="cart-count"></span></a>
+             <!-- Dark Mode Toggle -->
+      <div class="account-icon">
+        <input type="checkbox" id="darkSwitch">
+          <label for="darkSwitch" ><i class="fas fa-moon"></i> </label>
       </div>
       </div>
     </nav>
@@ -182,73 +170,60 @@
  </section>
     
     <main class="main-content-container">
-        <!-- Barre de filtres -->
-        <div class="tag-buttons-group2">
-            <div class="primary-filter">
-                <i class="fas fa-sliders-h icon-margin-right"></i> Tous les filtres
-            </div>
-            <div class="filter-dropdown">
-                <input type="checkbox" id="prix-disk-toggle" class="filter-checkbox">
-                <label for="prix-disk-toggle" class="tag-button">
-                    Prix <span class="dropdown-arrow">▼</span>
-                </label>
-                <div class="dropdown-content2">
-                    <a href="#" data-price="0-50000"><i class="fas fa-tag"></i> Moins de 50.000 FCFA</a>
-                    <a href="#" data-price="50000-100000"><i class="fas fa-tag"></i> 50.000 - 100.000 FCFA</a>
-                    <a href="#" data-price="100000-200000"><i class="fas fa-tag"></i> 100.000 - 200.000 FCFA</a>
-                    <a href="#" data-price="200000+"><i class="fas fa-tag"></i> Plus de 200.000 FCFA</a>
-                </div>
-            </div>
-            <div class="filter-dropdown">
-                <input type="checkbox" id="marques-disk-toggle" class="filter-checkbox">
-                <label for="marques-disk-toggle" class="tag-button">
-                    Marques <span class="dropdown-arrow">▼</span>
-                </label>
-                <div class="dropdown-content2">
-                    <a href="#" data-brand="seagate"><i class="fas fa-hdd"></i> Seagate</a>
-                    <a href="#" data-brand="wd"><i class="fas fa-hdd"></i> Western Digital</a>
-                    <a href="#" data-brand="samsung"><i class="fas fa-hdd"></i> Samsung</a>
-                    <a href="#" data-brand="toshiba"><i class="fas fa-hdd"></i> Toshiba</a>
-                    <a href="#" data-brand="crucial"><i class="fas fa-hdd"></i> Crucial</a>
-                    <a href="#" data-brand="kingston"><i class="fas fa-hdd"></i> Kingston</a>
-                </div>
-            </div>
-            <div class="filter-dropdown">
-                <input type="checkbox" id="type-disk-toggle" class="filter-checkbox">
-                <label for="type-disk-toggle" class="tag-button">
-                    Type <span class="dropdown-arrow">▼</span>
-                </label>
-                <div class="dropdown-content2">
-                    <a href="#" data-type="hdd"><i class="fas fa-hdd"></i> HDD (Disque dur)</a>
-                    <a href="#" data-type="ssd"><i class="fas fa-microchip"></i> SSD SATA</a>
-                    <a href="#" data-type="nvme"><i class="fas fa-bolt"></i> SSD NVMe</a>
-                    <a href="#" data-type="externe"><i class="fas fa-usb"></i> Externe</a>
-                </div>
-            </div>
-            <div class="filter-dropdown">
-                <input type="checkbox" id="capacite-disk-toggle" class="filter-checkbox">
-                <label for="capacite-disk-toggle" class="tag-button">
-                    Capacité <span class="dropdown-arrow">▼</span>
-                </label>
-                <div class="dropdown-content2">
-                    <a href="#" data-capacity="500gb"><i class="fas fa-database"></i> 500 Go et moins</a>
-                    <a href="#" data-capacity="1tb"><i class="fas fa-database"></i> 1 To</a>
-                    <a href="#" data-capacity="2tb"><i class="fas fa-database"></i> 2 To</a>
-                    <a href="#" data-capacity="4tb+"><i class="fas fa-database"></i> 4 To et plus</a>
-                </div>
-            </div>
-            <div class="filter-dropdown">
-                <input type="checkbox" id="notes-disk-toggle" class="filter-checkbox">
-                <label for="notes-disk-toggle" class="tag-button">
-                    Notes <span class="dropdown-arrow">▼</span>
-                </label>
-                <div class="dropdown-content2">
-                    <a href="#" data-rating="5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (5 étoiles)</a>
-                    <a href="#" data-rating="4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> et +</a>
-                    <a href="#" data-rating="3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> et +</a>
-                </div>
-            </div>
-        </div>
+       <!--Filters-->
+ <div class="product-filters-bar">
+     <div class="filter-all-button">
+         <i class="fas fa-sliders-h icon-margin-right"></i> Tous les filtres
+     </div>
+     <input type="radio" name="filters" id="none" class="filter-radio-input" checked hidden>
+
+     <!-- Filtre Prix -->
+     <div class="product-filter-item" tabindex="0">
+         <input type="checkbox" name="filters" id="prix-casques-toggle" class="filter-radio-input">
+         <label for="prix-casques-toggle" class="filter-button-label">
+             Prix <span class="filter-arrow-icon">▼</span>
+         </label>
+
+         <div class="filter-options-list">
+             <a href="#" data-price="0-100000"><i class="fas fa-tag"></i> Moins de 100.000 FCFA</a>
+             <a href="#" data-price="100000-200000"><i class="fas fa-tag"></i> 100.000 - 200.000 FCFA</a>
+             <a href="#" data-price="200000-500000"><i class="fas fa-tag"></i> 200.000 - 500.000 FCFA</a>
+             <a href="#" data-price="500000+"><i class="fas fa-tag"></i> Plus de 500.000 FCFA</a>
+         </div>
+     </div>
+
+     <!-- Filtre Marques -->
+     <div class="product-filter-item" tabindex="0">
+         <input type="checkbox" name="filters" id="marques-casques-toggle" class="filter-radio-input">
+         <label for="marques-casques-toggle" class="filter-button-label">
+             Marques <span class="filter-arrow-icon">▼</span>
+         </label>
+         <div class="filter-options-list">
+        <a href="#" data-brand="seagate"><i class="fas fa-hdd"></i> Seagate</a>
+        <a href="#" data-brand="western digital"><i class="fas fa-hdd"></i> Western Digital</a>
+        <a href="#" data-brand="toshiba"><i class="fas fa-hdd"></i> Toshiba</a>
+        <a href="#" data-brand="samsung"><i class="fas fa-compact-disc"></i> Samsung</a>
+        <a href="#" data-brand="crucial"><i class="fas fa-memory"></i> Crucial</a>
+        <a href="#" data-brand="kingston"><i class="fas fa-microchip"></i> Kingston</a>
+    </div>
+     </div>
+
+     <!-- Filtre Notes -->
+     <div class="product-filter-item" tabindex="0">
+         <input type="checkbox" name="filters" id="notes-casques-toggle" class="filter-radio-input">
+         <label for="notes-casques-toggle" class="filter-button-label">
+             Notes <span class="filter-arrow-icon">▼</span>
+         </label>
+         <div class="filter-options-list">
+             <a href="#" data-rating="5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (5 étoiles)</a>
+             <a href="#" data-rating="4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> et +</a>
+             <a href="#" data-rating="3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> et +</a>
+             <a href="#" data-rating="2"><i class="fas fa-star"></i><i class="fas fa-star"></i> et +</a>
+             <a href="#" data-rating="1"><i class="fas fa-star"></i> et +</a>
+         </div>
+     </div>
+ </div>
+
 
         <!-- SECTION 1 : Nos Disques Durs & SSD -->
         <section class="products-section">
@@ -377,6 +352,7 @@
 <script src="../assets/js/carousel_auto.js"></script>
 <script src="../assets/js/carousel_auto.js"></script>
 <script src="../assets/js/pagination_disk.js"></script>
+<script src="../assets/js/filtre_disk.js"></script>
 <script src="../assets/js/product-disk-navigation.js"></script>
 </body>
 </html>

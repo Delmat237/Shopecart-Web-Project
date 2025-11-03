@@ -236,105 +236,104 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+origin/tp/2-js-dynamics
+
+/* ----------------------
+   Handlers & Utilities
+   ---------------------- */
+
+function handleQuantityClick(e) {
+    // this = button (we used call above)
+    const parent = this.closest('.product-detail, .product-card');
+    const display = parent?.querySelector('.quantity-display');
+    if (!display) return;
+
+    let qty = parseInt(display.textContent) || 1;
+    if (this.textContent.includes('-')) qty = Math.max(1, qty - 1);
+    else qty += 1;
+    display.textContent = qty;
+}
+
+function addToCart(product) {
+    // DEBUG: compter combien d'appels addToCart arrivent
+    window.___addToCartCallCount = (window.___addToCartCallCount || 0) + 1;
+    console.debug('addToCart call #', window.___addToCartCallCount, 'product.quantity=', product.quantity, product.title);
+
+    let cart = [];
+    try {
+        cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        if (!Array.isArray(cart)) cart = [];
+    } catch (err) {
+        console.error('localStorage cart parsing error, resetting cart', err);
+        cart = [];
+    }
+
+    const existing = cart.find(item =>
+        item.title === product.title &&
+        item.image === product.image &&
+        item.color === product.color
+    );
+
+    if (existing) {
+        existing.quantity = (existing.quantity || 0) + (product.quantity || 0);
+    } else {
+        // ensure numeric quantity
+        product.quantity = Number(product.quantity) || 1;
+        cart.push(product);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showNotification(`+${product.quantity} × ${product.title}`, 'success');
+    updateCartCount();
+}
+
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const total = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+
+    const countEl = document.querySelector('.cart-count');
+    if (countEl) {
+        const prev = parseInt(countEl.textContent) || 0;
+        countEl.textContent = total;
+
+        if (total !== prev) {
+            countEl.style.transform = 'scale(1.4)';
+            setTimeout(() => countEl.style.transform = 'scale(1)', 200);
+        }
+    } else {
+        // debug si élément absent
+        console.debug('cart-count element not found on page; total would be', total);
+    }
+}
+
 function showNotification(message, type = 'success') {
+    const colors = { success: '#10b981', info: '#3b82f6' };
+
     const notif = document.createElement('div');
     notif.style.cssText = `
         position: fixed; top: 100px; right: 20px; 
-        background: ${type === 'success' ? '#10b981' : type === 'info' ? '#3b82f6' : '#ef4444'};
-        color: white; padding: 15px 25px; border-radius: 8px; 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        background: ${colors[type]}; color: white; 
+        padding: 14px 24px; border-radius: 8px; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
         z-index: 10000; animation: slideIn 0.3s ease; 
-        font-weight: 500; font-size: 14px;
+        font-weight: 500; font-size: 0.9rem; max-width: 300px;
     `;
     notif.textContent = message;
     document.body.appendChild(notif);
 
-    // Ajouter les keyframes si nécessaire
-    if (!document.querySelector('style[data-notification]')) {
-        const style = document.createElement('style');
-        style.setAttribute('data-notification', 'true');
-        style.textContent = `
-            @keyframes slideIn { 
-                from { transform: translateX(400px); opacity: 0; } 
-                to { transform: translateX(0); opacity: 1; } 
-            }
-            @keyframes slideOut { 
-                from { transform: translateX(0); opacity: 1; } 
-                to { transform: translateX(400px); opacity: 0; } 
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
     setTimeout(() => {
         notif.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => notif.remove(), 300);
-    }, 3000);
+    }, 2000);
 }
 
-function updateCartCount() {
-    const count = document.querySelector('.cart-count');
-    if (count) {
-        let cart = [];
-        try {
-            cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        } catch (e) {
-            cart = [];
-        }
-        
-        count.textContent = cart.length;
-        count.style.transform = 'scale(1.3)';
-        count.style.background = '#ef4444';
-        setTimeout(() => {
-            count.style.transform = 'scale(1)';
-            count.style.background = '';
-        }, 200);
-    }
+// animation css (ajoute si nécessaire)
+if (!document.getElementById('cart-notif-style')) {
+    const style = document.createElement('style');
+    style.id = 'cart-notif-style';
+    style.textContent = `
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    `;
+    document.head.appendChild(style);
 }
-
-// === GESTION FILTRES ===
-document.addEventListener('DOMContentLoaded', function() {
-    const filterLinks = document.querySelectorAll('.dropdown-content2 a');
-    
-    filterLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const filterType = this.closest('.filter-dropdown').querySelector('.tag-button').textContent.trim().split(' ')[0];
-            const filterValue = this.getAttribute('data-price') || 
-                              this.getAttribute('data-brand') || 
-                              this.getAttribute('data-type') ||
-                              this.getAttribute('data-capacity') ||
-                              this.getAttribute('data-rating');
-            
-            console.log(`Filtre appliqué: ${filterType} = ${filterValue}`);
-            
-            // Marquer le filtre comme actif
-            const tagButton = this.closest('.filter-dropdown').querySelector('.tag-button');
-            if (tagButton) {
-                tagButton.classList.add('selected-tag');
-            }
-            
-            // Fermer le dropdown
-            const checkbox = this.closest('.filter-dropdown').querySelector('.filter-checkbox');
-            if (checkbox) {
-                checkbox.checked = false;
-            }
-            
-            showNotification(`Filtre "${this.textContent.trim()}" appliqué`, 'info');
-        });
-    });
-    
-    // Reset des filtres
-    const primaryFilter = document.querySelector('.primary-filter');
-    if (primaryFilter) {
-        primaryFilter.addEventListener('click', function() {
-            document.querySelectorAll('.tag-button').forEach(btn => {
-                btn.classList.remove('selected-tag');
-            });
-            showNotification('Tous les filtres réinitialisés', 'info');
-        });
-    }
-});
-
-console.log('✅ product-disk-navigation.js chargé');

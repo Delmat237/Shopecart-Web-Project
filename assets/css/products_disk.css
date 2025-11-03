@@ -63,12 +63,29 @@
    ============================================ */
 
 /* Bouton "Tous les filtres" */
-.primary-filter {
+.product-filters-bar {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: nowrap;
+    overflow: visible;
+    padding: 10px 0 20px 0;
+    margin-bottom: 30px;
+    justify-content: center;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    z-index: 50;
+}
+
+.product-filters-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-all-button {
     display: flex;
     align-items: center;
     padding: 0.75rem 1.25rem;
-    background-color: var(--color-blue-600);
-    color: var(--color-white);
+    background-color: #1e40af;
+    color: white;
     border: none;
     border-radius: 0.5rem;
     font-weight: 600;
@@ -76,127 +93,141 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 2px 4px rgba(30, 64, 175, 0.2);
+    flex-shrink: 0;
 }
 
-.primary-filter:hover {
-    background-color: var(--color-blue-700);
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+.filter-all-button:hover {
+    background-color: #1e3a8a;
+    box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
     transform: translateY(-1px);
 }
-
-.icon-margin-right {
-    margin-right: 0.5rem;
-}
-
-/* Groupe de boutons tags */
-.tag-buttons-group2 {
-  
-    gap: 0.85rem;
-    flex-wrap: nowrap;
-    display: flex;
-    justify-content: center;
-}
-
-/* ============================================
-   DROPDOWN FILTERS
-   ============================================ */
-
-/* Conteneur pour chaque filtre dropdown */
-.filter-dropdown {
-    position: relative;
-    gap: 4rem;
-    display:flex;
-    z-index: 100; /* Assure que chaque dropdown est au-dessus */
-}
-
-/* Cache la checkbox native */
-.filter-checkbox {
+/* Cacher les radio buttons */
+.filter-radio-input {
     display: none;
 }
+/* Rotation de la flèche quand ouvert */
+.filter-radio-input:checked + .filter-button-label .filter-arrow-icon {
+    transform: rotate(180deg);
+}
 
-/* Style des boutons tags */
-.tag-button {
+/* Style du label quand le filtre est ouvert */
+.filter-radio-input:checked + .filter-button-label {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    color: #1e3a8a;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+/* Label du filtre (bouton cliquable) */
+.filter-button-label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-300);
+    background-color: white;
+    border: 1px solid #d1d5db;
     border-radius: 0.5rem;
-    color: var(--color-gray-700);
+    color: #374151;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.3s ease;
     user-select: none;
-    position: relative; /* IMPORTANT pour le z-index */
+    position: relative;
 }
 
-.tag-button:hover {
-    background-color: var(--color-gray-50);
-    border-color: var(--color-blue-500);
-    color: var(--color-blue-600);
+.filter-button-label:hover {
+    background-color: #f9fafb;
+    border-color: #3b82f6;
+    color: #1e40af;
     transform: translateY(-1px);
 }
 
-/* Tag sélectionné */
-.tag-button.selected-tag {
-    background-color: var(--color-blue-600);
-    border-color: var(--color-blue-600);
-    color: var(--color-white);
-}
-
-/* Flèche dropdown */
-.dropdown-arrow {
+/* Flèche du dropdown */
+.filter-arrow-icon {
     font-size: 0.75rem;
     transition: transform 0.3s ease;
     display: inline-block;
 }
 
 /* Rotation de la flèche quand ouvert */
-.filter-checkbox:checked + .tag-button .dropdown-arrow {
+.filter-radio-input:checked + .filter-button-label .filter-arrow-icon {
     transform: rotate(180deg);
 }
 
-/* Changement de style du bouton quand dropdown ouvert */
-.filter-checkbox:checked + .tag-button {
-    background-color: var(--color-blue-50);
-    border-color: var(--color-blue-500);
-    color: var(--color-blue-700);
+/* Style du label quand le filtre est ouvert */
+.filter-radio-input:checked + .filter-button-label {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    color: #1e3a8a;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.filter-checkbox:checked + .tag-button.selected-tag {
-    background-color: var(--color-blue-600);
-    color: var(--color-white);
+.filter-options-list {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    background-color: white;
+    min-width: 220px;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+    z-index: 9999;
+    max-height: 200px;
+    overflow-x: visible;
+    overflow-y: auto;
 }
-
-/* ============================================
-   CONTENU DU DROPDOWN
-   ============================================ */
-
-.dropdown-content2 {
-  display: none;
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  left: 0;
-  background-color: var(--color-white);
-  min-width: 220px;
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-gray-200);
-  z-index: 9999;
-  overflow: visible; /* Changement ici : visible au lieu de hidden */
-  /* Optionnel : max-height: 300px; overflow-y: auto; pour scroll interne */
-}
-/* Affiche le dropdown quand checkbox cochée */
-.filter-checkbox:checked ~ .dropdown-content2 {
+/* Afficher la liste quand le radio est coché */
+.filter-radio-input:checked ~ .filter-options-list {
     display: block;
-    animation: slideDown 0.3s ease;
+    animation: filterFadeIn 0.3s ease;
 }
 
+.product-filter-item {
+    position: relative;
+    display: inline-block;
+    z-index: 100;
+    flex-shrink: 0;
+}
+/* Afficher la liste au focus */
+.product-filter-item:focus-within .filter-options-list {
+    display: block;
+    animation: filterFadeIn 0.25s ease;
+}
+/* Options individuelles */
+.filter-options-list a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #374151;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    height: 40px;
+    background-color: white;
+}
+
+.filter-options-list a:hover {
+    background-color: #eff6ff;
+    color: #1e3a8a;
+    border-left-color: #1e40af;
+    padding-left: 1.25rem;
+}
+
+.filter-options-list a i {
+    width: 1.25rem;
+    text-align: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.filter-options-list a:not(:last-child) {
+    border-bottom: 1px solid #f3f4f6;
+}
 
 /* Animation d'apparition */
 @keyframes slideDown {

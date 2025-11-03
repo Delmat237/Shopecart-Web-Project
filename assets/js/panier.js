@@ -16,6 +16,26 @@
 
 let cartData = null; // Stocke les données du panier
 const CART_STORAGE_KEY = 'shopcart_cart'; // Clé pour localStorage
+const CURRENCY = 'XAF'; // Devise utilisée (XAF = Francs CFA)
+
+// ========================================
+// FONCTIONS UTILITAIRES DE FORMATAGE
+// ========================================
+
+/**
+ * Formate un prix en devise locale (XAF)
+ * @param {number} price - Prix à formater
+ * @returns {string} - Prix formaté (ex: "18 000 XAF")
+ */
+function formatPrice(price) {
+    // Formater avec séparateur de milliers (espace)
+    const formattedNumber = price.toLocaleString('fr-FR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
+    
+    return `${CURRENCY} ${formattedNumber}`;
+}
 
 // ========================================
 // INITIALISATION AU CHARGEMENT DE LA PAGE
@@ -164,7 +184,7 @@ function createCartItemElement(item, index) {
         
         <!-- Actions (prix, quantité, suppression) -->
         <div class="item-actions">
-            <p class="item-price">$${item.prix.toFixed(2)}</p>
+            <p class="item-price">${formatPrice(item.prix)}</p>
             
             <!-- Contrôles de quantité -->
             <div class="quantity-controls">
@@ -327,21 +347,21 @@ function updateSummary() {
     const total = subtotal - discountAmount + shippingCost;
     
     // Mettre à jour l'affichage
-    document.getElementById('subtotal-value').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('subtotal-value').textContent = `${formatPrice(subtotal)}`;
     
     if (discountAmount > 0) {
-        document.getElementById('discount-value').textContent = `-$${discountAmount.toFixed(2)}`;
+        document.getElementById('discount-value').textContent = `-${formatPrice(discountAmount)}`;
     } else {
-        document.getElementById('discount-value').textContent = '$0.00';
+        document.getElementById('discount-value').textContent = `${formatPrice(0.00)}`;
     }
     
     if (shippingCost > 0) {
-        document.getElementById('shipping-value').textContent = `$${shippingCost.toFixed(2)}`;
+        document.getElementById('shipping-value').textContent = `${formatPrice(shippingCost)}`;
     } else {
         document.getElementById('shipping-value').textContent = 'Gratuite';
     }
     
-    document.getElementById('total-value').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('total-value').textContent = `${formatPrice(total)}`;
     
     // Mettre à jour le compteur d'articles
     const totalItems = cartData.cart_items.reduce((sum, item) => sum + item.quantite, 0);
@@ -394,7 +414,7 @@ function handleCheckout() {
     if (confirm(confirmMessage)) {
         console.log('💳 Redirection vers la page de paiement...');
         
-        // Ici, vous redirigeriez vers la page de paiement
+        // Ici, on va rediriger vers la page de paiement
         // window.location.href = '/checkout.html';
         
         // Pour la démo, afficher un message

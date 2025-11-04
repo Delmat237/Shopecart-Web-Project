@@ -12,20 +12,21 @@
 |--------|---------------|------------------|
 | **A** | Setup & Architecture | Installation Laravel + Configuration Base |
 | **C** | Base de données | Migrations & Seeders |
-| **D** | Authentification | Système Login/Register |
-| **E** | Gestion Produits | CRUD Produits (Backend) |
-| **F** | Gestion Produits | Routes & Controllers Produits |
-| **G** | Gestion Commandes | Tables orders & order_items |
+| **G** | Authentification | Système Login/Register |
+| **D** | Gestion Produits | CRUD Produits (Backend) |
+| **E** | Gestion Produits | Routes & Controllers Produits |
+| **L** | Gestion Commandes | Tables orders & order_items |
 | **I** | 💳 **Paiement** | Système de paiement & validation |
-| **K** | Dashboard Admin | Interface de suivi commandes |
+| **B** | Dashboard Admin | Interface de suivi commandes |
 | **L** | 🛒 **Panier (CRUD)** | Système panier complet |
-| **M** | Intégration & Tests | Blade templates + Tests finaux |
+| **F** | serice de notification mail | Configuration d'envoie mail |
+| **ALL** | Intégration & Tests | Blade templates + Tests finaux |
 
 ---
 
 ## 🔧 Répartition détaillée par membre
 
-### **Membre A - Setup & Architecture Laravel**
+### ** - Setup & Architecture Laravel**
 **Responsabilité** : Fondations du projet
 
 #### Tâches :
@@ -51,7 +52,7 @@
 
 ---
 
-### **Membre B - Base de données (Migrations & Seeders)**
+### ** - Base de données (Migrations & Seeders)**
 **Responsabilité** : Structure et données de test
 
 #### Tâches :
@@ -83,7 +84,7 @@
 
 ---
 
-### **Membre D - Authentification (Login/Register)**
+### ** - Authentification (Login/Register)**
 **Responsabilité** : Système d'authentification complet
 
 #### Tâches :
@@ -122,7 +123,7 @@
 
 ---
 
-### **Membre E - Gestion Produits (CRUD Backend)**
+### ** - Gestion Produits (CRUD Backend)**
 **Responsabilité** : Logique métier des produits
 
 #### Tâches :
@@ -158,7 +159,7 @@
 
 ---
 
-### **Membre F - Routes & Controllers Produits (Frontend)**
+### ** - Routes & Controllers Produits (Frontend)**
 **Responsabilité** : Interface publique des produits
 
 #### Tâches :
@@ -192,7 +193,7 @@
 
 ---
 
-### **Membre G - Gestion Commandes (Orders & Order_items)**
+### ** - Gestion Commandes (Orders & Order_items)**
 **Responsabilité** : Système de commandes
 
 #### Tâches :
@@ -226,7 +227,7 @@
 
 ---
 
-### **Membre I - 💳 Système de Paiement**
+### ** - 💳 Système de Paiement**
 **Responsabilité** : Processus de paiement complet
 
 #### Tâches :
@@ -272,7 +273,7 @@
 
 ---
 
-### **Membre K - Dashboard Admin (Suivi commandes)**
+### ** - Dashboard Admin (Suivi commandes)**
 **Responsabilité** : Interface administrateur
 
 #### Tâches :
@@ -312,7 +313,7 @@
 
 ---
 
-### **Membre L - 🛒 Panier (CRUD complet)**
+### ** - 🛒 Panier (CRUD complet)**
 **Responsabilité** : Système de panier
 
 #### Tâches :
@@ -365,7 +366,7 @@
 
 ---
 
-### **Membre M - Intégration Blade & Tests**
+### ** - Intégration Blade & Tests**
 **Responsabilité** : Cohésion et qualité finale
 
 #### Tâches :
@@ -421,47 +422,21 @@
 ## 🔄 Dépendances entre membres
 
 ```
-B (Setup) 
+ (Setup) 
   ↓
-C (BDD) 
+ (BDD) 
   ↓
-├─→ D (Auth) ────────────────┐
-├─→ E & F (Produits) ────────┤
-├─→ L (Panier) ──────────────┤
+├─→  (Auth) ────────────────┐
+├─→  (Produits) ────────┤
+├─→  (Panier) ──────────────┤
 │     ↓                       │
-│   I (Paiement) ─────────────┤
+│    (Paiement) ─────────────┤
 │     ↓                       │
-├─→ G (Commandes) ────────────┤
-└─→ K (Dashboard Admin) ──────┤
+├─→  (Commandes) ────────────┤
+└─→  (Dashboard Admin) ──────┤
                               ↓
-                         M (Intégration)
+                          (Intégration)
 ```
-
----
-
-## 📅 Planning suggéré (4 semaines)
-
-### **Semaine 1 : Fondations**
-- **B** : Installation Laravel + config
-- **C** : Migrations + seeders
-- **D** : Début authentification
-
-### **Semaine 2 : Fonctionnalités principales**
-- **D** : Finaliser auth
-- **E & F** : CRUD produits
-- **L** : Commencer panier
-- **G** : Commencer commandes
-
-### **Semaine 3 : Fonctionnalités avancées**
-- **L** : Finaliser panier
-- **I** : Développer paiement
-- **G** : Finaliser commandes
-- **K** : Dashboard admin
-
-### **Semaine 4 : Intégration & Tests**
-- **M** : Intégration Blade, tests
-- **Tous** : Corrections bugs
-- **Tous** : Préparation démo
 
 ---
 

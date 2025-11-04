@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopcart - Terms & Conditions</title>
+    <link rel="stylesheet" href="/assets/css/conditions.css">
+     <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ 
+  <script defer src="assets/js/newsletter.js"></script>
+  <script src="/assets/js/header.js"></script>
+</head>
+
+<body>
+ <!-- Header -->
+  <header>
+    <!-- Checkbox cachée pour contrôler le menu mobile -->
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-img">
+          <a href="/index.html">
+            <img src="/assets/images/shopcart-logo.png" alt="Shopcart Logo" class="logo-img">
+          </a>
+        </div>
+        <span class="logo-text">Shopcart</span>
+      </div>
+      <!-- Hamburger icon comme label pour la checkbox -->
+      <label for="menu-toggle" class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-links" id="navLinks">
+        <li class="categories-dropdown">
+          <!-- Label pour le sous-menu des catégories -->
+          <label for="categories-toggle" class="categories-label" id="categoriesLabel">
+            Catégories <span class="dropdown-arrow">▼</span>
+          </label>
+          <div class="dropdown-content" id="dropdownContent">
+            <a href="/pages/products_ordi.html"><i class="fas fa-laptop"></i> Ordinateurs portables</a>
+            <a href="/pages/products_tel.html"><i class="fas fa-mobile-alt"></i> Téléphones</a>
+            <a href="/pages/product_casque.html"><i class="fas fa-headphones"></i> Casques & Écouteurs</a>
+            <a href="#"><i class="fas fa-tablet-alt"></i> Tablettes</a>
+            <a href="/pages/products_ordi.html"><i class="fas fa-desktop"></i> Ordinateurs de bureau</a>
+            <a href="/pages/products_disk.html"><i class="fas fa-keyboard"></i> Périphériques</a>
+            <a href="#"><i class="fas fa-microchip"></i> Composants PC</a>
+            <a href="#"><i class="fas fa-print"></i> Imprimantes</a>
+            <a href="/pages/products_manettes.html"><i class="fas fa-gamepad"></i> Gaming</a>
+            <a href="/pages/products_cam.html"><i class="fas fa-tv"></i> Caméras</a>
+          </div>
+        </li>
+        <li><a href="#">Promotions</a></li>
+        <li><a href="/about.html">À propos</a></li>
+        <li><a href="/Blog.html">Blog</a></li>
+      </ul>
+
+      <div class="search-bar" id="searchBar">
+        <input type="text" placeholder="Rechercher un produit..." class="search-input">
+      </div>
+
+      <div class="user-actions" id="userActions">
+        <!-- Bouton conditionnel Mon compte / Se connecter -->
+        <a href="/account.html" class="account-icon" id="accountButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Mon Compte</span>
+        </a>
+        <a href="/login.html" class="account-icon" id="loginButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Se connecter</span>
+        </a>
+
+        <a href="/panier.html" class="cart-icon">
+          <i class="fas fa-shopping-cart"></i> <span>Panier</span>
+          <span class="cart-count"></span>
+        </a>
+
+        <!-- Dark Mode Toggle amélioré -->
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Basculer le mode sombre">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="dark-mode-text">Mode sombre</span>
+        </button>
+      </div>
+      </div>
+    </nav>
+
+    <!-- Overlay pour fermer le menu (utilise l'ancre) -->
+    <a href="#" class="overlay" id="overlay"></a>
+  </header>
+    <div class="content-wrapper">
+  <main class="terms-page">
+    <!-- Hero Section -->
+    <section class="terms-hero">
+      <h1 class="termsTitle">Terms & Conditions</h1>
+      <p class="termsIntro">
+        Welcome to Shopcart. These Terms & Conditions govern your use of our website and services. By accessing or using Shopcart, you agree to be bound by these terms. Please read them carefully.
+      </p>
+    </section>
+
+    <!-- Accordion -->
+    <div class="accordion" id="termsAccordion">
+      <!-- Acceptance of Terms -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-check-circle"></i></span>
+          <h3>Acceptance of Terms</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>By creating an account or making a purchase, you accept these Terms & Conditions in full.</p>
+        </div>
+      </div>
+
+      <!-- Eligibility -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-user-check"></i></span>
+          <h3>Eligibility</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>You must be at least <strong>18 years old</strong> to use Shopcart.</p>
+        </div>
+      </div>
+
+      <!-- Account Registration -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-key"></i></span>
+          <h3>Account Registration and Security</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>You are responsible for maintaining the confidentiality of your account credentials.</p>
+        </div>
+      </div>
+
+      <!-- User Conduct -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-gavel"></i></span>
+          <h3>User Conduct</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>You agree not to use Shopcart for any unlawful purpose or to infringe on others’ rights.</p>
+        </div>
+      </div>
+
+      <!-- Service Description -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-store"></i></span>
+          <h3>Service Description</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>Shopcart provides an e-commerce platform for purchasing goods and managing user accounts.</p>
+        </div>
+      </div>
+
+      <!-- Payments and Refunds -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-credit-card"></i></span>
+          <h3>Payments and Refunds</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>All purchases are final unless otherwise stated. Refunds are processed within <strong>14 days</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Intellectual Property -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-copyright"></i></span>
+          <h3>Intellectual Property</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>All content on Shopcart is owned by us and protected by copyright law.</p>
+        </div>
+      </div>
+
+      <!-- Limitation of Liability -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-shield-alt"></i></span>
+          <h3>Limitation of Liability</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>Shopcart is not liable for any indirect damages arising from use of the site.</p>
+        </div>
+      </div>
+
+      <!-- Termination -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-ban"></i></span>
+          <h3>Termination</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>We may terminate your account for violation of these terms with notice.</p>
+        </div>
+      </div>
+
+      <!-- Governing Law -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-balance-scale"></i></span>
+          <h3>Governing Law</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>These terms are governed by the laws of <strong>Cameroon</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Changes to Terms -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-edit"></i></span>
+          <h3>Changes to Terms</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>We may revise these terms at any time. Updates will be posted here with the effective date.</p>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <span class="icon"><i class="fas fa-envelope"></i></span>
+          <h3>Contact Information</h3>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+        </button>
+        <div class="accordion-body">
+          <p>
+            For inquiries, contact
+            <a href="mailto:support@shopcart.com" class="email-link" data-copy="support@shopcart.com">
+              support@shopcart.com
+            </a>.
+            <span class="copy-feedback">Copied!</span>
+          </p>
+          <p style="margin-top: 1rem;">
+            <a href="security.html" class="privacy">Privacy Policy</a> |
+            <a href="cookies.html" class="cookies">Cookies</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle">
+      <input type="checkbox" id="darkSwitch">
+      <label for="darkSwitch"><i class="fas fa-moon"></i> Dark Mode</label>
+    </div>
+  </main>
+</div>
+    
+  <!-- Footer -->
+<footer>
+  <!-- Section des avantages -->
+  <div class="footer-top">
+    <div class="benefits">
+      <div class="benefit">
+        <i class="fas fa-truck"></i>
+        <p>Livraison à domicile</p>
+      </div>
+      <div class="benefit">
+        <i class="fas fa-lock"></i>
+        <p>Paiement sécurisé</p>
+      </div>
+      <div class="benefit">
+        <i class="fas fa-undo"></i>
+        <p>Retours faciles</p>
+      </div>
+      <div class="benefit">
+        <i class="fas fa-headset"></i>
+        <p>Support client 24/7</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grille principale -->
+  <div class="footer-container">
+  
+    <!-- Section Navigation Rapide -->
+    <div class="footer-section">
+      <h3>Navigation Rapide</h3>
+      <ul>
+        <li><a href=""">Deals</a></li>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/Blog.html">Blog</a></li>
+        <li><a href="#">Promotions</a></li>
+      </ul>
+    </div>
+
+    <!-- Section À propos -->
+    <div class="footer-section about-section">
+      <h3>À propos de Shopcart</h3>
+      <p>Votre destination en ligne pour les meilleurs appareils électroniques. Qualité, prix compétitifs et service client exceptionnel.</p>
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <!-- Section Boutique -->
+    <div class="footer-section">
+      <h3>Boutique</h3>
+      <div class="shop-categories">
+        <ul>
+          <li><a href="/pages/products_tel.html">Smartphones</a></li>
+          <li><a href="/pages/products_ordi.html">Ordinateurs</a></li>
+          <li><a href="/pages/products_casque.html">Casques</a></li>
+          <li><a href="/pages/products_disk.html">Accessoires</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section Newsletter et Contact -->
+    <div class="footer-section">
+      <h3>Restez Informé</h3>
+      <div class="newsletter-section">
+        <p>Inscrivez-vous à notre newsletter</p>
+        <form id="newsletter-form" class="newsletter-form">
+          <div class="input-container">
+            <i class="far fa-envelope"></i>
+            <input type="email" id="newsletter-email" placeholder="Votre email" required>
+          </div>
+          <button type="submit">S'inscrire</button>
+        </form>
+      </div>
+      
+      <div class="contact-info" style="margin-top: 20px;">
+        <p><i class="fas fa-envelope"></i> business@shopcart.com</p>
+        <p><i class="fas fa-phone"></i> +237 657450314</p>
+        <p><i class="fas fa-map-marker-alt"></i> Yaoundé, Cameroun</p>
+        <p><i class="fas fa-clock"></i> Lun-Sam: 8h-18h</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Séparateur -->
+  <div class="footer-divider"></div>
+
+  <!-- Footer bottom -->
+  <div class="footer-bottom">
+    <div class="payment-methods">
+      <p>Nous acceptons</p>
+      <div class="payment-icons">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-paypal"></i>
+        <i class="fab fa-cc-apple-pay"></i>
+      </div>
+    </div>
+    
+    <p>© Copyright 2025 Shopcart. Tous droits réservés.</p>
+    
+    <div class="footer-links">
+      <a href="/security.html">Confidentialité</a>
+      <a href="/conditions.html">Conditions d'utilisation</a>
+      <a href="/cookies.html">Mentions légales</a>
+      <a href="/help.html">Aide</a>
+      <a href="/advertisement.html">Plublicité</a>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/conditions.js"></script>
+</body>
+</html>

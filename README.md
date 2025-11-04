@@ -1,10 +1,17 @@
 # 🛒 TP4 E-commerce - Application Laravel
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-![Laravel](https://img.shields.io/badge/Laravel-10.x-red?logo=laravel)
-![PHP](https://img.shields.io/badge/PHP-8.1+-blue?logo=php)
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange?logo=mysql)
-![License](https://img.shields.io/badge/License-MIT-green)
 
+
+<p align="center">
+<a href="https://img.shields.io/badge/Laravel-10.x-red?logo=laravel"><img src="https://img.shields.io/badge/Laravel-10.x-red?logo=laravel" alt="Laravel"></a>
+<a href="https://img.shields.io/badge/PHP-8.1+-blue?logo=php"><img src="https://img.shields.io/badge/PHP-8.1+-blue?logo=php" alt="php"></a>
+<a href="https://img.shields.io/badge/MySQL-8.0+-orange?logo=mysql"><img src="https://img.shields.io/badge/MySQL-8.0+-orange?logo=mysql" alt="Laravel"></a>
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 Application e-commerce complète développée avec Laravel dans le cadre du TP4 de Programmation Web.
 
 ## 📋 Table des matières
@@ -87,13 +94,21 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 ## 🚀 Installation
 
-### 1. Cloner le dépôt
+### 1. Cloner le  
 
 ```bash
 git clone https://github.com/Delmat237/Shopecart-Web-Project.git 
 cd Shopecart-Web-Project
 ```
 
+###  Acceder à la branche 
+```bash
+git checkout tp/4-laravel-full
+```
+### Acceder au projet
+```bash
+cd tp4-ecommerce
+```
 ### 2. Installer les dépendances PHP
 
 ```bash

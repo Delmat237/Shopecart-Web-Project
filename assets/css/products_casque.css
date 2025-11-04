@@ -340,14 +340,11 @@ body {
     padding: 10px 0 20px 0;
     margin-bottom: 30px;
     justify-content: center;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
     position: relative;
   
 }
 
-.product-filters-bar::-webkit-scrollbar {
-    display: none;
-}
 
 .filter-all-button {
     display: flex;

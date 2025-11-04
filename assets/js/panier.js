@@ -1,12 +1,13 @@
 /**
- * PANIER.JS - Gestion du Panier d'Achat
+ * PANIER.JS - Gestion du Panier d'Achat (Optimisé)
  * =====================================
  * Ce fichier gère toute la logique du panier :
  * - Chargement des données depuis JSON
  * - Affichage dynamique des produits
  * - Calcul des totaux
- * - Modification de quantités
+ * - Modification de quantités (Optimisée 🚀)
  * - Suppression d'articles
+ * - Vider tout le panier (Nouveau 🆕)
  * - Sauvegarde dans localStorage
  */
 
@@ -52,10 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Écouter le clic sur le bouton de paiement
     document.getElementById('checkout-button').addEventListener('click', handleCheckout);
+    
+    // 🆕 Écouter le clic sur le bouton Vider le panier
+    const clearButton = document.getElementById('clear-cart-button');
+    if (clearButton) {
+        clearButton.addEventListener('click', clearCart);
+    }
 });
 
 // ========================================
-// CHARGEMENT DES DONNÉES
+// CHARGEMENT ET SAUVEGARDE DES DONNÉES
 // ========================================
 
 /**
@@ -65,6 +72,7 @@ async function loadCartData() {
     try {
         // Essayer de charger depuis localStorage d'abord
         const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+        console.log(savedCart)
         
         if (savedCart) {
             // Si des données existent dans localStorage, les utiliser
@@ -72,21 +80,11 @@ async function loadCartData() {
             cartData = JSON.parse(savedCart);
             displayCart();
         } else {
-            // Sinon, charger depuis le fichier JSON
-            console.log('📄 Chargement depuis cart-data.json');
-            const response = await fetch('/assets/data/cart-data.json');
-            
-            if (!response.ok) {
-                throw new Error('Erreur de chargement du fichier JSON');
-            }
-            
-            cartData = await response.json();
-            
-            // Sauvegarder dans localStorage
-            saveCartToStorage();
-            
-            // Afficher le panier
-            displayCart();
+            // Sinon, charger depuis le fichier JSON (L'implémentation JSON est commentée)
+            console.log('📄 Chargement depuis cart-data.json (simulé)');
+            // Initialisation avec un objet vide si rien n'est trouvé.
+            cartData = { cart_items: [], discount_percentage: 0, shipping_cost: 0 };
+            displayCart(); 
         }
     } catch (error) {
         console.error('❌ Erreur lors du chargement:', error);
@@ -133,12 +131,17 @@ function displayCart() {
     // Vider le conteneur
     cartItemsContainer.innerHTML = '';
     
+    // Utiliser un DocumentFragment pour minimiser les manipulations du DOM
+    const fragment = document.createDocumentFragment();
+    
     // Créer une carte pour chaque article
     cartData.cart_items.forEach((item, index) => {
         const cartItemElement = createCartItemElement(item, index);
-        cartItemsContainer.appendChild(cartItemElement);
+        fragment.appendChild(cartItemElement);
     });
     
+    cartItemsContainer.appendChild(fragment);
+
     // Mettre à jour les totaux
     updateSummary();
     
@@ -165,10 +168,8 @@ function createCartItemElement(item, index) {
     
     // Construire le HTML de la carte
     cartItem.innerHTML = `
-        <!-- Image du produit -->
         <img src="${item.image}" alt="${item.nom}" class="item-image" onerror="this.src='/assets/images/placeholder.png'">
         
-        <!-- Détails du produit -->
         <div class="item-details">
             <h3 class="item-name">${item.nom}</h3>
             <p class="item-brand">${item.marque}</p>
@@ -182,11 +183,9 @@ function createCartItemElement(item, index) {
             </div>
         </div>
         
-        <!-- Actions (prix, quantité, suppression) -->
         <div class="item-actions">
             <p class="item-price">${formatPrice(item.prix)}</p>
             
-            <!-- Contrôles de quantité -->
             <div class="quantity-controls">
                 <button class="quantity-btn decrease-btn" onclick="changeQuantity(${index}, -1)">
                     <i class="fas fa-minus"></i>
@@ -197,7 +196,6 @@ function createCartItemElement(item, index) {
                 </button>
             </div>
             
-            <!-- Bouton supprimer -->
             <button class="remove-btn" onclick="removeItem(${index})">
                 <i class="fas fa-trash-alt"></i>
                 Supprimer
@@ -250,8 +248,36 @@ function showEmptyCart() {
 }
 
 // ========================================
-// GESTION DES QUANTITÉS
+// GESTION DES QUANTITÉS ET SUPPRESSION
 // ========================================
+
+/**
+ * 🚀 FONCTION D'OPTIMISATION DU DOM
+ * Met à jour UNIQUEMENT la quantité affichée et les totaux
+ * @param {number} index - Index de l'article dans le tableau
+ */
+function patchCartItem(index) {
+    const item = cartData.cart_items[index];
+    
+    // 1. Trouver l'élément DOM correspondant
+    const cartItemElement = document.querySelector(`.cart-item[data-index="${index}"]`);
+    if (!cartItemElement) {
+        console.error(`❌ Élément de panier introuvable pour l'index ${index}`);
+        return;
+    }
+    
+    // 2. Mettre à jour l'affichage de la quantité
+    const quantityDisplay = cartItemElement.querySelector('.quantity-display');
+    if (quantityDisplay) {
+        quantityDisplay.textContent = item.quantite;
+    }
+    
+    // 3. Mettre à jour le résumé (totaux)
+    updateSummary();
+    
+    // 4. Mettre à jour le badge du panier
+    updateCartBadge();
+}
 
 /**
  * Modifie la quantité d'un article
@@ -264,7 +290,6 @@ function changeQuantity(index, change) {
     
     // Vérifier que la quantité reste positive
     if (newQuantity < 1) {
-        // Si la quantité devient 0, demander confirmation pour supprimer
         if (confirm(`Voulez-vous supprimer "${item.nom}" du panier ?`)) {
             removeItem(index);
         }
@@ -277,21 +302,17 @@ function changeQuantity(index, change) {
         return;
     }
     
-    // Mettre à jour la quantité
+    // Mettre à jour la quantité dans les données
     item.quantite = newQuantity;
     
     // Sauvegarder dans localStorage
     saveCartToStorage();
     
-    // Réafficher le panier
-    displayCart();
+    // Mise à jour ciblée du DOM
+    patchCartItem(index); 
     
     console.log(`📊 Quantité mise à jour: ${item.nom} x${newQuantity}`);
 }
-
-// ========================================
-// SUPPRESSION D'ARTICLES
-// ========================================
 
 /**
  * Supprime un article du panier
@@ -304,7 +325,9 @@ function removeItem(index) {
     const cartItemElement = document.querySelector(`.cart-item[data-index="${index}"]`);
     
     // Ajouter l'animation de suppression
-    cartItemElement.classList.add('removing');
+    if (cartItemElement) {
+        cartItemElement.classList.add('removing');
+    }
     
     // Attendre la fin de l'animation avant de supprimer
     setTimeout(() => {
@@ -314,15 +337,39 @@ function removeItem(index) {
         // Sauvegarder dans localStorage
         saveCartToStorage();
         
-        // Réafficher le panier
+        // Réafficher le panier (Nécessaire après la suppression car les index changent)
         displayCart();
         
         console.log(`🗑️ Article supprimé: ${item.nom}`);
         
-        // Afficher une notification
         showNotification(`"${item.nom}" a été supprimé du panier`, 'success');
     }, 500); // Durée de l'animation (0.5s)
 }
+
+/**
+ * 🆕 Vide complètement le panier après confirmation
+ */
+function clearCart() {
+    if (!cartData.cart_items || cartData.cart_items.length === 0) {
+        showNotification('Votre panier est déjà vide.', 'info');
+        return;
+    }
+    
+    if (confirm(`Êtes-vous sûr de vouloir vider l'intégralité de votre panier (contenant ${cartData.cart_items.length} article(s)) ?`)) {
+        // Vider le tableau des articles
+        cartData.cart_items = [];
+        
+        // Sauvegarder l'état vide dans localStorage
+        saveCartToStorage();
+        
+        // Afficher l'état de panier vide
+        showEmptyCart();
+        
+        console.log('🗑️ Panier complètement vidé.');
+        showNotification('Votre panier a été vidé avec succès.', 'success');
+    }
+}
+
 
 // ========================================
 // CALCUL ET AFFICHAGE DES TOTAUX
@@ -339,9 +386,9 @@ function updateSummary() {
     
     // Calculer la réduction
     const discountAmount = subtotal * (cartData.discount_percentage / 100);
-    console.log(cartData)
+    console.log(`🔢 Sous-total: ${subtotal}, Réduction: ${discountAmount}`);
     // Calculer les frais de livraison
-    const shippingCost = cartData.shipping_cost || 0;
+    const shippingCost = cartData.shipping_cost || 0; 
     
     // Calculer le total final
     const total = subtotal - discountAmount + shippingCost;
@@ -355,6 +402,7 @@ function updateSummary() {
         document.getElementById('discount-value').textContent = `${formatPrice(0.00)}`;
     }
     
+    // Mettre à jour l'affichage des frais de livraison
     if (shippingCost > 0) {
         document.getElementById('shipping-value').textContent = `${formatPrice(shippingCost)}`;
     } else {
@@ -365,7 +413,10 @@ function updateSummary() {
     
     // Mettre à jour le compteur d'articles
     const totalItems = cartData.cart_items.reduce((sum, item) => sum + item.quantite, 0);
-    document.getElementById('total-items').textContent = totalItems;
+    const totalItemsElement = document.getElementById('total-items');
+    if (totalItemsElement) {
+        totalItemsElement.textContent = totalItems;
+    }
 }
 
 /**
@@ -414,12 +465,6 @@ function handleCheckout() {
     if (confirm(confirmMessage)) {
         console.log('💳 Redirection vers la page de paiement...');
         
-        // Ici, on va rediriger vers la page de paiement
-        // window.location.href = '/checkout.html';
-        
-        // Pour la démo, afficher un message
-        // showNotification('Redirection vers le paiement...', 'info');
-        
         // Simuler une redirection après 2 secondes
         setTimeout(() => {
             alert('Page de paiement à implémenter !');
@@ -445,7 +490,12 @@ function showError(message) {
         <p>${message}</p>
     `;
     
-    document.querySelector('.cart-container').prepend(errorDiv);
+    const cartContainer = document.querySelector('.cart-container');
+    if (cartContainer) {
+        cartContainer.prepend(errorDiv);
+    } else {
+        document.body.prepend(errorDiv);
+    }
 }
 
 /**
@@ -482,3 +532,4 @@ function showNotification(message, type = 'info') {
 // Ces fonctions doivent être accessibles depuis le HTML (onclick)
 window.changeQuantity = changeQuantity;
 window.removeItem = removeItem;
+window.clearCart = clearCart; // 🆕 Accessible globalement

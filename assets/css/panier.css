@@ -6,6 +6,8 @@ Couleurs Principales:
 - Bleu Principal: #1e3a8a
 - Bleu Secondaire: #1e40af  
 - Bleu Clair: #3b82f6
+- Rouge (Danger/Suppression): #dc2626
+- Rouge Foncé (Hover): #b91c1c
 Police: "Segoe UI", Roboto, Arial, sans-serif
 */
 
@@ -152,6 +154,40 @@ main {
     display: flex;
     gap: 30px; /* Espace entre les colonnes */
     align-items: flex-start; /* Alignement en haut */
+}
+
+/* ========================================
+   BOUTON VIDER LE PANIER (Nouveau Style)
+   ======================================== */
+
+.cart-actions-top {
+    display: flex;
+    justify-content: flex-end; /* Aligner le bouton à droite */
+    margin-bottom: 20px;
+}
+
+.btn-clear-cart {
+    background-color: #dc2626; /* Rouge */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-clear-cart:hover {
+    background-color: #b91c1c; /* Rouge plus foncé au survol */
+    transform: translateY(-2px);
+}
+
+.btn-clear-cart:active {
+    transform: translateY(0);
 }
 
 /* ========================================
@@ -334,7 +370,7 @@ main {
 }
 
 /* ========================================
-   BOUTON SUPPRIMER
+   BOUTON SUPPRIMER (Article individuel)
    ======================================== */
 
 .remove-btn {
@@ -589,5 +625,14 @@ main {
     /* Titre plus petit sur mobile */
     .cart-title {
         font-size: 24px;
+    }
+
+    /* Le bouton Vider le panier s'aligne à gauche ou s'étend sur mobile */
+    .cart-actions-top {
+        justify-content: flex-start;
+    }
+    .btn-clear-cart {
+        width: 100%;
+        justify-content: center;
     }
 }

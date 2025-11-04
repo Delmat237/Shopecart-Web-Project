@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-let cartData = null;
+let CartData = null;
 const CART_STORAGE = 'shopcart_cart';
 const USER_STORAGE_KEY = 'user';
 
@@ -186,13 +186,13 @@ function updateCartBadge() {
     return;
   }
   
-  if (!cartData || !cartData.cart_items || cartData.cart_items.length === 0) {
+  if (!CartData || !CartData.cart_items || CartData.cart_items.length === 0) {
     cartBadge.textContent = '0';
     cartBadge.style.display = 'none'; // Cacher si vide
     return;
   }
   
-  const totalItems = cartData.cart_items.reduce((sum, item) => sum + (item.quantite || 0), 0);
+  const totalItems = CartData.cart_items.reduce((sum, item) => sum + (item.quantite || 0), 0);
   cartBadge.textContent = totalItems > 99 ? '99+' : totalItems.toString();
   cartBadge.style.display = 'flex'; // Afficher s'il y a des articles
 }
@@ -205,13 +205,13 @@ async function loadCartData() {
     const savedCart = localStorage.getItem(CART_STORAGE);
     
     if (savedCart) {
-      cartData = JSON.parse(savedCart);
+      CartData = JSON.parse(savedCart);
     } else {
-      cartData = { cart_items: [] };
+      CartData = { cart_items: [] };
     }
   } catch (error) {
     console.error('❌ Erreur lors du chargement du panier:', error);
-    cartData = { cart_items: [] };
+    CartData = { cart_items: [] };
   }
 }
 

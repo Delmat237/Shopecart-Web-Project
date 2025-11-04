@@ -3,6 +3,7 @@
  * =============================================
  * Récupère directement les infos depuis le HTML des produits
  * Fonctionne sur TOUTES les pages (listes et détails)
+ * 🟢 CORRECTION APPLIQUÉE : Initialisation des totaux globaux pour éviter l'erreur NaN
  */
 
 // ========================================
@@ -49,7 +50,8 @@ function addToCartFromHTML(productElement, quantity = 1, color = 'Défaut') {
 
         console.log('📦 Données extraites:', productData);
 
-        let cart = getCartFromStorage();
+        // getCartFromStorage est maintenant robuste et renvoie les champs globaux (discount_percentage etc.) initialisés
+        let cart = getCartFromStorage(); 
         
         // Vérifier si le produit existe déjà dans le panier
         const existingItemIndex = cart.cart_items.findIndex(item => 
@@ -79,7 +81,8 @@ function addToCartFromHTML(productElement, quantity = 1, color = 'Défaut') {
                 quantite: finalQuantity,
                 couleur: color,
                 image: productData.image,
-                note: productData.rating
+                note: productData.rating,
+                // REMOVED : discount_percentage, shipping_cost, tax_percentage (sont maintenant globaux via getCartFromStorage)
             };
             
             cart.cart_items.push(cartItem);
@@ -176,15 +179,34 @@ function extractProductInfoFromHTML(productElement) {
 }
 
 // ========================================
-// FONCTIONS DE STOCKAGE
+// FONCTIONS DE STOCKAGE (CORRIGÉES)
 // ========================================
 
+/**
+ * Récupère le panier depuis localStorage ou renvoie un objet panier vide et initialisé.
+ * 🟢 Assure que les propriétés globales sont initialisées (correction NaN).
+ */
 function getCartFromStorage() {
     try {
         const storedCart = localStorage.getItem(CART_STORAGE_KEY);
-        return storedCart ? JSON.parse(storedCart) : { cart_items: [] };
-    } catch {
-        return { cart_items: [] };
+        
+        let cart = storedCart ? JSON.parse(storedCart) : { cart_items: [] };
+
+        // 🟢 CORRECTION : Assurer l'existence des propriétés globales pour les calculs de totaux
+        cart.discount_percentage = cart.discount_percentage || 0;
+        cart.shipping_cost = cart.shipping_cost || 0;
+        cart.tax_percentage = cart.tax_percentage || 0;
+        
+        return cart;
+    } catch (e) {
+        console.error('Erreur lors de la lecture du localStorage:', e);
+        // Retourner un objet vide initialisé en cas d'erreur
+        return { 
+            cart_items: [],
+            discount_percentage: 0,
+            shipping_cost: 0,
+            tax_percentage: 0
+        };
     }
 }
 
@@ -205,8 +227,8 @@ function initAddToCartListeners() {
       const addButtons = document.querySelectorAll(
         '.add-to-cart-btn, .btn-outline, .btn-add-cart, ' +
         '.product-card-actions button, .btn-add-to-cart, ' +
-        '.add-to-cart-btn, .product-actions button, ' +  // ← AJOUT
-        '.price-cart button, .btn-primary'  // ← AJOUT
+        '.add-to-cart-btn, .product-actions button, ' +
+        '.price-cart button, .btn-primary'
     );
     
     console.log(`✅ ${addButtons.length} boutons trouvés`);
@@ -221,7 +243,7 @@ function initAddToCartListeners() {
         '.product-card, .product-frame, ' +
         '.product-detail-wrapper, .product-info, ' +
         '.product-detail-container, .product-detail-flex, ' +
-        '.products-grid .product-card, a.product-card'  // ← AJOUT
+        '.products-grid .product-card, a.product-card'
     );
             
             if (!productElement) {
@@ -306,7 +328,7 @@ function handleDetailPageAddToCart() {
         return;
     }
     
-    // Récupérer la quantité - CORRECTION ICI
+    // Récupérer la quantité
     const quantityInput = document.querySelector('.qty-input, .quantity-display, .qty');
     let quantity = 1;
     
@@ -319,7 +341,7 @@ function handleDetailPageAddToCart() {
     }
     console.log('📊 Quantité:', quantity);
     
-    // Récupérer la couleur sélectionnée - CORRECTION ICI
+    // Récupérer la couleur sélectionnée
     let color = 'Défaut';
     const activeColorBtn = document.querySelector('.color-btn-active');
     

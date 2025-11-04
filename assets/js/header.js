@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let cartData = null;
-const CART_STORAGE_KEY = 'shopcart_cart';
+const CART_STORAGE = 'shopcart_cart';
 const USER_STORAGE_KEY = 'user';
 
 /**
@@ -202,7 +202,7 @@ function updateCartBadge() {
  */
 async function loadCartData() {
   try {
-    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    const savedCart = localStorage.getItem(CART_STORAGE);
     
     if (savedCart) {
       cartData = JSON.parse(savedCart);

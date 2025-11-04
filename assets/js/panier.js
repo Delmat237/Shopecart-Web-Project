@@ -319,7 +319,7 @@ function updateSummary() {
     
     // Calculer la réduction
     const discountAmount = subtotal * (cartData.discount_percentage / 100);
-    
+    console.log(cartData)
     // Calculer les frais de livraison
     const shippingCost = cartData.shipping_cost || 0;
     

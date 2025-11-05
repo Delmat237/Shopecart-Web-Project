@@ -428,7 +428,7 @@ function handleCheckout() {
 }
 
 // ========================================
-// FONCTIONS UTILITAIRES
+// FONCTIONS UTILITAIRESy
 // ========================================
 
 /**

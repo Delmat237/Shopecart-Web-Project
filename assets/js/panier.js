@@ -339,7 +339,7 @@ function updateSummary() {
     
     // Calculer la réduction
     const discountAmount = subtotal * (cartData.discount_percentage / 100);
-    
+    console.log(cartData)
     // Calculer les frais de livraison
     const shippingCost = cartData.shipping_cost || 0;
     
@@ -414,11 +414,11 @@ function handleCheckout() {
     if (confirm(confirmMessage)) {
         console.log('💳 Redirection vers la page de paiement...');
         
-        // Ici, on va rediriger vers la page de paiement
-        // window.location.href = '/checkout.html';
+        // Ici, vous redirigeriez vers la page de paiement
+         window.location.href = '/orderDetails.html';
         
         // Pour la démo, afficher un message
-        showNotification('Redirection vers le paiement...', 'info');
+        // showNotification('Redirection vers le paiement...', 'info');
         
         // Simuler une redirection après 2 secondes
         setTimeout(() => {
@@ -428,7 +428,7 @@ function handleCheckout() {
 }
 
 // ========================================
-// FONCTIONS UTILITAIRESy
+// FONCTIONS UTILITAIRES
 // ========================================
 
 /**

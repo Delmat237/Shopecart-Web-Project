@@ -8,15 +8,20 @@
     <link rel='stylesheet' href='/assets/css/footer.css'>
     <link rel='stylesheet' href='/assets/css/header.css'>
     <link rel='stylesheet' href='/assets/css/panier.css'>
-    
+    <script src="/assets/js/panier.js"></script>
     <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <title>Mon Panier - Shopcart</title>
+  <script defer src="assets/js/newsletter.js"></script>
+ 
+  <script src="/assets/js/header.js"></script>
 </head>
+
 <body>
  <!-- Header -->
   <header>
+    <!-- Checkbox cachée pour contrôler le menu mobile -->
     <nav class="navbar">
       <div class="logo">
         <div class="logo-img">
@@ -26,19 +31,20 @@
         </div>
         <span class="logo-text">Shopcart</span>
       </div>
-
-      <label for="menu-toggle" class="hamburger">
+      <!-- Hamburger icon comme label pour la checkbox -->
+      <label for="menu-toggle" class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </label>
 
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li class="categories-dropdown">
-          <label for="categories-toggle">
+          <!-- Label pour le sous-menu des catégories -->
+          <label for="categories-toggle" class="categories-label" id="categoriesLabel">
             Catégories <span class="dropdown-arrow">▼</span>
           </label>
-          <div class="dropdown-content">
+          <div class="dropdown-content" id="dropdownContent">
             <a href="/pages/products_ordi.html"><i class="fas fa-laptop"></i> Ordinateurs portables</a>
             <a href="/pages/products_tel.html"><i class="fas fa-mobile-alt"></i> Téléphones</a>
             <a href="/pages/product_casque.html"><i class="fas fa-headphones"></i> Casques & Écouteurs</a>
@@ -56,21 +62,35 @@
         <li><a href="/Blog.html">Blog</a></li>
       </ul>
 
-      <div class="search-bar">
+      <div class="search-bar" id="searchBar">
         <input type="text" placeholder="Rechercher un produit..." class="search-input">
       </div>
 
-      <div class="user-actions">
-        <a href="/assets/css/account.html" class="account-icon"><i class="fa-regular fa-user"></i> <span>Mon Compte</span></a>
-        <a href="/assets/css/panier.html" class="cart-icon">
-          <i class="fas fa-shopping-cart"></i> 
-          <span>Panier</span> 
-          <!-- Badge dynamique du nombre d'articles (utilise la classe existante) -->
-          <span class="cart-count">0</span>
+      <div class="user-actions" id="userActions">
+        <!-- Bouton conditionnel Mon compte / Se connecter -->
+        <a href="/account.html" class="account-icon" id="accountButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Mon Compte</span>
         </a>
+        <a href="/login.html" class="account-icon" id="loginButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Se connecter</span>
+        </a>
+
+        <a href="/panier.html" class="cart-icon">
+          <i class="fas fa-shopping-cart"></i> <span>Panier</span>
+          <span class="cart-count"></span>
+        </a>
+
+        <!-- Dark Mode Toggle amélioré -->
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Basculer le mode sombre">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="dark-mode-text">Mode sombre</span>
+        </button>
+      </div>
       </div>
     </nav>
 
+    <!-- Overlay pour fermer le menu (utilise l'ancre) -->
     <a href="#" class="overlay" id="overlay"></a>
   </header>
 
@@ -100,7 +120,7 @@
       <i class="fas fa-shopping-cart"></i>
       <h2>Votre panier est vide</h2>
       <p>Découvrez nos produits et ajoutez-en à votre panier !</p>
-      <a href="/index.html" class="btn-continue-shopping">
+      <a href="/pages/product_catalogue.html" class="btn-continue-shopping">
         <i class="fas fa-arrow-left"></i>
         Continuer mes achats
       </a>
@@ -168,7 +188,7 @@
         </button>
 
         <!-- Lien pour continuer les achats -->
-        <a href="/index.html" class="continue-shopping-link">
+        <a href="/pages/product_catalogue.html" class="continue-shopping-link">
           <i class="fas fa-arrow-left"></i>
           Continuer mes achats
         </a>
@@ -268,6 +288,6 @@
   </footer>
 
   <!-- Script JavaScript -->
-  <script src="/assets/js/panier.js"></script>
+  
 </body>
 </html>

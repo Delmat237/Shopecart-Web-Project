@@ -1,0 +1,605 @@
+/* ========================================
+   CHARTE GRAPHIQUE
+   ======================================== */
+/*
+Couleurs Principales:
+- Bleu Principal: #1e3a8a
+- Bleu Secondaire: #1e40af  
+- Bleu Clair: #3b82f6
+- Vert (Success): #10b981
+- Rouge (Error): #ef4444
+- Orange (Warning): #f59e0b
+Police: "Segoe UI", Roboto, Arial, sans-serif
+*/
+
+/* ========================================
+   STYLES GÉNÉRAUX
+   ======================================== */
+
+/* Reset et configuration de base du body */
+body {
+    margin: 0; /* Pas de marge par défaut */
+    padding: 0; /* Pas de padding par défaut */
+    font-family: "Segoe UI", Roboto, Arial, sans-serif; /* Police principale */
+    background-color: #f5f5f5; /* Fond gris léger */
+    display: flex; /* Flexbox pour layout header-main-footer */
+    flex-direction: column; /* Empile verticalement */
+    min-height: 100vh; /* Hauteur minimale = hauteur de la fenêtre */
+}
+
+/* Main prend l'espace restant entre header et footer */
+main {
+    flex: 1; /* Prend tout l'espace disponible */
+    margin-top: 150px; /* Espace pour le header fixe */
+    position: relative; /* Contexte de positionnement */
+    z-index: 1; /* Sous le header (z-index: 1000) */
+}
+
+/* ========================================
+   CONTENEUR PRINCIPAL DES COMMANDES
+   ======================================== */
+
+/* Conteneur centré avec largeur maximale */
+.orders-container {
+    max-width: 1200px; /* Largeur maximale du contenu */
+    margin: 30px auto 40px auto; /* Centrage horizontal */
+    padding: 20px; /* Padding interne */
+    min-height: auto; /* Hauteur s'adapte au contenu */
+}
+
+/* ========================================
+   EN-TÊTE DE LA PAGE
+   ======================================== */
+
+/* Conteneur de l'en-tête avec titre et compteur */
+.orders-header {
+    margin-bottom: 30px; /* Espace sous l'en-tête */
+}
+
+/* Titre principal de la page */
+.orders-title {
+    font-size: 32px; /* Taille du titre */
+    font-weight: bold; /* Texte en gras */
+    color: #1e3a8a; /* Bleu principal */
+    margin-bottom: 10px; /* Espace sous le titre */
+    display: flex; /* Flexbox pour aligner icône et texte */
+    align-items: center; /* Centrage vertical */
+    gap: 15px; /* Espace entre icône et texte */
+}
+
+/* Icône dans le titre */
+.orders-title i {
+    font-size: 28px; /* Taille de l'icône */
+}
+
+/* Compteur de commandes */
+.orders-count {
+    font-size: 16px; /* Taille du texte */
+    color: #666; /* Gris moyen */
+    font-weight: 500; /* Poids moyen */
+}
+
+/* Mise en évidence du nombre */
+.orders-count span {
+    color: #1e40af; /* Bleu secondaire */
+    font-weight: bold; /* En gras */
+}
+
+/* ========================================
+   INDICATEUR DE CHARGEMENT
+   ======================================== */
+
+/* Conteneur de l'indicateur de chargement */
+.loading-indicator {
+    text-align: center; /* Centrage du contenu */
+    padding: 60px 20px; /* Padding généreux */
+    color: #1e40af; /* Bleu secondaire */
+}
+
+/* Icône de chargement (spinner animé) */
+.loading-indicator i {
+    font-size: 48px; /* Grande icône */
+    margin-bottom: 20px; /* Espace sous l'icône */
+}
+
+/* Texte de chargement */
+.loading-indicator p {
+    font-size: 18px; /* Taille du texte */
+    color: #666; /* Gris moyen */
+}
+
+/* ========================================
+   MESSAGE AUCUNE COMMANDE
+   ======================================== */
+
+/* Conteneur du message de liste vide */
+.empty-orders-message {
+    text-align: center; /* Centrage du contenu */
+    padding: 80px 20px; /* Padding généreux */
+    background: white; /* Fond blanc */
+    border-radius: 12px; /* Coins arrondis */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Icône de boîte vide */
+.empty-orders-message i {
+    font-size: 80px; /* Très grande icône */
+    color: #e0e0e0; /* Gris clair */
+    margin-bottom: 20px; /* Espace sous l'icône */
+}
+
+/* Titre du message vide */
+.empty-orders-message h2 {
+    font-size: 24px; /* Taille du titre */
+    color: #1e3a8a; /* Bleu principal */
+    margin-bottom: 10px; /* Espace sous le titre */
+}
+
+/* Description du message vide */
+.empty-orders-message p {
+    font-size: 16px; /* Taille du texte */
+    color: #666; /* Gris moyen */
+    margin-bottom: 30px; /* Espace sous le texte */
+}
+
+/* Bouton "Commencer mes achats" */
+.btn-start-shopping {
+    display: inline-flex; /* Flexbox inline */
+    align-items: center; /* Centrage vertical */
+    gap: 10px; /* Espace entre icône et texte */
+    padding: 12px 30px; /* Padding généreux */
+    background-color: #1e3a8a; /* Bleu principal */
+    color: white; /* Texte blanc */
+    text-decoration: none; /* Pas de soulignement */
+    border-radius: 25px; /* Bouton arrondi */
+    font-weight: bold; /* Texte en gras */
+    transition: all 0.3s ease; /* Animation fluide */
+}
+
+/* Effet hover sur le bouton */
+.btn-start-shopping:hover {
+    background-color: #3b82f6; /* Bleu clair */
+    transform: translateY(-2px); /* Légère élévation */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); /* Ombre bleue */
+}
+
+/* ========================================
+   SECTION DES FILTRES
+   ======================================== */
+
+/* Conteneur des boutons de filtre */
+.filters-section {
+    display: flex; /* Flexbox pour alignement horizontal */
+    gap: 15px; /* Espace entre les boutons */
+    margin-bottom: 30px; /* Espace sous les filtres */
+    flex-wrap: wrap; /* Retour à la ligne si nécessaire */
+}
+
+/* Bouton de filtre individuel */
+.filter-btn {
+    padding: 10px 20px; /* Padding du bouton */
+    background-color: white; /* Fond blanc */
+    color: #666; /* Texte gris */
+    border: 2px solid #e0e0e0; /* Bordure grise */
+    border-radius: 25px; /* Bouton arrondi */
+    font-size: 14px; /* Taille du texte */
+    font-weight: 600; /* Texte semi-gras */
+    cursor: pointer; /* Curseur pointeur */
+    display: flex; /* Flexbox pour icône et texte */
+    align-items: center; /* Centrage vertical */
+    gap: 8px; /* Espace entre icône et texte */
+    transition: all 0.3s ease; /* Animation fluide */
+}
+
+/* Effet hover sur les filtres */
+.filter-btn:hover {
+    border-color: #3b82f6; /* Bordure bleue */
+    color: #1e3a8a; /* Texte bleu foncé */
+    transform: translateY(-2px); /* Légère élévation */
+}
+
+/* Filtre actif (sélectionné) */
+.filter-btn.active {
+    background-color: #1e3a8a; /* Fond bleu principal */
+    color: white; /* Texte blanc */
+    border-color: #1e3a8a; /* Bordure bleue */
+}
+
+/* ========================================
+   LISTE DES COMMANDES
+   ======================================== */
+
+/* Conteneur de toutes les cartes de commandes */
+.orders-list {
+    display: flex; /* Flexbox pour disposition */
+    flex-direction: column; /* Empilement vertical */
+    gap: 25px; /* Espace entre les cartes */
+}
+
+/* ========================================
+   CARTE DE COMMANDE INDIVIDUELLE
+   ======================================== */
+
+/* Carte d'une commande */
+.order-card {
+    background-color: white; /* Fond blanc */
+    border-radius: 12px; /* Coins arrondis */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Ombre légère */
+    overflow: hidden; /* Cache le débordement */
+    transition: all 0.3s ease; /* Animation fluide */
+}
+
+/* Effet hover sur la carte */
+.order-card:hover {
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15); /* Ombre bleue */
+    transform: translateY(-3px); /* Légère élévation */
+}
+
+/* En-tête de la carte de commande */
+.order-header {
+    display: flex; /* Flexbox pour layout */
+    justify-content: space-between; /* Espace entre éléments */
+    align-items: center; /* Centrage vertical */
+    padding: 20px; /* Padding interne */
+    background-color: #f8f9fa; /* Fond gris très clair */
+    border-bottom: 2px solid #e0e0e0; /* Bordure inférieure */
+}
+
+/* Informations principales de la commande */
+.order-info {
+    display: flex; /* Flexbox */
+    flex-direction: column; /* Empilement vertical */
+    gap: 5px; /* Espace entre les lignes */
+}
+
+/* Numéro de commande */
+.order-id {
+    font-size: 18px; /* Taille du texte */
+    font-weight: bold; /* En gras */
+    color: #1e3a8a; /* Bleu principal */
+}
+
+/* Date de commande */
+.order-date {
+    font-size: 14px; /* Taille du texte */
+    color: #666; /* Gris moyen */
+    display: flex; /* Flexbox pour icône */
+    align-items: center; /* Centrage vertical */
+    gap: 5px; /* Espace entre icône et texte */
+}
+
+/* Badge de statut */
+.order-status {
+    padding: 8px 16px; /* Padding du badge */
+    border-radius: 20px; /* Badge arrondi */
+    font-size: 13px; /* Petite taille de texte */
+    font-weight: bold; /* Texte en gras */
+    text-transform: uppercase; /* Tout en majuscules */
+    letter-spacing: 0.5px; /* Espacement des lettres */
+}
+
+/* Statut "En cours" - Orange */
+.status-en_cours {
+    background-color: #fef3c7; /* Fond jaune pâle */
+    color: #d97706; /* Texte orange */
+}
+
+/* Statut "Reçue" - Vert */
+.status-recue {
+    background-color: #d1fae5; /* Fond vert pâle */
+    color: #059669; /* Texte vert */
+}
+
+/* Statut "Annulée" - Rouge */
+.status-annulee {
+    background-color: #fee2e2; /* Fond rouge pâle */
+    color: #dc2626; /* Texte rouge */
+}
+
+/* ========================================
+   CORPS DE LA CARTE (ARTICLES)
+   ======================================== */
+
+/* Conteneur des articles de la commande */
+.order-body {
+    padding: 20px; /* Padding interne */
+}
+
+/* Liste des articles */
+.order-items {
+    display: flex; /* Flexbox */
+    flex-direction: column; /* Empilement vertical */
+    gap: 15px; /* Espace entre articles */
+    margin-bottom: 20px; /* Espace sous la liste */
+}
+
+/* Article individuel */
+.order-item {
+    display: flex; /* Flexbox pour layout horizontal */
+    gap: 15px; /* Espace entre image et détails */
+    padding: 15px; /* Padding interne */
+    background-color: #f8f9fa; /* Fond gris très clair */
+    border-radius: 8px; /* Coins arrondis */
+}
+
+/* Image du produit */
+.item-image {
+    width: 80px; /* Largeur fixe */
+    height: 80px; /* Hauteur fixe */
+    object-fit: cover; /* Ajuste l'image sans déformation */
+    border-radius: 8px; /* Coins arrondis */
+    border: 1px solid #e0e0e0; /* Bordure légère */
+}
+
+/* Détails du produit */
+.item-details {
+    flex: 1; /* Prend l'espace restant */
+    display: flex; /* Flexbox */
+    flex-direction: column; /* Empilement vertical */
+    gap: 5px; /* Espace entre les lignes */
+}
+
+/* Nom du produit */
+.item-name {
+    font-size: 16px; /* Taille du texte */
+    font-weight: bold; /* En gras */
+    color: #1e3a8a; /* Bleu principal */
+}
+
+/* Marque du produit */
+.item-brand {
+    font-size: 13px; /* Petite taille */
+    color: #888; /* Gris moyen */
+    font-style: italic; /* Texte italique */
+}
+
+/* Couleur du produit */
+.item-color {
+    font-size: 13px; /* Petite taille */
+    color: #666; /* Gris moyen */
+}
+
+/* Quantité et prix */
+.item-quantity-price {
+    display: flex; /* Flexbox */
+    align-items: center; /* Centrage vertical */
+    gap: 15px; /* Espace entre quantité et prix */
+    margin-top: 5px; /* Espace au-dessus */
+}
+
+/* Quantité */
+.item-quantity {
+    font-size: 14px; /* Taille du texte */
+    color: #666; /* Gris moyen */
+}
+
+/* Prix */
+.item-price {
+    font-size: 16px; /* Taille du texte */
+    font-weight: bold; /* En gras */
+    color: #1e40af; /* Bleu secondaire */
+}
+
+/* ========================================
+   PIED DE LA CARTE (RÉSUMÉ)
+   ======================================== */
+
+/* Conteneur du résumé de commande */
+.order-footer {
+    padding: 20px; /* Padding interne */
+    background-color: #f8f9fa; /* Fond gris très clair */
+    border-top: 2px solid #e0e0e0; /* Bordure supérieure */
+}
+
+/* Résumé des prix */
+.order-summary {
+    display: flex; /* Flexbox */
+    flex-direction: column; /* Empilement vertical */
+    gap: 10px; /* Espace entre les lignes */
+    margin-bottom: 15px; /* Espace sous le résumé */
+}
+
+/* Ligne de résumé (sous-total, frais, etc.) */
+.summary-row {
+    display: flex; /* Flexbox */
+    justify-content: space-between; /* Espace entre label et valeur */
+    font-size: 14px; /* Taille du texte */
+    color: #666; /* Gris moyen */
+}
+
+/* Label dans le résumé */
+.summary-label {
+    font-weight: 500; /* Poids moyen */
+}
+
+/* Valeur dans le résumé */
+.summary-value {
+    font-weight: 600; /* Poids semi-gras */
+}
+
+/* Ligne du total (mise en évidence) */
+.summary-total {
+    padding-top: 10px; /* Espace au-dessus */
+    border-top: 2px solid #1e3a8a; /* Bordure supérieure bleue */
+    margin-top: 5px; /* Espace au-dessus */
+}
+
+/* Label du total */
+.summary-total .summary-label {
+    font-size: 18px; /* Taille plus grande */
+    font-weight: bold; /* En gras */
+    color: #1e3a8a; /* Bleu principal */
+}
+
+/* Valeur du total */
+.summary-total .summary-value {
+    font-size: 20px; /* Taille plus grande */
+    font-weight: bold; /* En gras */
+    color: #1e40af; /* Bleu secondaire */
+}
+
+/* ========================================
+   INFORMATIONS DE LIVRAISON
+   ======================================== */
+
+/* Conteneur des informations de livraison */
+.delivery-info {
+    margin-top: 15px; /* Espace au-dessus */
+    padding: 15px; /* Padding interne */
+    background-color: white; /* Fond blanc */
+    border-radius: 8px; /* Coins arrondis */
+    border: 1px solid #e0e0e0; /* Bordure légère */
+}
+
+/* Titre de la section livraison */
+.delivery-title {
+    font-size: 14px; /* Taille du texte */
+    font-weight: bold; /* En gras */
+    color: #1e3a8a; /* Bleu principal */
+    margin-bottom: 10px; /* Espace sous le titre */
+    display: flex; /* Flexbox pour icône */
+    align-items: center; /* Centrage vertical */
+    gap: 8px; /* Espace entre icône et texte */
+}
+
+/* Détails de livraison */
+.delivery-details {
+    font-size: 13px; /* Petite taille */
+    color: #666; /* Gris moyen */
+    line-height: 1.6; /* Hauteur de ligne */
+}
+
+/* Ligne de détail de livraison */
+.delivery-details p {
+    margin: 5px 0; /* Espace vertical */
+}
+
+/* ========================================
+   ACTIONS DE LA COMMANDE
+   ======================================== */
+
+/* Conteneur des boutons d'action */
+.order-actions {
+    display: flex; /* Flexbox */
+    gap: 10px; /* Espace entre les boutons */
+    margin-top: 15px; /* Espace au-dessus */
+    flex-wrap: wrap; /* Retour à la ligne si nécessaire */
+}
+
+/* Bouton d'action générique */
+.action-btn {
+    padding: 10px 20px; /* Padding du bouton */
+    border: none; /* Pas de bordure par défaut */
+    border-radius: 20px; /* Bouton arrondi */
+    font-size: 14px; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    cursor: pointer; /* Curseur pointeur */
+    display: flex; /* Flexbox pour icône */
+    align-items: center; /* Centrage vertical */
+    gap: 8px; /* Espace entre icône et texte */
+    transition: all 0.3s ease; /* Animation fluide */
+}
+
+/* Bouton primaire (Voir les détails) */
+.btn-primary {
+    background-color: #1e3a8a; /* Bleu principal */
+    color: white; /* Texte blanc */
+}
+
+/* Hover sur bouton primaire */
+.btn-primary:hover {
+    background-color: #3b82f6; /* Bleu clair */
+    transform: translateY(-2px); /* Légère élévation */
+}
+
+/* Bouton secondaire (Racheter) */
+.btn-secondary {
+    background-color: white; /* Fond blanc */
+    color: #1e3a8a; /* Texte bleu */
+    border: 2px solid #1e3a8a; /* Bordure bleue */
+}
+
+/* Hover sur bouton secondaire */
+.btn-secondary:hover {
+    background-color: #eff6ff; /* Fond bleu très pâle */
+}
+
+/* Bouton danger (Annuler) */
+.btn-danger {
+    background-color: #ef4444; /* Rouge */
+    color: white; /* Texte blanc */
+}
+
+/* Hover sur bouton danger */
+.btn-danger:hover {
+    background-color: #dc2626; /* Rouge plus foncé */
+    transform: translateY(-2px); /* Légère élévation */
+}
+
+/* ========================================
+   RESPONSIVE DESIGN (MOBILE/TABLET)
+   ======================================== */
+
+/* Ajustements pour tablettes */
+@media (max-width: 1024px) {
+    .orders-container {
+        padding: 15px; /* Padding réduit */
+    }
+    
+    .orders-title {
+        font-size: 28px; /* Titre plus petit */
+    }
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 768px) {
+    main {
+        margin-top: 120px; /* Moins d'espace pour header mobile */
+    }
+    
+    .orders-container {
+        margin: 20px auto 30px; /* Marges réduites */
+        padding: 15px; /* Padding réduit */
+    }
+    
+    .orders-title {
+        font-size: 24px; /* Titre plus petit */
+    }
+    
+    /* Filtres en colonne sur mobile */
+    .filters-section {
+        flex-direction: column; /* Empilement vertical */
+    }
+    
+    .filter-btn {
+        width: 100%; /* Boutons pleine largeur */
+        justify-content: center; /* Centrage du contenu */
+    }
+    
+    /* En-tête de commande en colonne sur mobile */
+    .order-header {
+        flex-direction: column; /* Empilement vertical */
+        align-items: flex-start; /* Alignement à gauche */
+        gap: 10px; /* Espace entre éléments */
+    }
+    
+    /* Article en colonne sur mobile */
+    .order-item {
+        flex-direction: column; /* Empilement vertical */
+    }
+    
+    .item-image {
+        width: 100%; /* Image pleine largeur */
+        height: auto; /* Hauteur automatique */
+    }
+    
+    /* Actions en colonne sur mobile */
+    .order-actions {
+        flex-direction: column; /* Empilement vertical */
+    }
+    
+    .action-btn {
+        width: 100%; /* Boutons pleine largeur */
+        justify-content: center; /* Centrage du contenu */
+    }
+}

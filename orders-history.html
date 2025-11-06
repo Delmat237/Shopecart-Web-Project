@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Stylesheets -->
+    <link rel='stylesheet' href='/assets/css/footer.css'>
+    <link rel='stylesheet' href='/assets/css/header.css'>
+    <link rel='stylesheet' href='/assets/css/orders-history.css'>
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <title>Historique des Commandes - Shopcart</title>
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-img">
+          <a href="/index.html">
+            <img src="/assets/images/shopcart-logo.png" alt="Shopcart Logo" class="logo-img">
+          </a>
+        </div>
+        <span class="logo-text">Shopcart</span>
+      </div>
+
+      <label for="menu-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-links">
+        <li class="categories-dropdown">
+          <label for="categories-toggle">
+            Catégories <span class="dropdown-arrow">▼</span>
+          </label>
+          <div class="dropdown-content">
+            <a href="/pages/products_ordi.html"><i class="fas fa-laptop"></i> Ordinateurs portables</a>
+            <a href="/pages/products_tel.html"><i class="fas fa-mobile-alt"></i> Téléphones</a>
+            <a href="/pages/product_casque.html"><i class="fas fa-headphones"></i> Casques & Écouteurs</a>
+          </div>
+        </li>
+        <li><a href="#">Promotions</a></li>
+        <li><a href="/about.html">À propos</a></li>
+        <li><a href="/Blog.html">Blog</a></li>
+      </ul>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Rechercher un produit..." class="search-input">
+      </div>
+
+      <div class="user-actions">
+        <a href="/account.html" class="account-icon"><i class="fa-regular fa-user"></i> <span>Mon Compte</span></a>
+        <a href="/panier.html" class="cart-icon">
+          <i class="fas fa-shopping-cart"></i> 
+          <span>Panier</span> 
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Conteneur principal de la page d'historique -->
+  <main class="orders-container">
+    
+    <!-- En-tête de la page avec titre et statistiques -->
+    <div class="orders-header">
+      <h1 class="orders-title">
+        <i class="fas fa-history"></i>
+        Historique de mes Commandes
+      </h1>
+      <!-- Compteur total de commandes -->
+      <p class="orders-count">
+        <span id="total-orders">0</span> commande(s) au total
+      </p>
+    </div>
+
+    <!-- Indicateur de chargement (visible au début) -->
+    <div id="loading-indicator" class="loading-indicator">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Chargement de vos commandes...</p>
+    </div>
+
+    <!-- Message si aucune commande (caché par défaut) -->
+    <div id="empty-orders-message" class="empty-orders-message" style="display: none;">
+      <i class="fas fa-box-open"></i>
+      <h2>Aucune commande pour le moment</h2>
+      <p>Vous n'avez pas encore passé de commande.</p>
+      <a href="/index.html" class="btn-start-shopping">
+        <i class="fas fa-shopping-bag"></i>
+        Commencer mes achats
+      </a>
+    </div>
+
+    <!-- Filtres de statut (caché pendant le chargement) -->
+    <div id="filters-section" class="filters-section" style="display: none;">
+      <button class="filter-btn active" data-filter="all">
+        <i class="fas fa-list"></i>
+        Toutes (<span id="count-all">0</span>)
+      </button>
+      <button class="filter-btn" data-filter="en_cours">
+        <i class="fas fa-clock"></i>
+        En cours (<span id="count-en_cours">0</span>)
+      </button>
+      <button class="filter-btn" data-filter="recue">
+        <i class="fas fa-check-circle"></i>
+        Reçues (<span id="count-recue">0</span>)
+      </button>
+      <button class="filter-btn" data-filter="annulee">
+        <i class="fas fa-times-circle"></i>
+        Annulées (<span id="count-annulee">0</span>)
+      </button>
+    </div>
+
+    <!-- Conteneur des cartes de commandes (rempli dynamiquement par JS) -->
+    <div id="orders-list" class="orders-list" style="display: none;">
+      <!-- Les commandes seront injectées ici par JavaScript -->
+    </div>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-top">
+      <div class="benefits">
+        <div class="benefit">
+          <i class="fas fa-truck"></i>
+          <p>Livraison à domicile</p>
+        </div>
+        <div class="benefit">
+          <i class="fas fa-lock"></i>
+          <p>Paiement sécurisé</p>
+        </div>
+        <div class="benefit">
+          <i class="fas fa-undo"></i>
+          <p>Retours faciles</p>
+        </div>
+        <div class="benefit">
+          <i class="fas fa-headset"></i>
+          <p>Support client 24/7</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Navigation Rapide</h3>
+        <ul>
+          <li><a href="#">Deals</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/Blog.html">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section about-section">
+        <h3>À propos de Shopcart</h3>
+        <p>Votre destination en ligne pour les meilleurs appareils électroniques.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> business@shopcart.com</p>
+          <p><i class="fas fa-phone"></i> +237 657450314</p>
+          <p><i class="fas fa-map-marker-alt"></i> Yaoundé, Cameroun</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <p>© Copyright 2025 Shopcart. Tous droits réservés.</p>
+      <div class="footer-links">
+        <a href="#">Confidentialité</a>
+        <a href="#">Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script JavaScript -->
+  <script src="/assets/js/orders-history.js"></script>
+</body>
+</html>

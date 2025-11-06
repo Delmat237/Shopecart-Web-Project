@@ -540,7 +540,7 @@
     </div>
 
     <script>
-        // 👥 GESTIONNAIRE D'UTILISATEURS
+        //  GESTIONNAIRE D'UTILISATEURS
 class UserManager {
     constructor() {
         this.users = this.loadUsersFromStorage();
@@ -549,7 +549,7 @@ class UserManager {
         this.renderUsers();
     }
 
-    // 📥 Chargement depuis le localStorage
+    //  Chargement depuis le localStorage
     loadUsersFromStorage() {
         const stored = localStorage.getItem('users');
         return stored ? JSON.parse(stored) : [
@@ -600,12 +600,12 @@ class UserManager {
         ];
     }
 
-    // 💾 Sauvegarde dans le localStorage
+    //  Sauvegarde dans le localStorage
     saveUsersToStorage() {
         localStorage.setItem('users', JSON.stringify(this.users));
     }
 
-    // 🎯 Initialisation des événements
+    //  Initialisation des événements
     initEventListeners() {
         // Bouton d'ajout d'utilisateur
         const addUserBtn = document.getElementById('addUserBtn');
@@ -629,7 +629,7 @@ class UserManager {
         this.initBulkActions();
     }
 
-    // 🔍 Initialisation des filtres
+    //  Initialisation des filtres
     initFilters() {
         const searchInput = document.querySelector('.search-input');
         const roleFilter = document.querySelector('.form-select:first-of-type');
@@ -642,7 +642,7 @@ class UserManager {
         if (filterBtn) filterBtn.addEventListener('click', () => this.applyFilters());
     }
 
-    // ☑️ Initialisation des cases à cocher
+    //  Initialisation des cases à cocher
     initCheckboxes() {
         const selectAll = document.getElementById('selectAll');
         const userCheckboxes = document.querySelectorAll('.user-checkbox:not(#selectAll)');
@@ -664,7 +664,7 @@ class UserManager {
         });
     }
 
-    // 🎪 Initialisation des actions en masse
+    //  Initialisation des actions en masse
     initBulkActions() {
         const bulkDeleteBtn = document.querySelector('.bulk-actions-buttons .btn-danger');
         const bulkEditBtn = document.querySelector('.bulk-actions-buttons .btn-secondary');
@@ -678,7 +678,7 @@ class UserManager {
         }
     }
 
-    // 🎪 Mise à jour des actions en masse
+    //  Mise à jour des actions en masse
     updateBulkActions() {
         const bulkActions = document.getElementById('bulkActions');
         const selectedCount = document.getElementById('selectedCount');
@@ -695,7 +695,7 @@ class UserManager {
         }
     }
 
-    // 🔄 Mise à jour de "Tout sélectionner"
+    // Mise à jour de "Tout sélectionner"
     updateSelectAll() {
         const selectAll = document.getElementById('selectAll');
         const checkedCount = document.querySelectorAll('.user-checkbox:checked:not(#selectAll)').length;
@@ -715,7 +715,7 @@ class UserManager {
         }
     }
 
-    // ➕ CRÉER un utilisateur
+    //  CRÉER un utilisateur
     createUser(userData) {
         const newUser = {
             id: Date.now(), // ID unique
@@ -736,7 +736,7 @@ class UserManager {
         this.showNotification('Utilisateur créé avec succès', 'success');
     }
 
-    // ✏️ MODIFIER un utilisateur
+    //  MODIFIER un utilisateur
     updateUser(userId, userData) {
         const index = this.users.findIndex(u => u.id == userId);
         if (index !== -1) {
@@ -751,7 +751,7 @@ class UserManager {
         }
     }
 
-    // 🗑️ SUPPRIMER un utilisateur
+    //  SUPPRIMER un utilisateur
     deleteUser(userId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
             this.users = this.users.filter(u => u.id != userId);
@@ -761,7 +761,7 @@ class UserManager {
         }
     }
 
-    // 🗑️ SUPPRIMER plusieurs utilisateurs
+    //  SUPPRIMER plusieurs utilisateurs
     deleteSelectedUsers() {
         const selectedUsers = Array.from(document.querySelectorAll('.user-checkbox:checked:not(#selectAll)'))
             .map(cb => cb.dataset.id);
@@ -785,7 +785,7 @@ class UserManager {
         }
     }
 
-    // ✏️ MODIFIER plusieurs utilisateurs
+    //  MODIFIER plusieurs utilisateurs
     editSelectedUsers() {
         const selectedUsers = Array.from(document.querySelectorAll('.user-checkbox:checked:not(#selectAll)'))
             .map(cb => cb.dataset.id);
@@ -798,7 +798,7 @@ class UserManager {
         this.showBulkEditModal(selectedUsers);
     }
 
-    // 🎨 AFFICHER les utilisateurs
+    //  AFFICHER les utilisateurs
     renderUsers() {
         const tbody = document.querySelector('.users-table tbody');
         if (!tbody) return;
@@ -852,7 +852,7 @@ class UserManager {
         this.updateTableInfo();
     }
 
-    // ✏️ ÉDITER un utilisateur
+    //  ÉDITER un utilisateur
     editUser(userId) {
         const user = this.users.find(u => u.id == userId);
         if (user) {
@@ -861,7 +861,7 @@ class UserManager {
         }
     }
 
-    // 🎪 MODAL d'utilisateur
+    //  MODAL d'utilisateur
     showUserModal(userData = null) {
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';
@@ -953,7 +953,7 @@ class UserManager {
         });
     }
 
-    // 🎪 MODAL de modification en masse
+    //  MODAL de modification en masse
     showBulkEditModal(userIds) {
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';
@@ -1025,7 +1025,7 @@ class UserManager {
         });
     }
 
-    // 🔍 FILTRER les utilisateurs
+    //  FILTRER les utilisateurs
     applyFilters() {
         const searchTerm = document.querySelector('.search-input')?.value.toLowerCase() || '';
         const roleFilter = document.querySelector('.form-select:first-of-type')?.value || '';
@@ -1055,7 +1055,7 @@ class UserManager {
         this.updateTableInfo(visibleCount);
     }
 
-    // ℹ️ Mettre à jour les infos du tableau
+    //  Mettre à jour les infos du tableau
     updateTableInfo(visibleCount = null) {
         const tableInfo = document.querySelector('.table-info');
         if (tableInfo) {
@@ -1064,18 +1064,18 @@ class UserManager {
         }
     }
 
-    // 🎭 Générer avatar
+    //  Générer avatar
     generateAvatar(name) {
         return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
     }
 
-    // 🎨 Couleur aléatoire pour avatar
+    //  Couleur aléatoire pour avatar
     getRandomColor() {
         const colors = ['primary', 'secondary', 'accent', 'warning', 'success'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    // 🏷️ Libellés des rôles
+    //  Libellés des rôles
     getRoleLabel(role) {
         const roles = {
             'admin': 'Administrateur',
@@ -1086,7 +1086,7 @@ class UserManager {
         return roles[role] || role;
     }
 
-    // 🏷️ Libellés des statuts
+    //  Libellés des statuts
     getStatusLabel(status) {
         const statuses = {
             'active': 'Actif',
@@ -1096,7 +1096,7 @@ class UserManager {
         return statuses[status] || status;
     }
 
-    // 🎨 Classes CSS pour statuts
+    //  Classes CSS pour statuts
     getStatusClass(status) {
         const classes = {
             'active': 'success',
@@ -1106,7 +1106,7 @@ class UserManager {
         return classes[status] || 'warning';
     }
 
-    // 📤 EXPORTER les utilisateurs
+    //  EXPORTER les utilisateurs
     exportUsers() {
         const dataStr = JSON.stringify(this.users, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
@@ -1119,7 +1119,7 @@ class UserManager {
         this.showNotification('Export des utilisateurs terminé', 'success');
     }
 
-    // 🔔 NOTIFICATIONS
+    //  NOTIFICATIONS
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
@@ -1157,7 +1157,7 @@ class UserManager {
     }
 }
 
-// 🚀 Initialisation
+//  Initialisation
 const userManager = new UserManager();
 
 // 🌐 Rendre disponible globalement

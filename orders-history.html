@@ -16,7 +16,7 @@
 </head>
 <body>
   <!-- ========== HEADER ========== -->
-  <header>
+ <header>
     <nav class="navbar">
       <div class="logo">
         <div class="logo-img">
@@ -26,22 +26,28 @@
         </div>
         <span class="logo-text">Shopcart</span>
       </div>
-
-      <label for="menu-toggle" class="hamburger">
+      <label for="menu-toggle" class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </label>
 
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li class="categories-dropdown">
-          <label for="categories-toggle">
+          <label for="categories-toggle" class="categories-label" id="categoriesLabel">
             Catégories <span class="dropdown-arrow">▼</span>
           </label>
-          <div class="dropdown-content">
+          <div class="dropdown-content" id="dropdownContent">
             <a href="/pages/products_ordi.html"><i class="fas fa-laptop"></i> Ordinateurs portables</a>
             <a href="/pages/products_tel.html"><i class="fas fa-mobile-alt"></i> Téléphones</a>
             <a href="/pages/product_casque.html"><i class="fas fa-headphones"></i> Casques & Écouteurs</a>
+            <a href="#"><i class="fas fa-tablet-alt"></i> Tablettes</a>
+            <a href="/pages/products_ordi.html"><i class="fas fa-desktop"></i> Ordinateurs de bureau</a>
+            <a href="/pages/products_disk.html"><i class="fas fa-keyboard"></i> Périphériques</a>
+            <a href="#"><i class="fas fa-microchip"></i> Composants PC</a>
+            <a href="#"><i class="fas fa-print"></i> Imprimantes</a>
+            <a href="/pages/products_manettes.html"><i class="fas fa-gamepad"></i> Gaming</a>
+            <a href="/pages/products_cam.html"><i class="fas fa-tv"></i> Caméras</a>
           </div>
         </li>
         <li><a href="#">Promotions</a></li>
@@ -49,19 +55,33 @@
         <li><a href="/Blog.html">Blog</a></li>
       </ul>
 
-      <div class="search-bar">
+      <div class="search-bar" id="searchBar">
         <input type="text" placeholder="Rechercher un produit..." class="search-input">
       </div>
 
-      <div class="user-actions">
-        <a href="/account.html" class="account-icon"><i class="fa-regular fa-user"></i> <span>Mon Compte</span></a>
-        <a href="/panier.html" class="cart-icon">
-          <i class="fas fa-shopping-cart"></i> 
-          <span>Panier</span> 
-          <span class="cart-count">0</span>
+      <div class="user-actions" id="userActions">
+        <a href="/account.html" class="account-icon" id="accountButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Mon Compte</span>
         </a>
+        <a href="/login.html" class="account-icon" id="loginButton" style="display: none;">
+          <i class="fa-regular fa-user"></i> <span>Se connecter</span>
+        </a>
+
+        <a href="/panier.html" class="cart-icon">
+          <i class="fas fa-shopping-cart"></i> <span>Panier</span>
+          <span class="cart-count"></span>
+        </a>
+
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Basculer le mode sombre">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <span class="dark-mode-text">Mode sombre</span>
+        </button>
+      </div>
       </div>
     </nav>
+
+    <a href="#" class="overlay" id="overlay"></a>
   </header>
 
   <!-- ========== MAIN CONTENT ========== -->
@@ -190,5 +210,7 @@
 
   <!-- Script JavaScript -->
   <script src="/assets/js/orders-history.js"></script>
+  <script src="/assets/js/header.js"></script>
+  <script defer src="assets/js/newsletter.js"></script>
 </body>
 </html>

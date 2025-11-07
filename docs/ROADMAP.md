@@ -1,497 +1,325 @@
-# Répartition détaillée des tâches - TP4 Laravel
+```markdown
+# Roadmap TP4 Laravel — Backend Only (Mise à jour complète)
 
-## ⚠️ Contraintes respectées
-- **H et J** : Travaillent sur le CMS (TP3)
-
-
----
-
-## 📋 Vue d'ensemble 
-
-| Membre | Rôle Principal | Tâche Principale |
-|--------|---------------|------------------|
-| **A** | Setup & Architecture | Installation Laravel + Configuration Base |
-| **C** | Base de données | Migrations & Seeders |
-| **G** | Authentification | Système Login/Register |
-| **D** | Gestion Produits | CRUD Produits (Backend) |
-| **E** | Gestion Produits | Routes & Controllers Produits |
-| **L** | Gestion Commandes | Tables orders & order_items |
-| **I** | 💳 **Paiement** | Système de paiement & validation |
-| **B** | Dashboard Admin | Interface de suivi commandes |
-| **L** | 🛒 **Panier (CRUD)** | Système panier complet |
-| **F** | serice de notification mail | Configuration d'envoie mail |
-| **ALL** | Intégration & Tests | Blade templates + Tests finaux |
+## Membres exclus du TP4  
+**H, J, L** → Travaillent sur le **CMS (TP3)** → **Ne participent pas au TP4**
 
 ---
 
-## 🔧 Répartition détaillée par membre
+## Membres actifs sur TP4  
+| Membre | Rôle Principal | Tâches |
+|--------|----------------|--------|
+| **A** | **Architecture & Notifications** | Setup Laravel + Services de notification (mail, events) |
+| **C** | **Base de données** | Migrations, Modèles, Seeders |
+| **G** | **Authentification** | API Auth avec Sanctum + Rôles |
+| **D** | **Produits** | CRUD Produits + Variantes + Images |
+| **E** | **Commandes** | Gestion des commandes + Statuts |
+| **I** | **Panier & Paiement** | Panier API + Paiement simulé |
+| **B** | **Dashboard Admin** | API Admin + Statistiques |
+| **F** | **Discounts & Rayons** | Gestion remises, codes promo, rayons (shelves) |
+| **K** | **Tests & Documentation** | integration + PHPUnit + OpenAPI + Postman + README |
 
-### ** - Setup & Architecture Laravel**
-**Responsabilité** : Fondations du projet
+---
+
+## Répartition détaillée par membre
+
+---
+
+### **A — Architecture & Notifications**
+**Responsabilité** : Fondations + Communication
 
 #### Tâches :
-1. **Installation & Configuration**
-   - Installer Laravel via Composer
-   - Configurer `.env` (base de données, APP_KEY, etc.)
-   - Configurer la connexion à la base de données
-   
-2. **Structure du projet**
-   - Organiser l'architecture MVC
-   - Créer les dossiers nécessaires (resources/views, routes, etc.)
-   - Mettre en place le système de routing de base
-
-3. **Configuration initiale**
-   - Configurer le middleware
-   - Mettre en place la gestion des sessions
-   - Préparer l'environnement de développement
+1. **Setup Laravel**
+   - `composer create-project laravel/laravel tp4`
+   - `.env`, `APP_KEY`, `DB_*`, `MAIL_*`, `SANCTUM_STATEFUL_DOMAINS`
+2. **Structure API**
+   - `routes/api.php` avec `Route::prefix('v1')`
+   - Middleware `api`, `auth:sanctum`, `role:admin`
+3. **Services de notification**
+   - `php artisan make:mail OrderConfirmed`
+   - `php artisan make:mail PaymentFailed`
+   - `php artisan make:mail DiscountApplied`
+   - `php artisan make:event OrderCreated`
+   - `php artisan make:listener SendOrderEmail`
+   - Configuration **Mailtrap** ou **log**
+4. **Queue simulée**
+   - `QUEUE_CONNECTION=sync`
+5. **Documentation d’installation**
+   - `README.md` complet
+   - `.env.example`
 
 **Livrables** :
-- Projet Laravel fonctionnel et configuré
-- Documentation d'installation dans README
-- Fichier `.env.example` complété
+- Projet Laravel prêt
+- Notifications automatisées
+- README clair
 
 ---
 
-### ** - Base de données (Migrations & Seeders)**
-**Responsabilité** : Structure et données de test
+### **C — Base de données**
+**Responsabilité** : Schéma complet + données de test
 
 #### Tâches :
-1. **Migrations des tables**
+1. **Migrations** (conforme au schéma image) :
    ```php
-   - users (id, name, email, password, role, timestamps)
-   - products (id, name, description, price, stock, image, category_id, timestamps)
-   - categories (id, name, description, timestamps)
-   - orders (id, user_id, total, status, timestamps)
-   - order_items (id, order_id, product_id, quantity, price, timestamps)
-   - carts (id, user_id, timestamps)
-   - cart_items (id, cart_id, product_id, quantity, timestamps)
+   users, cart, cart_item, product, product_variant,
+   category, discount, discount_code_usage, discount_codes,
+   orders, order_item, shelves, payment
    ```
-
-2. **Relations entre tables**
-   - Définir les clés étrangères
-   - Mettre en place les contraintes (CASCADE, etc.)
-
-3. **Seeders (données fictives)**
-   - Créer 20-30 produits fictifs
-   - Créer 5-10 utilisateurs de test
-   - Créer des catégories de produits
-   - Peupler quelques commandes test
+2. **Relations dans les modèles**
+   - `User hasOne Cart`, `Cart hasMany CartItem`
+   - `Product hasMany ProductVariant`, `ProductVariant belongsTo Product`
+   - `Order belongsTo User`, `Order hasMany OrderItem`
+   - `Discount morphToMany Product`, `Discount hasMany DiscountCode`
+   - `Shelf hasMany Product`, `Product belongsTo Shelf`
+3. **Factories & Seeders**
+   - 50 produits, 10 catégories, 5 rayons, 8 utilisateurs
+   - 10 codes promo, 5 remises actives
 
 **Livrables** :
-- Fichiers de migration complets
-- Seeders fonctionnels
-- Documentation du schéma de BDD
+- Migrations complètes
+- Modèles avec relations
+- BDD prête à l’emploi
 
 ---
 
-### ** - Authentification (Login/Register)**
-**Responsabilité** : Système d'authentification complet
+### **G — Authentification (API)**
+**Responsabilité** : Sécurité & accès
 
 #### Tâches :
-1. **Backend Authentification**
-   - Controller `AuthController` avec méthodes :
-     - `showLoginForm()` / `login()`
-     - `showRegisterForm()` / `register()`
-     - `logout()`
-   - Validation des données (email valide, mot de passe fort)
-   - Hashage des mots de passe
-   - Gestion des sessions utilisateur
-
-2. **Routes d'authentification**
-   ```php
-   GET  /login
-   POST /login
-   GET  /register
-   POST /register
-   POST /logout
+1. **Sanctum**
+   ```bash
+   php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
    ```
-
-3. **Middleware de protection**
-   - Créer middleware `auth` pour protéger les routes
-   - Redirection vers login si non authentifié
-   - Gestion des rôles (admin/client)
-
-4. **Blade Templates**
-   - Vue `login.blade.php`
-   - Vue `register.blade.php`
-   - Messages d'erreur et de succès
+2. **Endpoints**
+   ```http
+   POST /api/v1/register
+   POST /api/v1/login
+   POST /api/v1/logout
+   GET  /api/v1/user
+   ```
+3. **Rôles**
+   - `role` : `USER`, `ADMIN`, `SUPERADMIN`
+   - Middleware `role:admin`
+4. **Tests d’authentification**
 
 **Livrables** :
-- Système d'authentification fonctionnel
-- Formulaires avec validation
-- Protection des routes sensibles
+- Auth API sécurisée
+- Tokens valides
+- Protection des routes
 
 ---
 
-### ** - Gestion Produits (CRUD Backend)**
-**Responsabilité** : Logique métier des produits
+### **D — Gestion Produits (API)**
+**Responsabilité** : Catalogue complet
 
 #### Tâches :
-1. **Model Product**
-   - Définir les attributs fillables
-   - Relations avec categories et order_items
-
-2. **ProductController - Méthodes CRUD**
-   ```php
-   - index()      // Liste tous les produits
-   - show($id)    // Affiche un produit
-   - create()     // Formulaire ajout
-   - store()      // Enregistrer produit
-   - edit($id)    // Formulaire édition
-   - update($id)  // Modifier produit
-   - destroy($id) // Supprimer produit
+1. **Endpoints**
+   ```http
+   GET    /api/v1/products
+   GET    /api/v1/products/{id}
+   POST   /api/v1/products        [admin]
+   PUT    /api/v1/products/{id}   [admin]
+   DELETE /api/v1/products/{id}   [admin]
    ```
-
-3. **Validation des données**
-   - Form Request pour création/modification
-   - Règles de validation (nom requis, prix > 0, stock >= 0)
-   - Messages d'erreur personnalisés
-
-4. **Upload d'images**
-   - Gestion upload image produit
-   - Stockage dans `/public/storage/products`
-   - Validation format (jpg, png, max 2MB)
+2. **Filtres & Recherche**
+   - `?category=`, `?price_min=`, `?shelf=`, `?search=`, `?discount=`
+   - Pagination (`?page=`, `?per_page=15`)
+3. **Upload image**
+   - `storage/app/public/products`
+   - Lien symbolique `php artisan storage:link`
 
 **Livrables** :
-- CRUD produits complet (backend)
-- Validation robuste
-- Gestion des images
+- API produits complète
+- Variantes (prix, couleur, stock)
+- Filtres fonctionnels
 
 ---
 
-### ** - Routes & Controllers Produits (Frontend)**
-**Responsabilité** : Interface publique des produits
+### **E — Gestion des Commandes (API)**
+**Responsabilité** : Cycle de commande
 
 #### Tâches :
-1. **Routes publiques**
-   ```php
-   GET /products           // Liste produits
-   GET /products/{id}      // Détail produit
-   GET /products/category/{id} // Produits par catégorie
+1. **Endpoints**
+   ```http
+   POST   /api/v1/orders         [checkout]
+   GET    /api/v1/orders
+   GET    /api/v1/orders/{id}
+   PUT    /api/v1/admin/orders/{id}/status   [admin]
    ```
-
-2. **Vues Blade**
-   - `products/index.blade.php` : Grille de produits
-   - `products/show.blade.php` : Fiche produit détaillée
-   - Pagination des produits (15 par page)
-   - Filtres par catégorie
-
-3. **Recherche & Filtres**
-   - Barre de recherche (nom, description)
-   - Tri (prix croissant/décroissant, nouveautés)
-   - Filtrage par prix (min/max)
-
-4. **Intégration avec le panier**
-   - Bouton "Ajouter au panier" sur chaque produit
-   - Vérification stock disponible
-   - Messages de confirmation
+2. **Statuts**
+   - `pending`, `paid`, `preparing`, `shipped`, `delivered`, `canceled`
+3. **Création commande**
+   - Depuis panier
+   - Calcul total + frais de port
+   - Application des remises (via F)
+   - Décrémentation stock
+   - Déclenchement événement `OrderCreated`
 
 **Livrables** :
-- Pages produits publiques fonctionnelles
-- Système de recherche/filtres
-- Interface responsive
-
----
-
-### ** - Gestion Commandes (Orders & Order_items)**
-**Responsabilité** : Système de commandes
-
-#### Tâches :
-1. **Models & Relations**
-   - Model `Order` avec relation `user` et `order_items`
-   - Model `OrderItem` avec relation `order` et `product`
-
-2. **OrderController**
-   ```php
-   - index()        // Liste commandes utilisateur
-   - show($id)      // Détail commande
-   - store()        // Créer commande depuis panier
-   - updateStatus() // Modifier statut (admin)
-   ```
-
-3. **Logique de création commande**
-   - Récupérer le panier actuel
-   - Créer un `Order` avec total calculé
-   - Créer les `OrderItem` associés
-   - Vider le panier après validation
-   - Décrémenter le stock produits
-
-4. **Statuts de commande**
-   - En attente, Payée, En préparation, Expédiée, Livrée, Annulée
-   - Historique des statuts
-
-**Livrables** :
-- Système de commandes complet
-- Gestion des statuts
+- Commandes fonctionnelles
 - Historique utilisateur
+- Admin peut modifier statut
 
 ---
 
-### ** - 💳 Système de Paiement**
-**Responsabilité** : Processus de paiement complet
+### **I — Panier & Paiement (API)**
+**Responsabilité** : Achat complet
 
 #### Tâches :
-1. **PaymentController**
-   ```php
-   - showCheckout()      // Page récapitulatif
-   - processPayment()    // Traitement paiement
-   - confirmPayment()    // Confirmation
-   - cancel()            // Annulation
+1. **Panier API**
+   ```http
+   GET    /api/v1/cart
+   POST   /api/v1/cart/items
+   PUT    /api/v1/cart/items/{id}
+   DELETE /api/v1/cart/items/{id}
+   DELETE /api/v1/cart
+   ```
+2. **Paiement simulé**
+   ```http
+   POST /api/v1/payments
+   ```
+   - Numéro test `4242 4242 4242 4242` → succès
+   - Autre → échec
+   - Mise à jour `payment.status`
+3. **Checkout**
+   - Validation stock
+   - Application code promo (via F)
+   - Création commande (via E)
+   - Vider panier
+
+**Livrables** :
+- Panier persistant
+- Paiement mock fiable
+- Flux d’achat complet
+
+---
+
+### **B — Dashboard Admin (API)**
+**Responsabilité** : Supervision
+
+#### Tâches :
+1. **Endpoints Admin**
+   ```http
+   GET /api/v1/admin/stats
+   GET /api/v1/admin/orders
+   GET /api/v1/admin/products/low-stock
+   GET /api/v1/admin/discounts/usage
+   ```
+2. **Statistiques**
+   - CA total, commandes jour, utilisateurs
+   - Produits en rupture
+   - Codes promo les plus utilisés
+3. **Protégé par `role:admin`**
+
+**Livrables** :
+- API admin complète
+- Stats en temps réel
+
+---
+
+### **F — Discounts & Rayons**
+**Responsabilité** : Promotions & Organisation
+
+#### Tâches :
+1. **Discounts**
+   - `type`: `percentage`, `fixed`
+   - `start_date`, `end_date`
+   - Application auto sur produits
+2. **Codes Promo**
+   - `code`, `nb_usage`, `max_usage`
+   - Table `discount_code_usage`
+   - Validation au checkout
+3. **Rayons (Shelves)**
+   - `shelves` : `id`, `user_id`, `description`
+   - Produits assignés à un rayon
+   - Filtrage par rayon
+4. **Endpoints**
+   ```http
+   GET  /api/v1/discounts
+   POST /api/v1/discounts/apply   [code]
+   GET  /api/v1/shelves
+   GET  /api/v1/shelves/{id}/products
    ```
 
-2. **Page de paiement**
-   - Vue `checkout.blade.php` :
-     - Récapitulatif panier
-     - Formulaire adresse livraison
-     - Choix mode de paiement (CB, PayPal simulé)
-     - Calcul frais de port
-     - Total final
-
-3. **Validation & Sécurité**
-   - Vérification disponibilité stock avant paiement
-   - Validation formulaire (adresse complète, email)
-   - Protection CSRF
-   - Vérification montant côté serveur
-
-4. **Simulation paiement** (pas d'API réelle)
-   - Mock de paiement par carte bancaire
-   - Numéros de test acceptés (4242 4242 4242 4242)
-   - Messages de succès/erreur
-   - Envoi email confirmation (simulé ou avec Mailtrap)
-
-5. **Après paiement**
-   - Créer la commande (collaboration avec G)
-   - Mettre à jour le statut en "Payée"
-   - Vider le panier
-   - Redirection vers page confirmation
-
 **Livrables** :
-- Interface de paiement complète
-- Validation robuste
-- Simulation de paiement fonctionnelle
-- Page de confirmation
+- Système de remise complet
+- Codes promo fonctionnels
+- Rayons organisés
 
 ---
 
-### ** - Dashboard Admin (Suivi commandes)**
-**Responsabilité** : Interface administrateur
+### **K — Tests & Documentation**
+**Responsabilité** : Qualité & Livraison
 
 #### Tâches :
-1. **DashboardController**
-   ```php
-   - index()              // Vue d'ensemble
-   - orders()             // Liste toutes commandes
-   - orderDetails($id)    // Détail commande admin
-   - updateOrderStatus()  // Changer statut
-   ```
-
-2. **Vue Dashboard** (`admin/dashboard.blade.php`)
-   - Statistiques :
-     - Nombre total de commandes
-     - Chiffre d'affaires
-     - Commandes du jour
-     - Produits en rupture de stock
-   - Graphiques simples (Chart.js ou similaire)
-
-3. **Gestion des commandes admin**
-   - Liste toutes les commandes (pagination)
-   - Filtres (date, statut, client)
-   - Détail commande avec :
-     - Informations client
-     - Liste produits commandés
-     - Statut actuel
-     - Modifier statut (dropdown)
-
-4. **Protection des routes admin**
-   - Middleware `admin` (vérifier role)
-   - Redirection si non autorisé
+1. **Tests PHPUnit**
+   - Feature tests pour chaque endpoint
+   - ≥ 80% coverage
+   - Tests d’intégration (panier → paiement → commande)
+2. **OpenAPI (Swagger)**
+   - `docs/openapi.yaml`
+   - Généré avec `l5-swagger`
+3. **Postman Collection**
+   - Tous les endpoints
+   - Variables d’environnement
+4. **README.md**
+   - Installation
+   - Comptes test (`admin@shopcart.com`, `client@shopcart.com`)
+   - Exemples de requêtes
 
 **Livrables** :
-- Dashboard administrateur fonctionnel
-- Gestion complète des commandes
-- Statistiques basiques
+- Tests passant
+- Documentation API complète
+- Collection Postman
 
 ---
 
-### ** - 🛒 Panier (CRUD complet)**
-**Responsabilité** : Système de panier
-
-#### Tâches :
-1. **Models Cart & CartItem**
-   - Relations avec User et Product
-   - Méthodes utilitaires (getTotalPrice(), getItemCount())
-
-2. **CartController**
-   ```php
-   - index()                    // Afficher panier
-   - add(Request $request)      // Ajouter produit
-   - update($id, Request $request) // Modifier quantité
-   - remove($id)                // Supprimer article
-   - clear()                    // Vider panier
-   ```
-
-3. **Logique métier**
-   - Vérifier stock avant ajout
-   - Calculer total automatiquement
-   - Gérer quantités (min: 1, max: stock)
-   - Empêcher ajout si stock insuffisant
-   - Détecter changement de prix produit
-
-4. **Vue Panier** (`cart/index.blade.php`)
-   - Liste articles avec :
-     - Image produit
-     - Nom et prix
-     - Quantité modifiable (+ / -)
-     - Bouton supprimer
-   - Sous-total par ligne
-   - Total général
-   - Bouton "Vider le panier"
-   - Bouton "Passer commande" → vers paiement (I)
-
-5. **API AJAX (optionnel mais recommandé)**
-   - Ajouter/supprimer sans recharger page
-   - Mise à jour quantité en temps réel
-   - Notification toast (succès/erreur)
-
-6. **Persistance**
-   - Panier lié à l'utilisateur (table carts)
-   - Persistance après déconnexion
-   - Merge panier session → BDD au login
-
-**Livrables** :
-- Système de panier complet et robuste
-- Interface utilisateur intuitive
-- Calculs automatiques
-- Gestion erreurs (stock, etc.)
-
----
-
-### ** - Intégration Blade & Tests**
-**Responsabilité** : Cohésion et qualité finale
-
-#### Tâches :
-1. **Templates Blade principaux**
-   - Layout principal (`layouts/app.blade.php`) :
-     - Header avec navigation
-     - Menu (Accueil, Produits, Panier, Commandes)
-     - Affichage utilisateur connecté
-     - Footer
-   - Composants réutilisables (@include, @component)
-
-2. **Intégration CSS/JS**
-   - Intégrer les assets du TP1 (CSS existant)
-   - Utiliser Laravel Mix ou Vite
-   - S'assurer du responsive design
-   - Cohérence charte graphique
-
-3. **Tests fonctionnels**
-   - Tester tous les flux :
-     - Inscription → Login
-     - Navigation produits → Ajout panier
-     - Panier → Checkout → Paiement → Commande
-     - Dashboard admin
-   - Tests multi-navigateurs (Chrome, Firefox, Safari)
-   - Tests responsive (mobile, tablette, desktop)
-
-4. **Messages flash & UX**
-   - Notifications de succès/erreur
-   - Messages de confirmation
-   - Gestion des erreurs 404/500
-
-5. **Documentation finale**
-   - Mettre à jour README :
-     - Installation détaillée
-     - Configuration BDD
-     - Lancement serveur
-     - Comptes de test (admin/client)
-   - Commentaires code si nécessaire
-
-6. **Préparation démo**
-   - Scénario de démonstration
-   - Données de test cohérentes
-   - Vérification fonctionnement global
-
-**Livrables** :
-- Application entièrement intégrée
-- Tests complets effectués
-- Documentation à jour
-- Démo prête
-
----
-
-## 🔄 Dépendances entre membres
+## Dépendances entre membres
 
 ```
- (Setup) 
-  ↓
- (BDD) 
-  ↓
-├─→  (Auth) ────────────────┐
-├─→  (Produits) ────────┤
-├─→  (Panier) ──────────────┤
-│     ↓                       │
-│    (Paiement) ─────────────┤
-│     ↓                       │
-├─→  (Commandes) ────────────┤
-└─→  (Dashboard Admin) ──────┤
-                              ↓
-                          (Intégration)
+        (A: Setup + Mail)
+             ↓
+        (C: BDD)
+             ↓
+ ┌───→ (G: Auth) ─────┐
+ ├────→ (D: Produits) ─┤
+ ├────→ (F: Discounts)─┤
+ ├────→ (I: Panier) ───┤
+ │         ↓           │
+ │       (E: Commandes)┤
+ │         ↓           │
+ ├────→ (B: Admin) ────┤
+ └────→ (I: Paiement) ─┤
+                   ↓
+               (K: Tests + Docs)
 ```
 
 ---
 
-## 📊 Checklist finale avant livraison
+## Checklist finale (Backend)
 
-### Backend
-- [ ] Toutes les migrations fonctionnent
-- [ ] Seeders peuplent la BDD correctement
-- [ ] Auth (login/register/logout) fonctionnel
-- [ ] CRUD produits complet
-- [ ] Panier : ajout/modification/suppression
-- [ ] Système de paiement simulé
-- [ ] Création de commandes
-- [ ] Dashboard admin opérationnel
-
-### Frontend
-- [ ] Toutes les pages Blade rendues
-- [ ] Navigation fluide
-- [ ] Design responsive
-- [ ] Messages d'erreur/succès affichés
-- [ ] Charte graphique respectée
-
-### Git
-- [ ] Commits réguliers de chaque membre
-- [ ] Branches bien organisées
-- [ ] README complet
-- [ ] .gitignore correctement configuré
-
-### Tests
-- [ ] Flux complet testé (inscription → achat)
-- [ ] Tests multi-navigateurs
-- [ ] Pas d'erreurs 500 ou bugs bloquants
+| Tâche | Statut |
+|------|--------|
+| Laravel installé | [ ] |
+| Migrations OK | [ ] |
+| Auth API (Sanctum) | [ ] |
+| CRUD Produits | [ ] |
+| Panier + Paiement | [ ] |
+| Commandes | [ ] |
+| Discounts & Codes | [ ] |
+| Rayons | [ ] |
+| Notifications mail | [ ] |
+| Dashboard Admin API | [ ] |
+| Tests PHPUnit ≥ 80% | [ ] |
+| OpenAPI + Postman | [ ] |
 
 ---
 
-## 💡 Conseils pour la collaboration
+---
 
-1. **Communication** : Canal Discord/Slack actif
-2. **Daily stand-ups** : Point quotidien de 15min
-3. **Code reviews** : Relecture croisée des PR
-4. **Commits atomiques** : 1 commit = 1 fonctionnalité
-5. **Messages commits clairs** : `feat:`, `fix:`, `docs:`
-6. **Tests fréquents** : Ne pas attendre la fin pour tester
+**Focus 100 % API — Aucun Blade public requis**  
+**Prêt pour consommation par TP2 ou TP3**
 
 ---
 
-## 🎯 Objectif final
-
-Une **application e-commerce Laravel complète** avec :
-- ✅ Authentification sécurisée
-- ✅ Catalogue produits dynamique
-- ✅ Panier fonctionnel persistant
-- ✅ Système de paiement simulé
-- ✅ Gestion des commandes
-- ✅ Dashboard administrateur
-- ✅ Interface responsive et élégante
-
-**Bonne chance à toute l'équipe ! 🚀**
+**Bonne chance à l’équipe !**

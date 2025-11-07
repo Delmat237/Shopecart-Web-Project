@@ -1,0 +1,138 @@
+{
+  "orders": [
+    {
+      "id": "CMD-2025-001",
+      "date_commande": "2025-01-15T14:30:00",
+      "date_livraison_estimee": "2025-01-20T00:00:00",
+      "statut": "en_cours",
+      "total": 54000,
+      "frais_livraison": 2000,
+      "reduction": 0,
+      "methode_paiement": "Mobile Money",
+      "adresse_livraison": {
+        "nom_complet": "Johan Chedjou",
+        "telephone": "+237 657450314",
+        "adresse": "Akwa, Douala",
+        "ville": "Douala",
+        "pays": "Cameroun"
+      },
+      "articles": [
+        {
+          "id": 1,
+          "nom": "HeadPhones Max",
+          "marque": "AudioTech",
+          "prix_unitaire": 18000,
+          "quantite": 2,
+          "couleur": "red",
+          "image": "/assets/images/M8.png"
+        },
+        {
+          "id": 2,
+          "nom": "Smartphone Galaxy S23",
+          "marque": "Samsung",
+          "prix_unitaire": 180000,
+          "quantite": 1,
+          "couleur": "black",
+          "image": "/assets/images/phone.png"
+        }
+      ]
+    },
+    {
+      "id": "CMD-2025-002",
+      "date_commande": "2025-01-10T10:15:00",
+      "date_livraison_estimee": "2025-01-15T00:00:00",
+      "date_livraison_reelle": "2025-01-14T16:45:00",
+      "statut": "recue",
+      "total": 36000,
+      "frais_livraison": 0,
+      "reduction": 2000,
+      "methode_paiement": "Carte bancaire",
+      "adresse_livraison": {
+        "nom_complet": "Johan Chedjou",
+        "telephone": "+237 657450314",
+        "adresse": "Akwa, Douala",
+        "ville": "Douala",
+        "pays": "Cameroun"
+      },
+      "articles": [
+        {
+          "id": 3,
+          "nom": "HeadPhones Max",
+          "marque": "AudioTech",
+          "prix_unitaire": 18000,
+          "quantite": 2,
+          "couleur": "blue",
+          "image": "/assets/images/M8.png"
+        }
+      ]
+    },
+    {
+      "id": "CMD-2024-156",
+      "date_commande": "2024-12-20T09:00:00",
+      "date_livraison_estimee": "2024-12-25T00:00:00",
+      "date_annulation": "2024-12-21T14:30:00",
+      "statut": "annulee",
+      "total": 90000,
+      "frais_livraison": 3000,
+      "reduction": 5000,
+      "motif_annulation": "Article indisponible",
+      "methode_paiement": "Orange Money",
+      "adresse_livraison": {
+        "nom_complet": "Johan Chedjou",
+        "telephone": "+237 657450314",
+        "adresse": "Akwa, Douala",
+        "ville": "Douala",
+        "pays": "Cameroun"
+      },
+      "articles": [
+        {
+          "id": 4,
+          "nom": "Laptop Dell XPS 15",
+          "marque": "Dell",
+          "prix_unitaire": 450000,
+          "quantite": 1,
+          "couleur": "silver",
+          "image": "/assets/images/laptop.png"
+        }
+      ]
+    },
+    {
+      "id": "CMD-2024-145",
+      "date_commande": "2024-12-05T15:20:00",
+      "date_livraison_estimee": "2024-12-10T00:00:00",
+      "date_livraison_reelle": "2024-12-09T11:30:00",
+      "statut": "recue",
+      "total": 108000,
+      "frais_livraison": 0,
+      "reduction": 10000,
+      "methode_paiement": "MTN Mobile Money",
+      "adresse_livraison": {
+        "nom_complet": "Johan Chedjou",
+        "telephone": "+237 657450314",
+        "adresse": "Akwa, Douala",
+        "ville": "Douala",
+        "pays": "Cameroun"
+      },
+      "articles": [
+        {
+          "id": 5,
+          "nom": "HeadPhones Max",
+          "marque": "AudioTech",
+          "prix_unitaire": 18000,
+          "quantite": 3,
+          "couleur": "black",
+          "image": "/assets/images/M8.png"
+        },
+        {
+          "id": 6,
+          "nom": "Wireless Mouse",
+          "marque": "Logitech",
+          "prix_unitaire": 15000,
+          "quantite": 2,
+          "couleur": "white",
+          "image": "/assets/images/mouse.png"
+        }
+      ]
+    }
+  ]
+}

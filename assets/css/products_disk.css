@@ -49,6 +49,7 @@
 
 .main-content-container {
     max-width: 1800px;
+    width: 76%;
     margin: 0 auto;
     padding-left: 5rem;
     padding-right: 5rem;
@@ -306,8 +307,8 @@
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
     width: 100%;
     max-width: 100%;
     overflow: hidden;
@@ -317,16 +318,12 @@
 /* AJOUT : Media query pour très grands écrans pour limiter l'étalement */
 @media (min-width: 1800px) {
     .products-grid {
-        grid-template-columns: repeat(5, 1fr); /* Limite à 5 colonnes pour éviter trop de largeur */
-    }
-    .main-content-container {
-        padding-left: 3rem; /* Réduction légère des paddings pour plus de marge centrale */
-        padding-right: 3rem;
+        grid-template-columns: repeat(4, 1fr); /* Limite à 5 colonnes pour éviter trop de largeur */
     }
 }
 @media (max-width: 1024px) {
     .products-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -407,7 +404,7 @@
 /* Styles conservés pour les éléments spécifiques de la carte */
 .product-image-wrapper {
     width: 100%;
-    height: 100px;
+    height: 200px;
     padding-top: 100%; /* Ratio 1:1 */
     overflow: hidden;
     position: relative;
@@ -491,16 +488,6 @@
 /* ============================================
    IMAGES PRODUITS - STYLE CONTENU
    ============================================ */
-
-/*.product-image-wrapper {
-    overflow: hidden;
-    width: 100%;
-    height: 200px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 2px solid #f5f5f5;
-    position: relative;
-}*/
 
 .product-image {
     position: absolute;

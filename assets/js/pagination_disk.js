@@ -1,6 +1,5 @@
 // ============================================
-// pagination_disk.js - VERSION RENOUVELÉE 2025
-// 100 produits de stockage (HDDs, SSDs, NVMe, Externes)
+// pagination_disk.js - AVEC INTÉGRATION CART-MANAGER
 // ============================================
 
 const allProducts = [
@@ -138,7 +137,6 @@ function displayProducts(products, page, gridId) {
         const hasHalf = (product.rating % 1) >= 0.5;
         const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
 
-        // Badge type selon la catégorie
         let badge = 'PREMIUM';
         let badgeClass = 'tag-premium';
         if (product.type === 'NVMe') {
@@ -147,9 +145,6 @@ function displayProducts(products, page, gridId) {
         } else if (product.type === 'Externe') {
             badge = 'PORTABLE';
             badgeClass = 'tag-new';
-        } else if (parseInt(product.capacity) >= 10) {
-            badge = 'HAUTE CAPACITÉ';
-            badgeClass = 'tag-promo';
         }
 
         const card = document.createElement('div');
@@ -174,7 +169,7 @@ function displayProducts(products, page, gridId) {
                 </div>
                 <div class="product-actions">
                     <span class="product-price">${product.price.toLocaleString()} FCFA</span>
-                    <button class="add-to-cart-btn">
+                    <button class="add-to-cart-btn" data-product='${JSON.stringify(product)}'>
                         <i class="fas fa-shopping-cart"></i>
                     </button>
                 </div>
@@ -183,12 +178,44 @@ function displayProducts(products, page, gridId) {
 
         grid.appendChild(card);
     });
-setTimeout(() => {
-        grid.style.width = '100%';  // Réapplique width:100% pour forcer le resize
+
+    setTimeout(() => {
+        grid.style.width = '100%';
     }, 0);
+
     // Réattacher les événements après affichage
     if (typeof window.attachProductNavigation === 'function') {
         setTimeout(window.attachProductNavigation, 50);
+    }
+
+    // IMPORTANT: Réattacher les événements cart-manager
+    if (typeof window.initCartManager === 'function') {
+        setTimeout(() => {
+            // Réinitialiser uniquement les boutons de la grille affichée
+            const addButtons = document.querySelectorAll(`#${gridId} .add-to-cart-btn`);
+            console.log(`🔄 Réattachement de ${addButtons.length} boutons panier dans #${gridId}`);
+            
+            addButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const productCard = this.closest('.product-card');
+                    if (!productCard) {
+                        console.error('❌ Carte produit non trouvée');
+                        return;
+                    }
+                    
+                    // Utiliser cart-manager si disponible
+                    if (typeof window.addToCartFromHTML === 'function') {
+                        console.log('🛒 Utilisation de addToCartFromHTML');
+                        window.addToCartFromHTML(productCard, 1, 'Défaut');
+                    } else {
+                        console.warn('⚠️ cart-manager.js non chargé');
+                    }
+                });
+            });
+        }, 100);
     }
 }
 
@@ -212,7 +239,6 @@ function renderPagination(currentPage, totalPages, containerId, displayFn) {
     prev.onclick = () => { displayFn(currentPage - 1); };
     container.appendChild(prev);
 
-    // Affichage simplifié des pages
     if (totalPages <= 5) {
         for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement('button');
@@ -222,7 +248,6 @@ function renderPagination(currentPage, totalPages, containerId, displayFn) {
             container.appendChild(btn);
         }
     } else {
-        // Afficher 1-3, ..., last-1, last
         const startPages = [1, 2, 3];
         const endPages = [totalPages - 1, totalPages];
         const allPageNums = [...new Set([...startPages, currentPage, ...endPages])].sort((a, b) => a - b);
@@ -257,7 +282,6 @@ function updateSection1(page) {
     currentPage1 = page;
     displayProducts(allProducts, page, 'grid1');
     renderPagination(page, totalPages1, 'pagin1', updateSection1);
-    document.querySelectorAll('.products-section')[0]?.scrollIntoView({ behavior: 'smooth' });
 }
 
 function updateSection2(page) {
@@ -265,13 +289,17 @@ function updateSection2(page) {
     currentPage2 = page;
     displayProducts(bestOffers, page, 'grid2');
     renderPagination(page, totalPages2, 'pagin2', updateSection2);
-    document.querySelectorAll('.products-section')[1]?.scrollIntoView({ behavior: 'smooth' });
 }
+
+// Export pour filtre_disk.js
+window.updateSection1 = updateSection1;
+window.updateSection2 = updateSection2;
 
 // === INITIALISATION ===
 document.addEventListener('DOMContentLoaded', function () {
     updateSection1(1);
     updateSection2(1);
     
-    console.log('✅ pagination_disk.js chargé - 100 produits de stockage disponibles');
+    console.log('✅ pagination_disk.js chargé - Produits disponibles');
+    console.log('✅ Intégration cart-manager.js active');
 });

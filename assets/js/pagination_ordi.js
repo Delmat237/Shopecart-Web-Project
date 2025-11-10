@@ -1,6 +1,7 @@
 // ============================================
-// DONNÉES PRODUITS
+// pagination_ordi.js - AVEC INTÉGRATION CART-MANAGER
 // ============================================
+
 const allProducts = [
     // Page 1
     { name: "Dell XPS 13", price: 950000, rating: 4.7, brand: "Dell", image: "../assets/images/img_Lap2.jpg" },
@@ -15,42 +16,32 @@ const allProducts = [
     { name: "Dell G15 Gaming", price: 1150000, rating: 4.6, brand: "Dell", image: "../assets/images/img_Lap13.jpg" },
     { name: "HP Omen 16", price: 1350000, rating: 4.7, brand: "HP", image: "../assets/images/img_Lap14.jpg" },
     { name: "Lenovo Legion 5", price: 1080000, rating: 4.5, brand: "Lenovo", image: "../assets/images/img_Lap15.jpg" },
-    { name: "Dell XPS 13", price: 950000, rating: 4.7, brand: "Dell", image: "https://cdn.pixabay.com/photo/2016/11/21/16/27/laptop-1846277_640.jpg" },
-    { name: "HP Spectre x360", price: 1150000, rating: 4.6, brand: "HP", image: "https://cdn.pixabay.com/photo/2016/11/29/06/18/home-office-1867761_640.jpg" },
-    { name: "Lenovo ThinkPad X1", price: 1200000, rating: 4.8, brand: "Lenovo", image: "https://cdn.pixabay.com/photo/2014/12/15/14/05/home-office-569153_640.jpg" },
-    { name: "MacBook Air M2", price: 1350000, rating: 4.9, brand: "Apple", image: "https://cdn.pixabay.com/photo/2016/03/27/07/12/apple-1282241_640.jpg" },
-    { name: "ASUS ZenBook 14", price: 980000, rating: 4.5, brand: "ASUS", image: "https://cdn.pixabay.com/photo/2014/09/24/14/29/macbook-459196_640.jpg" },
-    { name: "Acer Swift 3", price: 750000, rating: 4.3, brand: "Acer", image: "https://cdn.pixabay.com/photo/2016/11/22/21/26/notebook-1850613_640.jpg" },
-    { name: "Surface Laptop 5", price: 1250000, rating: 4.7, brand: "Microsoft", image: "https://cdn.pixabay.com/photo/2017/06/09/07/37/notebook-2386034_640.jpg" },
-    { name: "MSI Modern 15", price: 680000, rating: 4.2, brand: "MSI", image: "https://cdn.pixabay.com/photo/2016/11/19/15/32/laptop-1839876_640.jpg" },
+    { name: "MacBook Air M2", price: 1350000, rating: 4.9, brand: "Apple", image: "../assets/images/img_Lap16.jpg" },
+    { name: "ASUS ZenBook 14", price: 980000, rating: 4.5, brand: "ASUS", image: "../assets/images/img_Lap1.jpg" },
+    { name: "Acer Swift 3", price: 750000, rating: 4.3, brand: "Acer", image: "../assets/images/img_Lap2.jpg" },
+    { name: "Surface Laptop 5", price: 1250000, rating: 4.7, brand: "Microsoft", image: "../assets/images/img_Lap3.jpg" },
+    { name: "MSI Modern 15", price: 680000, rating: 4.2, brand: "MSI", image: "../assets/images/img_Lap4.jpg" },
     
     // Page 2
-    { name: "MacBook Air M2", price: 1150000, rating: 4.9, brand: "Apple", image: "../assets/images/img_Lap16.jpg" },
-    { name: "MacBook Pro 14", price: 1850000, rating: 5.0, brand: "Apple", image: "../assets/images/img_Lap1.jpg" },
-    { name: "Acer Aspire 5", price: 480000, rating: 4.0, brand: "Acer", image: "../assets/images/img_Lap2.jpg" },
-    { name: "ASUS Zenbook 14", price: 980000, rating: 4.6, brand: "ASUS", image: "../assets/images/img_Lap3.jpg" },
-    { name: "Acer Nitro 5", price: 850000, rating: 4.3, brand: "Acer", image: "../assets/images/img_Lap4.jpg" },
-    { name: "ASUS ROG Strix", price: 1550000, rating: 4.8, brand: "ASUS", image: "../assets/images/img_Lap5.jpg" },
-    { name: "Apple iMac 24\"", price: 1450000, rating: 4.9, brand: "Apple", image: "../assets/images/img_Lap6.jpg" },
-    { name: "Acer Swift 3", price: 620000, rating: 4.1, brand: "Acer", image: "../assets/images/img_Lap7.jpg" },
-    { name: "ASUS VivoBook 15", price: 550000, rating: 4.0, brand: "ASUS", image: "../assets/images/img_Lap8.jpg" },
-    { name: "MacBook Pro 16", price: 2950000, rating: 5.0, brand: "Apple", image: "../assets/images/img_Lap12.jpg" },
-    { name: "Acer Predator", price: 1650000, rating: 4.7, brand: "Acer", image: "../assets/images/img_Lap13.jpg" },
-    { name: "ASUS TUF Gaming", price: 980000, rating: 4.4, brand: "ASUS", image: "../assets/images/img_Lap14.jpg" },
+    { name: "MacBook Pro 14", price: 1850000, rating: 5.0, brand: "Apple", image: "../assets/images/img_Lap5.jpg" },
+    { name: "Acer Aspire 5", price: 480000, rating: 4.0, brand: "Acer", image: "../assets/images/img_Lap6.jpg" },
+    { name: "ASUS Zenbook 14", price: 980000, rating: 4.6, brand: "ASUS", image: "../assets/images/img_Lap7.jpg" },
+    { name: "Acer Nitro 5", price: 850000, rating: 4.3, brand: "Acer", image: "../assets/images/img_Lap8.jpg" },
+    { name: "ASUS ROG Strix", price: 1550000, rating: 4.8, brand: "ASUS", image: "../assets/images/img_Lap12.jpg" },
+    { name: "Apple iMac 24\"", price: 1450000, rating: 4.9, brand: "Apple", image: "../assets/images/img_Lap13.jpg" },
+    { name: "Acer Swift 3", price: 620000, rating: 4.1, brand: "Acer", image: "../assets/images/img_Lap14.jpg" },
+    { name: "ASUS VivoBook 15", price: 550000, rating: 4.0, brand: "ASUS", image: "../assets/images/img_Lap15.jpg" },
+    { name: "MacBook Pro 16", price: 2950000, rating: 5.0, brand: "Apple", image: "../assets/images/img_Lap16.jpg" },
+    { name: "Acer Predator", price: 1650000, rating: 4.7, brand: "Acer", image: "../assets/images/img_Lap1.jpg" },
+    { name: "ASUS TUF Gaming", price: 980000, rating: 4.4, brand: "ASUS", image: "../assets/images/img_Lap2.jpg" },
     
     // Page 3
-    { name: "MSI Katana 15", price: 1050000, rating: 4.5, brand: "MSI", image: "../assets/images/img_Lap15.jpg" },
-    { name: "Razer Blade 14", price: 1850000, rating: 4.8, brand: "Razer", image: "../assets/images/img_Lap16.jpg" },
-    { name: "Surface Laptop 5", price: 1150000, rating: 4.6, brand: "Microsoft", image: "../assets/images/img_Lap1.jpg" },
-    { name: "MSI Stealth 16", price: 1550000, rating: 4.7, brand: "MSI", image: "../assets/images/img_Lap2.jpg" },
-    { name: "Razer Blade 16", price: 2450000, rating: 4.9, brand: "Razer", image: "../assets/images/img_Lap3.jpg" },
-    { name: "Surface Pro 9", price: 1250000, rating: 4.7, brand: "Microsoft", image: "../assets/images/img_Lap4.jpg" },
-    { name: "MSI GF63 Thin", price: 680000, rating: 4.0, brand: "MSI", image: "../assets/images/img_Lap5.jpg" },
-    { name: "Razer Book 13", price: 1350000, rating: 4.6, brand: "Razer", image: "../assets/images/img_Lap6.jpg" },
-    { name: "Surface Laptop Studio", price: 1650000, rating: 4.8, brand: "Microsoft", image: "../assets/images/img_Lap7.jpg" },
-    { name: "MSI Pulse GL66", price: 1150000, rating: 4.4, brand: "MSI", image: "../assets/images/img_Lap8.jpg" },
-    { name: "Razer Blade 15", price: 2150000, rating: 4.9, brand: "Razer", image: "../assets/images/img_Lap12.jpg" },
-    { name: "Surface Go 3", price: 480000, rating: 3.8, brand: "Microsoft", image: "../assets/images/img_Lap13.jpg" },
+    { name: "MSI Katana 15", price: 1050000, rating: 4.5, brand: "MSI", image: "../assets/images/img_Lap3.jpg" },
+    { name: "Razer Blade 14", price: 1850000, rating: 4.8, brand: "Razer", image: "../assets/images/img_Lap4.jpg" },
+    { name: "Surface Laptop 5", price: 1150000, rating: 4.6, brand: "Microsoft", image: "../assets/images/img_Lap5.jpg" },
+    { name: "MSI Stealth 16", price: 1550000, rating: 4.7, brand: "MSI", image: "../assets/images/img_Lap6.jpg" },
+    { name: "Razer Blade 16", price: 2450000, rating: 4.9, brand: "Razer", image: "../assets/images/img_Lap7.jpg" },
+    { name: "Surface Pro 9", price: 1250000, rating: 4.7, brand: "Microsoft", image: "../assets/images/img_Lap8.jpg" }
 ];
 
 const bestOffers = [
@@ -58,18 +49,10 @@ const bestOffers = [
     { name: "Dell XPS 15", price: 1450000, rating: 4.8, brand: "Dell", image: "../assets/images/img_Lap7.jpg" },
     { name: "ASUS ROG Strix", price: 1550000, rating: 4.8, brand: "ASUS", image: "../assets/images/img_Lap5.jpg" },
     { name: "HP Omen 16", price: 1350000, rating: 4.7, brand: "HP", image: "../assets/images/img_Lap14.jpg" },
-    { name: "MacBook Pro 14 M3", price: 1850000, rating: 5.0, brand: "Apple", image: "https://cdn.pixabay.com/photo/2016/11/23/14/37/apple-1853259_640.jpg" },
-    { name: "Dell XPS 15", price: 1450000, rating: 4.8, brand: "Dell", image: "https://cdn.pixabay.com/photo/2016/11/18/21/37/laptop-1836990_640.jpg" },
-    { name: "HP Omen 16", price: 1350000, rating: 4.7, brand: "HP", image: "https://images.pexels.com/photos/2148216/pexels-photo-2148216.jpeg" },
-    { name: "ASUS ROG Strix", price: 1550000, rating: 4.8, brand: "ASUS", image: "https://images.pexels.com/photos/930530/pexels-photo-930530.jpeg" },
-    { name: "Lenovo Legion 5", price: 1280000, rating: 4.6, brand: "Lenovo", image: "https://images.pexels.com/photos/968631/pexels-photo-968631.jpeg" },
-    { name: "Acer Predator", price: 1400000, rating: 4.5, brand: "Acer", image: "https://images.pexels.com/photos/1714341/pexels-photo-1714341.jpeg" },
-    { name: "Surface Pro 9", price: 1150000, rating: 4.7, brand: "Microsoft", image: "https://images.pexels.com/photos/39284/macbook-apple-imac-computer-39284.jpeg" },
-    { name: "MSI GF65", price: 980000, rating: 4.4, brand: "MSI", image: "https://images.pexels.com/photos/1999463/pexels-photo-1999463.jpeg" },
-    { name: "Razer Blade 15", price: 1950000, rating: 4.9, brand: "Razer", image: "https://images.pexels.com/photos/326508/pexels-photo-326508.jpeg" },
-    { name: "Gigabyte Aero", price: 1680000, rating: 4.7, brand: "Gigabyte", image: "https://images.pexels.com/photos/326504/pexels-photo-326504.jpeg" },
-    { name: "Alienware m16", price: 2100000, rating: 4.8, brand: "Dell", image: "https://images.pexels.com/photos/2528118/pexels-photo-2528118.jpeg" },
-    { name: "Framework Laptop", price: 890000, rating: 4.6, brand: "Framework", image: "https://cdn.pixabay.com/photo/2017/03/27/13/00/hands-2178566_640.jpg" }
+    { name: "MacBook Pro 14 M3", price: 1850000, rating: 5.0, brand: "Apple", image: "../assets/images/img_Lap1.jpg" },
+    { name: "Lenovo Legion 5", price: 1280000, rating: 4.6, brand: "Lenovo", image: "../assets/images/img_Lap2.jpg" },
+    { name: "Acer Predator", price: 1400000, rating: 4.5, brand: "Acer", image: "../assets/images/img_Lap3.jpg" },
+    { name: "Surface Pro 9", price: 1150000, rating: 4.7, brand: "Microsoft", image: "../assets/images/img_Lap4.jpg" }
 ];
 
 const productsPerPage = 8;
@@ -90,6 +73,16 @@ function displayProducts(products, page, gridId) {
         const hasHalf = (product.rating % 1) >= 0.5;
         const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
 
+        let badge = 'PREMIUM';
+        let badgeClass = 'tag-premium';
+        if (product.type === 'NVMe') {
+            badge = 'ULTRA RAPIDE';
+            badgeClass = 'tag-best-seller';
+        } else if (product.type === 'Externe') {
+            badge = 'PORTABLE';
+            badgeClass = 'tag-new';
+        }
+
         const card = document.createElement('div');
         card.className = 'product-card';
         card.style.animationDelay = `${i * 0.05}s`;
@@ -97,7 +90,7 @@ function displayProducts(products, page, gridId) {
         card.innerHTML = `
             <div class="product-image-wrapper">
                 <img src="${product.image}" alt="${product.name}" class="product-image">
-                <div class="product-tag tag-premium">PREMIUM</div>
+                <div class="product-tag ${badgeClass}">${badge}</div>
             </div>
             <div class="product-info">
                 <p class="product-brand">${product.brand}</p>
@@ -112,7 +105,7 @@ function displayProducts(products, page, gridId) {
                 </div>
                 <div class="product-actions">
                     <span class="product-price">${product.price.toLocaleString()} FCFA</span>
-                    <button class="add-to-cart-btn">
+                    <button class="add-to-cart-btn" data-product='${JSON.stringify(product)}'>
                         <i class="fas fa-shopping-cart"></i>
                     </button>
                 </div>
@@ -121,10 +114,45 @@ function displayProducts(products, page, gridId) {
 
         grid.appendChild(card);
     });
-    // === RÉATTACHER LES ÉVÉNEMENTS APRÈS AFFICHAGE ===
-if (typeof window.attachProductNavigation === 'function') {
-    setTimeout(window.attachProductNavigation, 50);
-}
+
+    setTimeout(() => {
+        grid.style.width = '100%';
+    }, 0);
+
+    // Réattacher les événements après affichage
+    if (typeof window.attachProductNavigation === 'function') {
+        setTimeout(window.attachProductNavigation, 50);
+    }
+
+    // IMPORTANT: Réattacher les événements cart-manager
+    if (typeof window.initCartManager === 'function') {
+        setTimeout(() => {
+            // Réinitialiser uniquement les boutons de la grille affichée
+            const addButtons = document.querySelectorAll(`#${gridId} .add-to-cart-btn`);
+            console.log(`🔄 Réattachement de ${addButtons.length} boutons panier dans #${gridId}`);
+            
+            addButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const productCard = this.closest('.product-card');
+                    if (!productCard) {
+                        console.error('❌ Carte produit non trouvée');
+                        return;
+                    }
+                    
+                    // Utiliser cart-manager si disponible
+                    if (typeof window.addToCartFromHTML === 'function') {
+                        console.log('🛒 Utilisation de addToCartFromHTML');
+                        window.addToCartFromHTML(productCard, 1, 'Défaut');
+                    } else {
+                        console.warn('⚠️ cart-manager.js non chargé');
+                    }
+                });
+            });
+        }, 100);
+    }
 }
 
 // === PAGINATION INDÉPENDANTE ===
@@ -142,22 +170,43 @@ function renderPagination(currentPage, totalPages, containerId, displayFn) {
 
     const prev = document.createElement('button');
     prev.className = 'page-btn';
-    prev.innerHTML = 'Précédent';
+    prev.innerHTML = '<i class="fas fa-chevron-left"></i> Précédent';
     prev.disabled = currentPage === 1;
     prev.onclick = () => { displayFn(currentPage - 1); };
     container.appendChild(prev);
 
-    for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.className = i === currentPage ? 'page-num-active' : 'page-num';
-        btn.textContent = i;
-        btn.onclick = () => { displayFn(i); };
-        container.appendChild(btn);
+    if (totalPages <= 5) {
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.className = i === currentPage ? 'page-num-active' : 'page-num';
+            btn.textContent = i;
+            btn.onclick = () => { displayFn(i); };
+            container.appendChild(btn);
+        }
+    } else {
+        const startPages = [1, 2, 3];
+        const endPages = [totalPages - 1, totalPages];
+        const allPageNums = [...new Set([...startPages, currentPage, ...endPages])].sort((a, b) => a - b);
+        
+        allPageNums.forEach((i, idx) => {
+            if (idx > 0 && allPageNums[idx] - allPageNums[idx - 1] > 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.textContent = '...';
+                ellipsis.style.margin = '0 0.5rem';
+                container.appendChild(ellipsis);
+            }
+            
+            const btn = document.createElement('button');
+            btn.className = i === currentPage ? 'page-num-active' : 'page-num';
+            btn.textContent = i;
+            btn.onclick = () => { displayFn(i); };
+            container.appendChild(btn);
+        });
     }
 
     const next = document.createElement('button');
     next.className = 'page-btn';
-    next.innerHTML = 'Suivant';
+    next.innerHTML = 'Suivant <i class="fas fa-chevron-right"></i>';
     next.disabled = currentPage === totalPages;
     next.onclick = () => { displayFn(currentPage + 1); };
     container.appendChild(next);
@@ -169,7 +218,6 @@ function updateSection1(page) {
     currentPage1 = page;
     displayProducts(allProducts, page, 'grid1');
     renderPagination(page, totalPages1, 'pagin1', updateSection1);
-    document.querySelector('.products-section').scrollIntoView({ behavior: 'smooth' });
 }
 
 function updateSection2(page) {
@@ -177,11 +225,17 @@ function updateSection2(page) {
     currentPage2 = page;
     displayProducts(bestOffers, page, 'grid2');
     renderPagination(page, totalPages2, 'pagin2', updateSection2);
-    document.querySelector('.best-offers-section').scrollIntoView({ behavior: 'smooth' });
 }
+
+// Export pour filtre_ordi.js
+window.updateSection1 = updateSection1;
+window.updateSection2 = updateSection2;
 
 // === INITIALISATION ===
 document.addEventListener('DOMContentLoaded', function () {
     updateSection1(1);
     updateSection2(1);
+    
+    console.log('✅ pagination_ordi.js chargé - Produits disponibles');
+    console.log('✅ Intégration cart-manager.js active');
 });

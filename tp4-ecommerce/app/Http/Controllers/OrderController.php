@@ -14,7 +14,7 @@ class OrderController extends Controller
 {
     /**
      * @OA\Get(
-     * path="/api/orders",
+     * path="/api/v1/orders",
      * operationId="getOrdersList",
      * tags={"Orders"},
      * summary="Obtenir la liste des commandes de l'utilisateur",
@@ -34,7 +34,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/orders",
+     * path="/api/v1/orders",
      * operationId="storeOrder",
      * tags={"Orders"},
      * summary="Créer une nouvelle commande",

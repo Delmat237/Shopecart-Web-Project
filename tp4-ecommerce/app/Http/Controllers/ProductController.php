@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     /**
      * @OA\Get(
-     * path="/api/products",
+     * path="/api/v1/products",
      * operationId="getProductsList",
      * tags={"Products"},
      * summary="Obtenir la liste complète des produits",
@@ -33,7 +33,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     * path="/api/products/{id}",
+     * path="/api/v1/products/{id}",
      * operationId="getProductById",
      * tags={"Products"},
      * summary="Obtenir un produit par son ID",

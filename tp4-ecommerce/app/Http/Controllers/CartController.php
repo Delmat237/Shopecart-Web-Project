@@ -14,7 +14,7 @@ class CartController extends Controller
 {
     /**
      * @OA\Get(
-     * path="/api/cart",
+     * path="/api/v1/cart",
      * operationId="getCartContent",
      * tags={"Cart"},
      * summary="Afficher le contenu du panier",
@@ -38,7 +38,7 @@ class CartController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/cart",
+     * path="/api/v1/cart",
      * operationId="addItemToCart",
      * tags={"Cart"},
      * summary="Ajouter un produit au panier",
@@ -69,7 +69,7 @@ class CartController extends Controller
 
     /**
      * @OA\Put(
-     * path="/api/cart/{productId}",
+     * path="/api/v1/cart/{productId}",
      * operationId="updateCartItemQuantity",
      * tags={"Cart"},
      * summary="Mettre à jour la quantité d'un article dans le panier",
@@ -98,7 +98,11 @@ class CartController extends Controller
      * description="Article non trouvé dans le panier."
      * )
      * )
-     */
+     * * @OA\Server(
+    * url="http://localhost:8000",
+    * description="Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
+    * )
+    */
     public function update(Request $request, string $id)
     {
         // ...
@@ -106,7 +110,7 @@ class CartController extends Controller
 
     /**
      * @OA\Delete(
-     * path="/api/cart/{productId}",
+     * path="/api/v1/cart/{productId}",
      * operationId="removeCartItem",
      * tags={"Cart"},
      * summary="Supprimer un article du panier",

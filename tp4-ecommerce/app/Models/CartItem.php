@@ -6,6 +6,48 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @OA\Schema(
+ * schema="CartItem",
+ * title="CartItem",
+ * description="Modèle de données pour un article dans le panier",
+ * @OA\Property(
+ * property="id",
+ * type="integer",
+ * description="ID de l'article dans le panier"
+ * ),
+ * @OA\Property(
+ * property="cart_id",
+ * type="integer",
+ * description="ID du panier auquel l'article appartient"
+ * ),
+ * @OA\Property(
+ * property="product_id",
+ * type="integer",
+ * description="ID du produit dans cet article"
+ * ),
+ * @OA\Property(
+ * property="quantity",
+ * type="integer",
+ * description="Quantité du produit"
+ * ),
+ * @OA\Property(
+ * property="product",
+ * description="Détails du produit associé",
+ * ref="#/components/schemas/Product" 
+ * ),
+ * @OA\Property(
+ * property="created_at",
+ * type="string",
+ * format="date-time"
+ * ),
+ * @OA\Property(
+ * property="updated_at",
+ * type="string",
+ * format="date-time"
+ * )
+ * )
+ */
 class CartItem extends Model
 {
     use HasFactory;
@@ -42,7 +84,10 @@ class CartItem extends Model
     {
         $this->quantity += $amount;
         $this->updateTotal();
-        $this->cart->updateTotals();
+        // Assurez-vous que $this->cart existe avant d'appeler updateTotals()
+        if (isset($this->cart)) {
+            $this->cart->updateTotals();
+        }
     }
 
     public function decrementQuantity(int $amount = 1): void
@@ -55,6 +100,9 @@ class CartItem extends Model
             $this->updateTotal();
         }
         
-        $this->cart->updateTotals();
+        // Assurez-vous que $this->cart existe avant d'appeler updateTotals()
+        if (isset($this->cart)) {
+            $this->cart->updateTotals();
+        }
     }
 }

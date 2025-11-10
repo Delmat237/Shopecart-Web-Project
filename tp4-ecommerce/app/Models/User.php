@@ -45,8 +45,26 @@ class User extends Authenticatable
         'role' => 'string',
     ];
 
-    public function isAdmin(): bool
+
+    public function carts()
     {
-        return in_array($this->role, ['ADMIN', 'SUPERADMIN']);
+        return $this->hasMany(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    // Méthode utilitaire pour obtenir le panier actif
+    public function cart()
+    {
+        return $this->carts()->latest()->first();
     }
 }
+

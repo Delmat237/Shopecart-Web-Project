@@ -300,7 +300,8 @@ return [
          */
         'constants' => [
             // MODIFICATION : Utilise APP_URL défini dans votre .env comme hôte par défaut
-            'L5_SWAGGER_CONST_HOST' => env('APP_URL', 'http://127.0.0.1:8000'),
+            // J'ai aussi ajouté un slash à la fin pour qu'il soit bien pris en compte par la concaténation de chemins.
+            'L5_SWAGGER_CONST_HOST' => env('APP_URL', 'http://127.0.0.1:8000'), // <-- Laisse cette ligne telle quelle (elle utilise l'environnement)
         ],
     ],
 ];

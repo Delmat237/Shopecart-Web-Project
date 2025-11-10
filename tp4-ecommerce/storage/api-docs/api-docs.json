@@ -10,12 +10,16 @@
     },
     "servers": [
         {
+            "url": "http://localhost:8000",
+            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
+        },
+        {
             "url": "http://localhost",
             "description": "Serveur de développement"
         }
     ],
     "paths": {
-        "/api/register": {
+        "/api/v1/register": {
             "post": {
                 "tags": [
                     "Auth"
@@ -89,7 +93,7 @@
                 }
             }
         },
-        "/api/login": {
+        "/api/v1/login": {
             "post": {
                 "tags": [
                     "Auth"
@@ -152,7 +156,7 @@
                 }
             }
         },
-        "/api/logout": {
+        "/api/v1/logout": {
             "post": {
                 "tags": [
                     "Auth"
@@ -175,7 +179,7 @@
                 ]
             }
         },
-        "/api/user": {
+        "/api/v1/user": {
             "get": {
                 "tags": [
                     "Auth"

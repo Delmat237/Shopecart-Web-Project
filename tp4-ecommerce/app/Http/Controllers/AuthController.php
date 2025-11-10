@@ -21,12 +21,17 @@ use Illuminate\Validation\ValidationException;
  * description="Entrez le jeton Bearer obtenu après la connexion."
  * )
  * )
+ * * @OA\Server(
+ * url="http://localhost:8000",
+ * description="Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
+ * )
  */
+
 class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     * path="/api/register",
+     * path="/api/v1/register",
      * operationId="registerUser",
      * tags={"Auth"},
      * summary="Enregistrement d'un nouvel utilisateur",
@@ -81,7 +86,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/login",
+     * path="/api/v1/login", 
      * operationId="loginUser",
      * tags={"Auth"},
      * summary="Connexion de l'utilisateur",
@@ -134,7 +139,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/logout",
+     * path="/api/v1/logout", 
      * operationId="logoutUser",
      * tags={"Auth"},
      * summary="Déconnexion de l'utilisateur",
@@ -158,7 +163,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     * path="/api/user",
+     * path="/api/v1/user", 
      * operationId="getCurrentUser",
      * tags={"Auth"},
      * summary="Obtenir les informations de l'utilisateur actuel",

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CartItem;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
-
-class CartItemController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,16 +34,15 @@ class CartItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CartItem $cartItem)
+    public function show(OrderItem $orderItem)
     {
         //
     }
 
- 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CartItem $cartItem)
+    public function edit(OrderItem $orderItem)
     {
         //
     }
@@ -52,7 +50,7 @@ class CartItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CartItem $cartItem)
+    public function update(Request $request, OrderItem $orderItem)
     {
         //
     }
@@ -60,7 +58,7 @@ class CartItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CartItem $cartItem)
+    public function destroy(OrderItem $orderItem)
     {
         //
     }

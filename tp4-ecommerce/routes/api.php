@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,15 +17,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\NotificationController;
 
 Route::prefix('v1')->group(function () {
-
-    // Test email
-    Route::post('/notifications/test', [NotificationController::class, 'testEmail']);
-
-    // Envoyé après application d'un code promo
-    Route::post('/notifications/discount/{order}/{code}', [NotificationController::class, 'sendDiscountApplied']);
-});
-
-Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
@@ -33,3 +25,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
     });
 });
+
+Route::prefix("cart")->group(function(){
+    Route::post("/abs",[CartController::class,"store"]);
+    Route::get("/user/{userId}/empty",[CartController::class,"emptyCart"]);
+});
+Route::get("/abs",[CartController::class,"store"]);

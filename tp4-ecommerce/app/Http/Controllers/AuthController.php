@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -74,6 +75,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'USER',
         ]);
+
+        $cart=Cart::create(["userId"=>$user->id]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

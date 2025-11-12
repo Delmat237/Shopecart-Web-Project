@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Events\OrderCreated;
+use App\Listeners\NotifyAdminNewOrder;
+use App\Listeners\SendOrderConfirmationEmail;
+use App\Listeners\UpdateOrderStatistics;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,12 +16,13 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        // Événement OrderCreated avec ses 3 listeners
+        OrderCreated::class => [
+            SendOrderConfirmationEmail::class,
+            NotifyAdminNewOrder::class,
+            UpdateOrderStatistics::class,
         ],
     ];
-
-    
 
     /**
      * Register any events for your application.

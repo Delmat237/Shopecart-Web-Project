@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\DiscountService;
+use App\Services\OrderService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Enregistrement du DiscountService
+        $this->app->singleton(DiscountService::class, function ($app) {
+            return new DiscountService();
+        });
+
+        // Enregistrement du OrderService avec injection du DiscountService
+        $this->app->singleton(OrderService::class, function ($app) {
+            return new OrderService($app->make(DiscountService::class));
+        });
     }
 
     /**

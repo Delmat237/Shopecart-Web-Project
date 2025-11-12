@@ -28,19 +28,15 @@ Route::get('/', function () {
     ]);
 });
 
-Route::prefix('v1')->group(function () {
 
+Route::prefix('v1')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
     // Test email
     Route::post('/notifications/test', [NotificationController::class, 'testEmail']);
 
     // Envoyé après application d'un code promo
     Route::post('/notifications/discount/{order}/{code}', [NotificationController::class, 'sendDiscountApplied']);
-});
-
-Route::prefix('v1')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/user', [AuthController::class, 'user']);

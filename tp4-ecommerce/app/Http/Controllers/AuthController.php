@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail; // Ajout pour l'envoi d'e-mail
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Tag(
@@ -86,7 +87,7 @@ class AuthController extends Controller
             Mail::to($user->email)->send(new UserRegistered($user));
         } catch (\Exception $e) {
             // Optionnel : Enregistrer l'erreur sans bloquer l'utilisateur
-            //\Log::error('Échec de l\'envoi de l\'e-mail d\'inscription: ' . $e->getMessage());
+            Log::error('Échec de l\'envoi de l\'e-mail d\'inscription: ' . $e->getMessage());
         }
         // ===============================================
 

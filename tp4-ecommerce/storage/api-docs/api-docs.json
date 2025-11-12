@@ -239,6 +239,42 @@
                     }
                 }
             }
+        },
+        "/api/v1/notifications/test-registration": {
+            "post": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Teste l'envoi de l'e-mail de confirmation d'inscription.",
+                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
+                "operationId": "testRegistrationEmail",
+                "responses": {
+                    "200": {
+                        "description": "E-mail de test d'inscription envoyé avec succès (Vérifiez la console pour les erreurs)."
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé."
+                    },
+                    "500": {
+                        "description": "Erreur d'envoi d'e-mail."
+                    }
+                }
+            }
+        },
+        "/api/v1/notifications/test-order": {
+            "post": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Teste l'envoi de l'e-mail de confirmation de commande.",
+                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
+                "operationId": "testOrderEmail",
+                "responses": {
+                    "200": {
+                        "description": "E-mail de test de commande envoyé avec succès."
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -403,6 +439,10 @@
         {
             "name": "Home",
             "description": "Points d'accès pour la page d'accueil et les informations générales."
+        },
+        {
+            "name": "Notifications",
+            "description": "Opérations de test pour l'envoi de notifications par e-mail (Mailable)."
         }
     ]
 }

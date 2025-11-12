@@ -63,8 +63,11 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+<<<<<<< HEAD
         'phone',
         'address'
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     ];
 
     /**
@@ -109,5 +112,48 @@ class User extends Authenticatable
     {
         return $this->carts()->latest()->first();
     }
+     public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isVendor(): bool
+    {
+        return $this->role === self::ROLE_VENDOR;
+    }
+
+    public function isDelivery(): bool
+    {
+        return $this->role === self::ROLE_DELIVERY;
+    }
+
+    public function isClient(): bool
+    {
+        return $this->role === self::ROLE_CLIENT;
+    }
+
+    /**
+     * Scope pour filtrer par rôle
+     */
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', self::ROLE_ADMIN);
+    }
+
+    public function scopeVendors($query)
+    {
+        return $query->where('role', self::ROLE_VENDOR);
+    }
+
+    public function scopeDelivery($query)
+    {
+        return $query->where('role', self::ROLE_DELIVERY);
+    }
+
+    public function scopeClients($query)
+    {
+        return $query->where('role', self::ROLE_CLIENT);
+    }
+
 }
 

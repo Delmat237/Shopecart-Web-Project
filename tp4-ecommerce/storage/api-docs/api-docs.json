@@ -36,12 +36,12 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "Raoul Ossombe"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "raoulOssombe@shopcart.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -52,6 +52,16 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "secret123"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+237653982736",
+                                        "nullable": true
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Yaounde,Melen",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -109,7 +119,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "raoulossombe@shopcart.com"
                                     },
                                     "password": {
                                         "type": "string",

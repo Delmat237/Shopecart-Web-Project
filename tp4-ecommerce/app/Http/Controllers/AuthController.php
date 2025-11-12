@@ -37,10 +37,12 @@ class AuthController extends Controller
      * required=true,
      * @OA\JsonContent(
      * required={"name", "email", "password", "password_confirmation"},
-     * @OA\Property(property="name", type="string", example="John Doe"),
-     * @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     * @OA\Property(property="name", type="string", example="Raoul Ossombe"),
+     * @OA\Property(property="email", type="string", format="email", example="raoulOssombe@shopcart.com"),
      * @OA\Property(property="password", type="string", format="password", example="secret123"),
-     * @OA\Property(property="password_confirmation", type="string", format="password", example="secret123")
+     * @OA\Property(property="password_confirmation", type="string", format="password", example="secret123"),
+     * @OA\Property(property="phone", type="string", nullable=true, example="+237653982736"),
+     * @OA\Property(property="address", type="string", nullable=true, example="Yaounde,Melen") 
      * )
      * ),
      * @OA\Response(
@@ -64,6 +66,8 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
         ]);
 
         $user = User::create([
@@ -71,6 +75,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'USER',
+            'phone' => $request->phone,
+            'address' => $request->address,
         ]);
 
         // ===============================================
@@ -89,7 +95,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Registered',
             'token' => $token,
-            'user' => $user->only(['id', 'name', 'email', 'role'])
+            'user' => $user->only(['id', 'name', 'email', 'role', 'phone', 'address'])
         ], 201);
     }
 
@@ -103,7 +109,7 @@ class AuthController extends Controller
      * required=true,
      * @OA\JsonContent(
      * required={"email", "password"},
-     * @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     * @OA\Property(property="email", type="string", format="email", example="raoulossombe@shopcart.com"),
      * @OA\Property(property="password", type="string", format="password", example="secret123")
      * )
      * ),
@@ -142,7 +148,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Login successful',
             'token' => $token,
-            'user' => $user->only(['id', 'name', 'email', 'role'])
+            'user' => $user->only(['id', 'name', 'email', 'role','phone','address'])
         ]);
     }
 

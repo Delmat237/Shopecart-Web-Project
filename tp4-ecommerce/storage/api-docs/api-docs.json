@@ -1,35 +1,254 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Shopecart E-commerce API Documentation",
-        "description": "Documentation des points d'accès (endpoints) de l'API Shopecart.",
-        "contact": {
-            "email": "contact@shopecart.com"
-        },
+        "title": "Shopecart E-commerce API",
+        "description": "API Backend Laravel pour le projet Shopecart - TP4",
         "version": "1.0.0"
     },
     "servers": [
         {
             "url": "http://localhost:8000",
-            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
-        },
-        {
-            "url": "http://localhost:8000",
-            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
-        },
-        {
-            "url": "http://localhost",
-            "description": "Serveur de développement"
+            "description": "Serveur de développement local"
         }
     ],
     "paths": {
-        "/api/v1/register": {
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Liste des produits",
+                "description": "Récupère la liste paginée des produits avec possibilité de filtrer",
+                "operationId": "072fd15d3be55577bb08c19d19f1e75c",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filtrer par ID de catégorie",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "shelf",
+                        "in": "query",
+                        "description": "Filtrer par ID de rayon",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Recherche textuelle dans le nom et la description",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "smartphone"
+                        }
+                    },
+                    {
+                        "name": "price_min",
+                        "in": "query",
+                        "description": "Prix minimum",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "example": 100
+                        }
+                    },
+                    {
+                        "name": "price_max",
+                        "in": "query",
+                        "description": "Prix maximum",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "example": 1500
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numéro de page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre de résultats par page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "example": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des produits avec pagination",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "iPhone 15 Pro"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string",
+                                                        "example": "iphone-15-pro"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Smartphone Apple dernière génération"
+                                                    },
+                                                    "base_price": {
+                                                        "type": "number",
+                                                        "example": 1199.99
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": "products/iphone15.jpg"
+                                                    },
+                                                    "image_url": {
+                                                        "type": "string",
+                                                        "example": "http://localhost:8000/storage/products/iphone15.jpg"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "variants": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Titanium Blue - 256GB"
+                                                                },
+                                                                "color": {
+                                                                    "type": "string",
+                                                                    "example": "Blue"
+                                                                },
+                                                                "size": {
+                                                                    "type": "string",
+                                                                    "example": "256GB"
+                                                                },
+                                                                "price": {
+                                                                    "type": "number",
+                                                                    "example": 1199.99
+                                                                },
+                                                                "stock": {
+                                                                    "type": "integer",
+                                                                    "example": 50
+                                                                },
+                                                                "sku": {
+                                                                    "type": "string",
+                                                                    "example": "IPH15-BLU-256"
+                                                                },
+                                                                "in_stock": {
+                                                                    "type": "boolean",
+                                                                    "example": true
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-11-12T10:30:00.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-11-12T10:30:00.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/v1/products?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/v1/products?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/v1/products?page=2"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
-                    "Auth"
+                    "Products"
                 ],
-                "summary": "Enregistrement d'un nouvel utilisateur",
-                "operationId": "registerUser",
+                "summary": "Créer un produit",
+                "description": "Crée un nouveau produit avec ses variantes optionnelles",
+                "operationId": "eda0d526a50c0273ae224eb766440226",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -37,29 +256,73 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "email",
-                                    "password",
-                                    "password_confirmation"
+                                    "base_price"
                                 ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "iPhone 15 Pro"
                                     },
-                                    "email": {
+                                    "slug": {
+                                        "description": "Généré automatiquement si non fourni",
                                         "type": "string",
-                                        "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "iphone-15-pro"
                                     },
-                                    "password": {
+                                    "description": {
                                         "type": "string",
-                                        "format": "password",
-                                        "example": "secret123"
+                                        "example": "Smartphone Apple dernière génération avec puce A17 Pro"
                                     },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "secret123"
+                                    "base_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1199.99
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la catégorie",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "shelf_id": {
+                                        "description": "ID du rayon",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "variants": {
+                                        "description": "Liste des variantes du produit",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Titanium Blue - 256GB"
+                                                },
+                                                "color": {
+                                                    "type": "string",
+                                                    "example": "Blue"
+                                                },
+                                                "size": {
+                                                    "type": "string",
+                                                    "example": "256GB"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 1199.99
+                                                },
+                                                "stock": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                },
+                                                "sku": {
+                                                    "type": "string",
+                                                    "example": "IPH15-BLU-256"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -69,20 +332,58 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Enregistrement réussi. Retourne le jeton d'accès.",
+                        "description": "Produit créé avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Registered"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                                        },
-                                        "user": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "iPhone 15 Pro"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "iphone-15-pro"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Smartphone Apple dernière génération"
+                                                },
+                                                "base_price": {
+                                                    "type": "number",
+                                                    "example": 1199.99
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "variants": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Titanium Blue - 256GB"
+                                                            },
+                                                            "stock": {
+                                                                "type": "integer",
+                                                                "example": 50
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
@@ -92,411 +393,36 @@
                         }
                     },
                     "422": {
-                        "description": "Erreur de validation des données."
-                    }
-                }
-            }
-        },
-        "/api/v1/login": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Connexion de l'utilisateur",
-                "operationId": "loginUser",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "john@example.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "secret123"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Connexion réussie. Retourne le jeton d'accès.",
+                        "description": "Erreur de validation",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Login successful"
+                                            "example": "Le nom du produit est requis"
                                         },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "2|yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
-                                        },
-                                        "user": {
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Le nom du produit est requis"
+                                                    }
+                                                },
+                                                "base_price": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Le prix de base est requis"
+                                                    }
+                                                }
+                                            },
                                             "type": "object"
                                         }
                                     },
                                     "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Identifiants invalides."
-                    }
-                }
-            }
-        },
-        "/api/v1/logout": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Déconnexion de l'utilisateur",
-                "description": "Supprime le jeton d'accès actuel de l'utilisateur.",
-                "operationId": "logoutUser",
-                "responses": {
-                    "200": {
-                        "description": "Déconnexion réussie."
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/user": {
-            "get": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Obtenir les informations de l'utilisateur actuel",
-                "description": "Retourne les données de l'utilisateur authentifié via le jeton Bearer.",
-                "operationId": "getCurrentUser",
-                "responses": {
-                    "200": {
-                        "description": "Informations utilisateur récupérées.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/cart": {
-            "get": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Afficher le contenu du panier",
-                "description": "Retourne la liste des articles actuellement dans le panier de l'utilisateur.",
-                "operationId": "getCartContent",
-                "responses": {
-                    "200": {
-                        "description": "Contenu du panier récupéré.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CartItem"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Ajouter un produit au panier",
-                "description": "Ajoute un produit au panier ou met à jour la quantité si le produit existe déjà.",
-                "operationId": "addItemToCart",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "product_id",
-                                    "quantity"
-                                ],
-                                "properties": {
-                                    "product_id": {
-                                        "type": "integer",
-                                        "example": 10
-                                    },
-                                    "quantity": {
-                                        "type": "integer",
-                                        "example": 1
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Article ajouté/mis à jour dans le panier."
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/cart/{productId}": {
-            "put": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Mettre à jour la quantité d'un article dans le panier",
-                "description": "Modifie la quantité d'un produit spécifique dans le panier. Utilisez 0 pour supprimer l'article.",
-                "operationId": "updateCartItemQuantity",
-                "parameters": [
-                    {
-                        "name": "productId",
-                        "in": "path",
-                        "description": "ID du produit dans le panier (ou ID de l'article du panier)",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "quantity"
-                                ],
-                                "properties": {
-                                    "quantity": {
-                                        "type": "integer",
-                                        "example": 3
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Quantité mise à jour."
-                    },
-                    "404": {
-                        "description": "Article non trouvé dans le panier."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Supprimer un article du panier",
-                "description": "Supprime un produit spécifique du panier de l'utilisateur.",
-                "operationId": "removeCartItem",
-                "parameters": [
-                    {
-                        "name": "productId",
-                        "in": "path",
-                        "description": "ID du produit à supprimer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Article supprimé avec succès."
-                    },
-                    "404": {
-                        "description": "Article non trouvé dans le panier."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/": {
-            "get": {
-                "tags": [
-                    "Home"
-                ],
-                "summary": "Récupérer les produits phares pour la page d'accueil",
-                "description": "Retourne une liste limitée (max 8) des produits visibles, en stock et marqués comme 'featured'.",
-                "operationId": "getFeaturedProducts",
-                "responses": {
-                    "200": {
-                        "description": "Opération réussie",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Product"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/orders": {
-            "get": {
-                "tags": [
-                    "Orders"
-                ],
-                "summary": "Obtenir la liste des commandes de l'utilisateur",
-                "description": "Retourne toutes les commandes passées par l'utilisateur authentifié.",
-                "operationId": "getOrdersList",
-                "responses": {
-                    "200": {
-                        "description": "Liste des commandes récupérée avec succès.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Order"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Orders"
-                ],
-                "summary": "Créer une nouvelle commande",
-                "description": "Passe une nouvelle commande en utilisant le contenu du panier de l'utilisateur.",
-                "operationId": "storeOrder",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "shipping_address": {
-                                        "type": "string",
-                                        "example": "123 Rue de la Livraion"
-                                    },
-                                    "payment_method": {
-                                        "type": "string",
-                                        "example": "credit_card"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Commande créée avec succès.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Non autorisé."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/products": {
-            "get": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Obtenir la liste complète des produits",
-                "description": "Retourne tous les produits (peut nécessiter une pagination).",
-                "operationId": "getProductsList",
-                "responses": {
-                    "200": {
-                        "description": "Liste des produits récupérée avec succès.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Product"
-                                    }
                                 }
                             }
                         }
@@ -509,369 +435,256 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Obtenir un produit par son ID",
-                "description": "Retourne les détails d'un produit spécifique.",
-                "operationId": "getProductById",
+                "summary": "Détails d'un produit",
+                "description": "Récupère les informations complètes d'un produit avec ses variantes",
+                "operationId": "e607d06420046014759462af284aeb59",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID du produit à récupérer",
+                        "description": "ID du produit",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Détails du produit récupérés.",
+                        "description": "Détails du produit",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Product"
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "iPhone 15 Pro"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "iphone-15-pro"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Smartphone Apple dernière génération"
+                                                },
+                                                "base_price": {
+                                                    "type": "number",
+                                                    "example": 1199.99
+                                                },
+                                                "image_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/storage/products/iphone15.jpg"
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "variants": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Titanium Blue - 256GB"
+                                                            },
+                                                            "color": {
+                                                                "type": "string",
+                                                                "example": "Blue"
+                                                            },
+                                                            "size": {
+                                                                "type": "string",
+                                                                "example": "256GB"
+                                                            },
+                                                            "price": {
+                                                                "type": "number",
+                                                                "example": 1199.99
+                                                            },
+                                                            "stock": {
+                                                                "type": "integer",
+                                                                "example": 50
+                                                            },
+                                                            "sku": {
+                                                                "type": "string",
+                                                                "example": "IPH15-BLU-256"
+                                                            },
+                                                            "in_stock": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Produit non trouvé."
+                        "description": "Produit non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produit non trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Modifier un produit",
+                "description": "Met à jour les informations d'un produit existant",
+                "operationId": "d3addbe72313169741e652404694ef9d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du produit",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "iPhone 15 Pro Max"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Smartphone Apple avec écran 6.7 pouces"
+                                    },
+                                    "base_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1399.99
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produit modifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "iPhone 15 Pro Max"
+                                                },
+                                                "base_price": {
+                                                    "type": "number",
+                                                    "example": 1399.99
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produit non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Supprimer un produit",
+                "description": "Supprime définitivement un produit et ses variantes",
+                "operationId": "bbf520f1a23d6a5f3dfb12813b5930d6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du produit",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Produit supprimé avec succès"
+                    },
+                    "404": {
+                        "description": "Produit non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Produit non trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     },
     "components": {
-        "schemas": {
-            "CartItem": {
-                "title": "CartItem",
-                "description": "Modèle de données pour un article dans le panier",
-                "properties": {
-                    "id": {
-                        "description": "ID de l'article dans le panier",
-                        "type": "integer"
-                    },
-                    "cart_id": {
-                        "description": "ID du panier auquel l'article appartient",
-                        "type": "integer"
-                    },
-                    "product_id": {
-                        "description": "ID du produit dans cet article",
-                        "type": "integer"
-                    },
-                    "quantity": {
-                        "description": "Quantité du produit",
-                        "type": "integer"
-                    },
-                    "product": {
-                        "$ref": "#/components/schemas/Product"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "Order": {
-                "title": "Order",
-                "description": "Modèle de données pour une commande client",
-                "properties": {
-                    "id": {
-                        "description": "ID de la commande",
-                        "type": "integer"
-                    },
-                    "order_number": {
-                        "description": "Numéro unique de la commande",
-                        "type": "string"
-                    },
-                    "user_id": {
-                        "description": "ID de l'utilisateur qui a passé la commande (null si invité)",
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "status": {
-                        "description": "Statut de la commande",
-                        "type": "string",
-                        "enum": [
-                            "pending",
-                            "processing",
-                            "completed",
-                            "cancelled"
-                        ]
-                    },
-                    "customer_email": {
-                        "description": "Email du client",
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "subtotal": {
-                        "description": "Sous-total des articles",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "shipping": {
-                        "description": "Coût de la livraison",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "tax": {
-                        "description": "Taxes appliquées",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "discount": {
-                        "description": "Réduction appliquée",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "total": {
-                        "description": "Montant total de la commande",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "payment_method": {
-                        "description": "Méthode de paiement (ex: credit_card)",
-                        "type": "string"
-                    },
-                    "payment_status": {
-                        "description": "Statut du paiement (ex: paid, failed)",
-                        "type": "string"
-                    },
-                    "shipping_address": {
-                        "description": "Adresse de livraison complète",
-                        "type": "string"
-                    },
-                    "shipping_city": {
-                        "description": "Ville de livraison",
-                        "type": "string"
-                    },
-                    "shipping_country": {
-                        "description": "Pays de livraison",
-                        "type": "string"
-                    },
-                    "items": {
-                        "description": "Liste des articles de la commande",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OrderItem"
-                        }
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "completed_at": {
-                        "description": "Date de finalisation de la commande",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "OrderItem": {
-                "title": "OrderItem",
-                "description": "Modèle de données pour un article individuel dans une commande",
-                "properties": {
-                    "id": {
-                        "description": "ID de l'article de commande",
-                        "type": "integer"
-                    },
-                    "order_id": {
-                        "description": "ID de la commande parente",
-                        "type": "integer"
-                    },
-                    "product_id": {
-                        "description": "ID du produit commandé",
-                        "type": "integer"
-                    },
-                    "product_name": {
-                        "description": "Nom du produit (stocké au moment de la commande)",
-                        "type": "string"
-                    },
-                    "product_sku": {
-                        "description": "SKU du produit",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "quantity": {
-                        "description": "Quantité commandée",
-                        "type": "integer"
-                    },
-                    "unit_price": {
-                        "description": "Prix unitaire au moment de la commande",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "total": {
-                        "description": "Prix total de cet article (quantity * unit_price)",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "options": {
-                        "description": "Options du produit (taille, couleur, etc.)",
-                        "type": "object"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "Product": {
-                "title": "Product",
-                "description": "Modèle de données pour un produit de la boutique",
-                "properties": {
-                    "id": {
-                        "description": "ID du produit",
-                        "type": "integer"
-                    },
-                    "category_id": {
-                        "description": "ID de la catégorie associée",
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "name": {
-                        "description": "Nom du produit",
-                        "type": "string"
-                    },
-                    "slug": {
-                        "description": "Slug unique pour l'URL",
-                        "type": "string"
-                    },
-                    "description": {
-                        "description": "Description détaillée",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "price": {
-                        "description": "Prix actuel",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "compare_price": {
-                        "description": "Ancien prix pour afficher une réduction",
-                        "type": "number",
-                        "format": "float",
-                        "nullable": true
-                    },
-                    "stock": {
-                        "description": "Quantité en stock",
-                        "type": "integer"
-                    },
-                    "sku": {
-                        "description": "Code SKU",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "barcode": {
-                        "description": "Code-barres",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "is_visible": {
-                        "description": "Visibilité sur la boutique (true/false)",
-                        "type": "boolean"
-                    },
-                    "is_featured": {
-                        "description": "Produit mis en avant sur la page d'accueil",
-                        "type": "boolean"
-                    },
-                    "published_at": {
-                        "description": "Date de publication",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    },
-                    "meta_title": {
-                        "description": "Titre SEO",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "meta_description": {
-                        "description": "Description SEO",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "image": {
-                        "description": "Chemin de l'image principale",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "gallery": {
-                        "description": "Galerie d'images",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "User": {
-                "title": "User",
-                "description": "Modèle de données pour un utilisateur",
-                "properties": {
-                    "id": {
-                        "description": "ID de l'utilisateur",
-                        "type": "integer"
-                    },
-                    "name": {
-                        "description": "Nom complet de l'utilisateur",
-                        "type": "string"
-                    },
-                    "email": {
-                        "description": "Adresse email unique",
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "role": {
-                        "description": "Rôle de l'utilisateur (ex: USER, ADMIN)",
-                        "type": "string",
-                        "enum": [
-                            "USER",
-                            "ADMIN"
-                        ]
-                    },
-                    "created_at": {
-                        "description": "Date de création de l'utilisateur",
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "description": "Date de dernière mise à jour",
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            }
-        },
         "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "description": "Entrez le jeton Bearer obtenu après la connexion.",
-                "bearerFormat": "Sanctum",
-                "scheme": "bearer"
-            },
             "sanctum": {
                 "type": "apiKey",
                 "description": "Enter token in format (Bearer <token>)",
@@ -882,24 +695,8 @@
     },
     "tags": [
         {
-            "name": "Auth",
-            "description": "Opérations d'authentification et de gestion des utilisateurs."
-        },
-        {
-            "name": "Cart",
-            "description": "Opérations sur le panier d'achat de l'utilisateur."
-        },
-        {
-            "name": "Home",
-            "description": "Points d'accès pour la page d'accueil et les informations générales."
-        },
-        {
-            "name": "Orders",
-            "description": "Opérations de gestion des commandes."
-        },
-        {
             "name": "Products",
-            "description": "Opérations sur les produits de la boutique."
+            "description": "Gestion des produits du catalogue"
         }
     ]
 }

@@ -2,107 +2,107 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
-/**
- * @OA\Schema(
- * schema="Product",
- * title="Product",
- * description="Modèle de données pour un produit de la boutique",
- * @OA\Property(property="id", type="integer", description="ID du produit"),
- * @OA\Property(property="category_id", type="integer", nullable=true, description="ID de la catégorie associée"),
- * @OA\Property(property="name", type="string", description="Nom du produit"),
- * @OA\Property(property="slug", type="string", description="Slug unique pour l'URL"),
- * @OA\Property(property="description", type="string", nullable=true, description="Description détaillée"),
- * @OA\Property(property="price", type="number", format="float", description="Prix actuel"),
- * @OA\Property(property="compare_price", type="number", format="float", nullable=true, description="Ancien prix pour afficher une réduction"),
- * @OA\Property(property="stock", type="integer", description="Quantité en stock"),
- * @OA\Property(property="sku", type="string", nullable=true, description="Code SKU"),
- * @OA\Property(property="barcode", type="string", nullable=true, description="Code-barres"),
- * @OA\Property(property="is_visible", type="boolean", description="Visibilité sur la boutique (true/false)"),
- * @OA\Property(property="is_featured", type="boolean", description="Produit mis en avant sur la page d'accueil"),
- * @OA\Property(property="published_at", type="string", format="date-time", nullable=true, description="Date de publication"),
- * @OA\Property(property="meta_title", type="string", nullable=true, description="Titre SEO"),
- * @OA\Property(property="meta_description", type="string", nullable=true, description="Description SEO"),
- * @OA\Property(property="image", type="string", nullable=true, description="Chemin de l'image principale"),
- * @OA\Property(property="gallery", type="array", @OA\Items(type="string"), description="Galerie d'images"),
- * @OA\Property(property="created_at", type="string", format="date-time"),
- * @OA\Property(property="updated_at", type="string", format="date-time")
- * )
- */
 class Product extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'description', 'price', 'compare_price', 'stock',
-        'sku', 'barcode', 'is_visible', 'is_featured', 'published_at',
-        'meta_title', 'meta_description', 'image', 'gallery', 'category_id'
+        'name',
+        'slug',
+        'description',
+        'base_price',
+        'category_id',
+        'shelf_id',
+        'image',
+        'is_active'
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
-        'compare_price' => 'decimal:2',
-        'is_visible' => 'boolean',
-        'is_featured' => 'boolean',
-        'published_at' => 'datetime',
-        'gallery' => 'array',
+        'base_price' => 'decimal:2',
+        'is_active' => 'boolean'
     ];
 
-    // Relation avec Category
-    public function category(): BelongsTo
+    protected $appends = ['image_url'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = Str::slug($product->name);
+            }
+        });
+    }
+
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    // Relation avec CartItem
-    public function cartItems()
+    public function shelf()
     {
-        return $this->hasMany(CartItem::class);
+        return $this->belongsTo(Shelf::class);
     }
 
-    // Relation avec OrderItem
-    public function orderItems()
+    public function variants()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(ProductVariant::class);
     }
 
-    // Scopes
-    public function scopeVisible($query)
+    public function discounts()
     {
-        return $query->where('is_visible', true)
-                    ->where('published_at', '<=', now());
+        return $this->morphToMany(Discount::class, 'discountable');
     }
 
-    public function scopeFeatured($query)
+    public function getImageUrlAttribute()
     {
-        return $query->where('is_featured', true);
+        return $this->image ? asset('storage/' . $this->image) : null;
     }
 
-    public function scopeInStock($query)
+    public function scopeActive($query)
     {
-        return $query->where('stock', '>', 0);
+        return $query->where('is_active', true);
     }
 
-    // Accessors
-    public function getFormattedPriceAttribute(): string
+    public function scopeByCategory($query, $categoryId)
     {
-        return number_format($this->price, 2, ',', ' ') . ' €';
+        return $query->where('category_id', $categoryId);
     }
 
-    public function getHasDiscountAttribute(): bool
+    public function scopeByShelf($query, $shelfId)
     {
-        return !is_null($this->compare_price) && $this->compare_price > $this->price;
+        return $query->where('shelf_id', $shelfId);
     }
 
-    public function getDiscountPercentageAttribute(): ?int
+    public function scopeSearch($query, $term)
     {
-        if (!$this->has_discount) return null;
-        
-        return round(($this->compare_price - $this->price) / $this->compare_price * 100);
+        return $query->where(function($q) use ($term) {
+            $q->where('name', 'LIKE', "%{$term}%")
+              ->orWhere('description', 'LIKE', "%{$term}%");
+        });
+    }
+
+    public function scopePriceRange($query, $min = null, $max = null)
+    {
+        if ($min !== null) {
+            $query->where('base_price', '>=', $min);
+        }
+        if ($max !== null) {
+            $query->where('base_price', '<=', $max);
+        }
+        return $query;
+    }
+
+    public function scopeWithDiscount($query)
+    {
+        return $query->whereHas('discounts', function($q) {
+            $q->where('start_date', '<=', now())
+              ->where('end_date', '>=', now());
+        });
     }
 }

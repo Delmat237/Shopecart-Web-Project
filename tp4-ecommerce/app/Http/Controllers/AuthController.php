@@ -86,7 +86,34 @@ class AuthController extends Controller
             'token' => $token
         ], 201);
     }
-
+     /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Login user",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Login successful"),
+     *             @OA\Property(property="user", type="object"),
+     *             @OA\Property(property="token", type="string", example="1|randomtoken123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials"
+     *     )
+     * )
+     */
     
     public function login(Request $request)
     {
@@ -112,8 +139,24 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout user.
+   /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Logout user",
+     *     tags={"Authentication"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logout successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Logout successful")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     )
+     * )
      */
     public function logout(Request $request)
     {
@@ -125,7 +168,21 @@ class AuthController extends Controller
     }
 
     /**
-     * Get authenticated user.
+     * @OA\Get(
+     *     path="/api/user",
+     *     summary="Get current user",
+     *     tags={"Authentication"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User details",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
+     *     )
+     * )
      */
     public function user(Request $request)
     {

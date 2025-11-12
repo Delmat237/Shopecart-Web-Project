@@ -78,6 +78,8 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
              'role' => 'sometimes|in:client,admin,vendor,delivery',
         ]);
+
+        // dans un premier temps j'autorise d'abord les admin a s'enregistrer histoire d'avoir un admin
         $role = $validated['role'] ?? 'client';
 
         $user = User::create([

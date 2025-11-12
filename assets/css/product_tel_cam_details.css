@@ -177,15 +177,14 @@
 .quantity-section {
     display: flex;
     align-items: center;
-    gap: 20px;
 }
 
 .qty-btn {
     width: 40px;
     height: 40px;
-    background: #3b82f6;
-    color: white;
-    border: none;
+    background: white;
+    color: #3b82f6;
+    border: 1px solid #3b82f6;
     border-radius: 5px;
     font-size: 20px;
     cursor: pointer;
@@ -193,14 +192,14 @@
 }
 
 .qty-btn:hover {
-    background: #1e3a8a;
+    border: 1px solid #1e3a8a;
 }
 
 .qty-input {
     width: 60px;
     height: 40px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #3b82f6;
     border-radius: 5px;
     font-size: 18px;
     font-weight: bold;
@@ -231,20 +230,6 @@
 /* Bouton d'ajout au panier */
 .btn-add-to-cart {
     width: 100%;
-    background: #1e3a8a;
-    color: white;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    padding: 15px;
-    border-radius: 30px;
-}
-
-/* Bouton de retrait du panier */
-.btn-buy-it-now {
-    width: 100%;
     background: white;
     color: #1a1a5e;
     border: 2px solid #1a1a5e;
@@ -256,14 +241,28 @@
     border-radius: 30px;
 }
 
+/* Bouton de retrait du panier */
+.btn-buy-it-now {
+    width: 100%;
+    background: #1e3a8a;
+    color: white;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 15px;
+    border-radius: 30px;
+}
+
 .btn-add-to-cart:hover {
-    background: #1e40af;
+    background: #3b82f6;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(26, 26, 94, 0.3);
 }
 
 .btn-buy-it-now:hover {
-    background: #3b82f6;
+    background: #1e40af;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(26, 26, 94, 0.3);
 }

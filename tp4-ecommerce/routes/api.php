@@ -1,15 +1,10 @@
 <?php
-<<<<<<< HEAD
-
-use App\Http\Controllers\AuthController;
-=======
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,21 +32,6 @@ Route::get('/', function () {
     ]);
 });
 
-<<<<<<< HEAD
-
-Route::prefix('v1')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    // Test email
-    Route::post('/notifications/test', [NotificationController::class, 'testEmail']);
-
-    // Envoyé après application d'un code promo
-    Route::post('/notifications/discount/{order}/{code}', [NotificationController::class, 'sendDiscountApplied']);
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get('/user', [AuthController::class, 'user']);
-    });
-=======
 // Public routes
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/featured', [ProductController::class, 'featured']);
@@ -106,5 +86,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Routes accessibles à tous les rôles authentifiés mais avec restrictions dans les contrôleurs
     Route::get('/products/vendor/my-products', [ProductController::class, 'myProducts']);
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 });

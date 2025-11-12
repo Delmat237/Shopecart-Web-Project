@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Cart;
+use App\Models\CartItem;
+use App\Http\Resources\CartResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -135,11 +139,7 @@ class CartController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-    public function show(Cart $cart)
-=======
     public function removeItem(CartItem $cartItem)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
         // ... votre code existant
     }
@@ -160,33 +160,10 @@ class CartController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-    public function edit(Cart $cart)
-=======
     public function clear(Request $request)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
         // ... votre code existant
     }
 
-<<<<<<< HEAD
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
-    }
-}
-=======
     // ... vos méthodes privées existantes
 }
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c

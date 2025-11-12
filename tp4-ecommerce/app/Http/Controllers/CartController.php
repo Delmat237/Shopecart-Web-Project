@@ -8,37 +8,26 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Http\Resources\CartResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-
-/**
- * @OA\Tag(
- *     name="Cart",
- *     description="API Endpoints for Shopping Cart"
- * )
- */
+use App\Models\CartItem;
 class CartController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/cart",
-     *     summary="Get user's cart",
-     *     tags={"Cart"},
-     *     security={{"bearerAuth":{}}},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="data", ref="#/components/schemas/Cart")
-     *         )
-     *     )
-     * )
+     * Display a listing of the resource.
      */
-    public function show(Request $request)
+    //function to emty a cart
+    public function emptyCart($userId){
+    $cart=Cart::where("userId",$userId)->get();
+    $cartItems=CartItem::where("userId",$cart->id)->get();
+    foreach($cartItems as $cartItem){
+        $cartItem->delete();
+        
+    }
+    return response()->json("cart emptied");
+    }
+    
+    public function index()
     {
-        $cart = $this->getOrCreateCart($request);
-        $cart->load('items.product');
-
-        return new CartResource($cart);
+        //get all carts
     }
 
     /**
@@ -77,6 +66,13 @@ class CartController extends Controller
     public function addItem(Request $request, Product $product)
     {
         // ... votre code existant
+        //create a new cart for the users
+        $data=$request->validate([
+            "userId"=>"required",
+            
+        ]);
+        return response()->json(["data received"=>$data]);
+        
     }
 
     /**
@@ -114,7 +110,7 @@ class CartController extends Controller
      */
     public function updateItem(Request $request, CartItem $cartItem)
     {
-        // ... votre code existant
+        //
     }
 
     /**

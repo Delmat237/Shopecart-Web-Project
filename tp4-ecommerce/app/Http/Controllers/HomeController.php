@@ -27,7 +27,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-<<<<<<< HEAD
      * @OA\Get(
      * path="/",
      * operationId="getFeaturedProducts",
@@ -45,10 +44,6 @@ class HomeController extends Controller
      * )
      */
     
-=======
-     * Afficher la page d'accueil
-     */
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     public function index()
     {
         $featuredProducts = Product::with('category')
@@ -81,24 +76,5 @@ class HomeController extends Controller
     public function contact()
     {
         return view('pages.contact');
-    }
-
-    /**
-     * Traiter le formulaire de contact
-     */
-    public function contactSubmit(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string|min:10',
-        ]);
-
-        // Ici vous pouvez envoyer un email ou sauvegarder en base
-        // Pour l'instant, on retourne juste un message de succès
-
-        return redirect()->route('contact')
-            ->with('success', 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.');
     }
 }

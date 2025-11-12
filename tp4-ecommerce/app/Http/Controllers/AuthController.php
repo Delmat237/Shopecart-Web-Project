@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\UserRegistered; // Import du Mailable pour l'envoi d'e-mail
 use App\Models\User;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail; // Ajout pour l'envoi d'e-mail
@@ -80,16 +81,7 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
 
-        // ===============================================
-        // ENVOI DE L'E-MAIL DE CONFIRMATION
-        // ===============================================
-        try {
-            Mail::to($user->email)->send(new UserRegistered($user));
-        } catch (\Exception $e) {
-            // Optionnel : Enregistrer l'erreur sans bloquer l'utilisateur
-            Log::error('Échec de l\'envoi de l\'e-mail d\'inscription: ' . $e->getMessage());
-        }
-        // ===============================================
+        $cart=Cart::create(["userId"=>$user->id]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

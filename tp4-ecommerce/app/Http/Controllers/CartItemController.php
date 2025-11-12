@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 
+
 class CartItemController extends Controller
 {
     /**
@@ -39,6 +40,7 @@ class CartItemController extends Controller
         //
     }
 
+ 
     /**
      * Show the form for editing the specified resource.
      */

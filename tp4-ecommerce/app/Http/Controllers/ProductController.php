@@ -92,7 +92,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/products",
+     *     path="/api/products",
      *     summary="Create a new product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -163,7 +163,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/products/{id}",
+     *     path="/api/products/{id}",
      *     summary="Update product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -241,7 +241,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/products/{id}",
+     *     path="/api/products/{id}",
      *     summary="Delete product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -289,7 +289,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/products/vendor/my-products",
+     *     path="/api/products/vendor/my-products",
      *     summary="Get vendor's products",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -327,7 +327,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/products/vendor/stats",
+     *     path="/api/products/vendor/stats",
      *     summary="Get vendor statistics",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},

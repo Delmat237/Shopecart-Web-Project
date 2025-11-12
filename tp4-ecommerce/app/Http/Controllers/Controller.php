@@ -7,9 +7,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
- * @OA\Info(
- *     title="Nom de l'API",
+* * @OA\Info(
+ *     title="Ecommerce API",
  *     version="1.0.0",
+ *     description="API for Ecommerce application"
  * )
  */
 

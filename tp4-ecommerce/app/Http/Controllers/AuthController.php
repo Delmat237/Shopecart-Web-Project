@@ -11,6 +11,14 @@ use Illuminate\Validation\ValidationException;
 
 
 /**
+ 
+ * 
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http", 
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  * @OA\Tag(
  *     name="Authentication",
  *     description="API Endpoints for Authentication"
@@ -38,7 +46,7 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/register",
+     *     path="/api/register",
      *     summary="Register a new user",
      *     tags={"Authentication"},
      *     @OA\RequestBody(
@@ -70,12 +78,13 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
              'role' => 'sometimes|in:client,admin,vendor,delivery',
         ]);
+        $role = $validated['role'] ?? 'client';
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-             'role' => $validated['role'] ?? 'client'
+             'role' => $role,
         ]);
 
         $token = $user->createToken('auth-token')->plainTextToken;

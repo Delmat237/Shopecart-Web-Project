@@ -292,6 +292,7 @@ return [
                  * the tag.
                  */
                 'filter' => env('L5_SWAGGER_UI_FILTERS', true), // true | false
+                'auth' => true,
             ],
 
             'authorization' => [

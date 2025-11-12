@@ -1,17 +1,18 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Nom de l'API",
+        "title": "Ecommerce API",
+        "description": "API for Ecommerce application",
         "version": "1.0.0"
     },
     "paths": {
-        "/register": {
+        "/api/register": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Register a new user",
-                "operationId": "0903f2e0df1a8857bee538fc055417f0",
+                "operationId": "8a56853624e025573120a09a4c75d468",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -356,13 +357,15 @@
                         "bearerAuth": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/cart/items/{cartItem}": {
             "delete": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Remove item from cart",
-                "operationId": "cecec54eaa5f542e7028e3ce94ade057",
+                "operationId": "8d114a15678817e115627d0eace73231",
                 "parameters": [
                     {
                         "name": "cartItem",
@@ -398,13 +401,13 @@
                 ]
             }
         },
-        "/cart/clear": {
+        "/api/cart/clear": {
             "delete": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Clear the cart",
-                "operationId": "6c16eeec461bf91618968113b533465a",
+                "operationId": "c2cf94402630acad1cc6d317ec806693",
                 "responses": {
                     "200": {
                         "description": "Cart cleared successfully",
@@ -432,13 +435,13 @@
                 ]
             }
         },
-        "/categories": {
+        "/api/categories": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
                 "summary": "Get list of categories",
-                "operationId": "ead5fb1cf2a7453acb2e37928a1b1eaf",
+                "operationId": "3f5817a34833d0a1f4af4548dd3aeaba",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -461,13 +464,13 @@
                 }
             }
         },
-        "/categories/{id}": {
+        "/api/categories/{id}": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
                 "summary": "Get category details with products",
-                "operationId": "4cdf41756315109f1efc72787db5830a",
+                "operationId": "c68e76d323c008827a9e47398b1583de",
                 "parameters": [
                     {
                         "name": "id",
@@ -556,13 +559,15 @@
                         "bearerAuth": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/orders": {
             "post": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Create a new order",
-                "operationId": "445bab4f7dc9ea6fcd54f286c0209478",
+                "operationId": "d690d6834318e9b064df441e854de8b9",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -673,13 +678,13 @@
                 ]
             }
         },
-        "/orders/{id}": {
+        "/api/orders/{id}": {
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Get order details",
-                "operationId": "f088d34a2737782215f435f854e31de5",
+                "operationId": "c29621029e70f65247909d3e09031118",
                 "parameters": [
                     {
                         "name": "id",
@@ -716,13 +721,13 @@
                 ]
             }
         },
-        "/products": {
+        "/api/products": {
             "post": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Create a new product",
-                "operationId": "399770d33fa4672f1216707d0e236763",
+                "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -810,13 +815,13 @@
                 ]
             }
         },
-        "/products/{id}": {
+        "/api/products/{id}": {
             "put": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Update product",
-                "operationId": "1419d479f9340e30e67fe21a2ca525b7",
+                "operationId": "6a7e11900844cd85cff66e662b82bd4c",
                 "parameters": [
                     {
                         "name": "id",
@@ -919,7 +924,7 @@
                     "Products"
                 ],
                 "summary": "Delete product",
-                "operationId": "fe34b364a3f192305598b65d04d06b5d",
+                "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
                 "parameters": [
                     {
                         "name": "id",
@@ -959,13 +964,13 @@
                 ]
             }
         },
-        "/products/vendor/my-products": {
+        "/api/products/vendor/my-products": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Get vendor's products",
-                "operationId": "a63d01e86683192f305f845caa3df11e",
+                "operationId": "e1caf79623d4afd8e2e296f0c244e580",
                 "responses": {
                     "200": {
                         "description": "Vendor's products list",
@@ -996,13 +1001,13 @@
                 ]
             }
         },
-        "/products/vendor/stats": {
+        "/api/products/vendor/stats": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Get vendor statistics",
-                "operationId": "0689fb5e8cb75144e5fd373325e54ee2",
+                "operationId": "8fc21d52bf9442ce22f18079d9c2056d",
                 "responses": {
                     "200": {
                         "description": "Vendor statistics",
@@ -1043,13 +1048,13 @@
                 ]
             }
         },
-        "/users": {
+        "/api/users": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get all users",
-                "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+                "operationId": "c457726701591d1183b53aa71fc13441",
                 "parameters": [
                     {
                         "name": "role",
@@ -1127,7 +1132,7 @@
                     "Users"
                 ],
                 "summary": "Create a new user",
-                "operationId": "a1fce870c566eb5fc0cf3178ec5d2fed",
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1206,13 +1211,13 @@
                 ]
             }
         },
-        "/users/{id}": {
+        "/api/users/{id}": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user details",
-                "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+                "operationId": "36a33ff774d5cba33c039dec2c3e0287",
                 "parameters": [
                     {
                         "name": "id",
@@ -1250,7 +1255,7 @@
                     "Users"
                 ],
                 "summary": "Update user",
-                "operationId": "ddfe232db1870b82493bf8bd25596d37",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
                 "parameters": [
                     {
                         "name": "id",
@@ -1346,7 +1351,7 @@
                     "Users"
                 ],
                 "summary": "Delete user",
-                "operationId": "43dd20becb1f47444e484cbb18ce345c",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
                 "parameters": [
                     {
                         "name": "id",
@@ -1386,13 +1391,13 @@
                 ]
             }
         },
-        "/users/roles/stats": {
+        "/api/users/roles/stats": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user statistics by role",
-                "operationId": "501b86e714c1f5ff569e8b2802b4522e",
+                "operationId": "11d0cfb8621a067c0812df82ba34640c",
                 "responses": {
                     "200": {
                         "description": "User statistics",
@@ -1694,6 +1699,13 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

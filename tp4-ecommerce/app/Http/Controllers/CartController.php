@@ -76,7 +76,50 @@ class CartController extends Controller
      */
     public function addItem(Request $request, Product $product)
     {
-        // ... votre code existant
+        if ($product->stock < 1) {
+            return response()->json([
+                'message' => 'Product out of stock'
+            ], 422);
+        }
+
+        $cart = $this->getOrCreateCart($request);
+        $quantity = $request->input('quantity', 1);
+
+        $existingItem = $cart->items()->where('product_id', $product->id)->first();
+
+        if ($existingItem) {
+            $newQuantity = $existingItem->quantity + $quantity;
+            
+            if ($newQuantity > $product->stock) {
+                return response()->json([
+                    'message' => 'Requested quantity not available in stock'
+                ], 422);
+            }
+            
+            $existingItem->update([
+                'quantity' => $newQuantity,
+                'total' => $existingItem->unit_price * $newQuantity
+            ]);
+        } else {
+            if ($quantity > $product->stock) {
+                return response()->json([
+                    'message' => 'Requested quantity not available in stock'
+                ], 422);
+            }
+            
+            CartItem::create([
+                'cart_id' => $cart->id,
+                'product_id' => $product->id,
+                'quantity' => $quantity,
+                'unit_price' => $product->price,
+                'total' => $product->price * $quantity,
+            ]);
+        }
+
+        $this->updateCartTotals($cart);
+        $cart->load('items.product');
+
+        return new CartResource($cart);
     }
 
     /**
@@ -114,12 +157,30 @@ class CartController extends Controller
      */
     public function updateItem(Request $request, CartItem $cartItem)
     {
-        // ... votre code existant
+        $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        if ($request->quantity > $cartItem->product->stock) {
+            return response()->json([
+                'message' => 'Requested quantity not available in stock'
+            ], 422);
+        }
+
+        $cartItem->update([
+            'quantity' => $request->quantity,
+            'total' => $cartItem->unit_price * $request->quantity
+        ]);
+
+        $this->updateCartTotals($cartItem->cart);
+        $cartItem->cart->load('items.product');
+
+        return new CartResource($cartItem->cart);
     }
 
     /**
      * @OA\Delete(
-     *     path="/cart/items/{cartItem}",
+     *     path="/api/cart/items/{cartItem}",
      *     summary="Remove item from cart",
      *     tags={"Cart"},
      *     security={{"bearerAuth":{}}},
@@ -141,12 +202,16 @@ class CartController extends Controller
      */
     public function removeItem(CartItem $cartItem)
     {
-        // ... votre code existant
+        $cartItem->delete();
+        $this->updateCartTotals($cartItem->cart);
+        $cartItem->cart->load('items.product');
+
+        return new CartResource($cartItem->cart);
     }
 
     /**
      * @OA\Delete(
-     *     path="/cart/clear",
+     *     path="/api/cart/clear",
      *     summary="Clear the cart",
      *     tags={"Cart"},
      *     security={{"bearerAuth":{}}},
@@ -162,7 +227,44 @@ class CartController extends Controller
      */
     public function clear(Request $request)
     {
-        // ... votre code existant
+         $cart = $this->getOrCreateCart($request);
+        $cart->items()->delete();
+        $this->updateCartTotals($cart);
+
+        return response()->json([
+            'message' => 'Cart cleared successfully',
+            'cart' => new CartResource($cart)
+        ]);
+    }
+
+    private function getOrCreateCart(Request $request)
+    {
+        if (auth()->check()) {
+            return Cart::firstOrCreate([
+                'user_id' => auth()->id()
+            ]);
+        }
+
+        $sessionId = $request->header('X-Cart-Session') ?? $request->session()->get('cart_session_id');
+        
+        if (!$sessionId) {
+            $sessionId = Str::random(32);
+            $request->session()->put('cart_session_id', $sessionId);
+        }
+
+        return Cart::firstOrCreate([
+            'session_id' => $sessionId
+        ]);
+    }
+
+    private function updateCartTotals(Cart $cart)
+    {
+        $cart->load('items');
+        
+        $cart->update([
+            'items_count' => $cart->items->sum('quantity'),
+            'total' => $cart->items->sum('total')
+        ]);
     }
 
     // ... vos méthodes privées existantes

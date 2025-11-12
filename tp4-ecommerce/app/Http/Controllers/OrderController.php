@@ -11,10 +11,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\Tag(
+ *     name="Orders",
+ *     description="API Endpoints for Orders"
+ * )
+ */
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the user's orders.
+     * @OA\Get(
+     *     path="/orders",
+     *     summary="Get user's orders",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Order")),
+     *             @OA\Property(property="links", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -26,20 +47,55 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created order.
+     * @OA\Post(
+     *     path="/orders",
+     *     summary="Create a new order",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"customer_first_name", "customer_last_name", "customer_email", "customer_phone", "shipping_address", "shipping_city", "shipping_zipcode", "shipping_country", "payment_method"},
+     *             @OA\Property(property="customer_first_name", type="string", example="John"),
+     *             @OA\Property(property="customer_last_name", type="string", example="Doe"),
+     *             @OA\Property(property="customer_email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="customer_phone", type="string", example="+1234567890"),
+     *             @OA\Property(property="shipping_address", type="string", example="123 Main St"),
+     *             @OA\Property(property="shipping_city", type="string", example="New York"),
+     *             @OA\Property(property="shipping_zipcode", type="string", example="10001"),
+     *             @OA\Property(property="shipping_country", type="string", example="USA"),
+     *             @OA\Property(property="billing_address", type="string", example="123 Main St"),
+     *             @OA\Property(property="billing_city", type="string", example="New York"),
+     *             @OA\Property(property="billing_zipcode", type="string", example="10001"),
+     *             @OA\Property(property="billing_country", type="string", example="USA"),
+     *             @OA\Property(property="payment_method", type="string", example="credit_card"),
+     *             @OA\Property(property="notes", type="string", example="Please deliver in the morning")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Order created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="order", ref="#/components/schemas/Order")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
         $cart = $this->getCurrentCart($request);
 
-        // Vérifications finales
         if ($cart->items_count === 0) {
             return response()->json([
                 'message' => 'Your cart is empty'
             ], 422);
         }
 
-        // Valider les informations
         $validated = $request->validate([
             'customer_first_name' => 'required|string|max:255',
             'customer_last_name' => 'required|string|max:255',
@@ -57,7 +113,6 @@ class OrderController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        // Vérifier le stock de tous les produits
         foreach ($cart->items as $item) {
             if ($item->quantity > $item->product->stock) {
                 return response()->json([
@@ -69,13 +124,12 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            // Créer la commande
             $order = Order::create([
                 'order_number' => 'ORD-' . date('Ymd') . '-' . Str::random(6),
                 'status' => 'pending',
                 'subtotal' => $cart->total,
-                'shipping' => 0, // À calculer
-                'tax' => 0, // À calculer
+                'shipping' => 0,
+                'tax' => 0,
                 'total' => $cart->total,
                 'user_id' => auth()->id(),
                 'customer_email' => $validated['customer_email'],
@@ -94,7 +148,6 @@ class OrderController extends Controller
                 'notes' => $validated['notes'] ?? null,
             ]);
 
-            // Créer les items de commande
             foreach ($cart->items as $cartItem) {
                 $order->items()->create([
                     'product_id' => $cartItem->product_id,
@@ -105,11 +158,9 @@ class OrderController extends Controller
                     'product_sku' => $cartItem->product->sku,
                 ]);
 
-                // Mettre à jour le stock
                 $cartItem->product->decrement('stock', $cartItem->quantity);
             }
 
-            // Vider le panier
             $cart->items()->delete();
             $this->updateCartTotals($cart);
 
@@ -132,11 +183,35 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified order.
+     * @OA\Get(
+     *     path="/orders/{id}",
+     *     summary="Get order details",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Order ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Order")
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Order not found"
+     *     )
+     * )
      */
     public function show(Order $order)
     {
-        // Vérifier que l'utilisateur peut voir cette commande
         if ($order->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -146,9 +221,6 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
-    /**
-     * Get current cart
-     */
     private function getCurrentCart(Request $request)
     {
         if (auth()->check()) {
@@ -159,9 +231,6 @@ class OrderController extends Controller
         return Cart::where('session_id', $sessionId)->first();
     }
 
-    /**
-     * Update cart totals
-     */
     private function updateCartTotals(Cart $cart)
     {
         $cart->load('items');

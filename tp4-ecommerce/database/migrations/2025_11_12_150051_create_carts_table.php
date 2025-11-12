@@ -12,9 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id();
+    $table->string('session_id')->nullable();
+    $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+    $table->decimal('total', 10, 2)->default(0);
+    $table->integer('items_count')->default(0);
+    $table->timestamps();
+    
+    $table->index(['session_id']);
+    $table->index(['user_id']);
+});
     }
 
     /**

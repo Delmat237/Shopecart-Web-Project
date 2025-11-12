@@ -15,6 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\Api\NotificationController;
 
+// Route de test (racine)
+Route::get('/', function () {
+    return response()->json([
+        'message' => 'Shopcart API v1',
+        'version' => '1.0.0',
+        'endpoints' => [
+            'register' => '/api/v1/register',
+            'login' => '/api/v1/login',
+            'docs' => '/api/documentation'
+        ]
+    ]);
+});
+
 Route::prefix('v1')->group(function () {
 
     // Test email

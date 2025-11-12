@@ -14,14 +14,18 @@ class UserSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@shopcart.com',
             'password' => Hash::make('password123'),
-            'role' => 'ADMIN'
+            'role' => 'ADMIN',
+            'phone' => '+237 0700000000',
+            'address' => 'Douala, Akwa'
         ]);
 
         User::create([
             'name' => 'Client User',
             'email' => 'client@shopcart.com',
             'password' => Hash::make('password123'),
-            'role' => 'USER'
+            'role' => 'USER',
+            'phone' => '+237 1700000000',
+            'address' => 'Yaounde, Akwa'
         ]);
     }
 }

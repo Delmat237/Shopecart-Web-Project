@@ -11,14 +11,6 @@
     "servers": [
         {
             "url": "http://localhost:8000",
-            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
-        },
-        {
-            "url": "http://localhost:8000",
-            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
-        },
-        {
-            "url": "http://localhost",
             "description": "Serveur de développement"
         }
     ],
@@ -44,12 +36,12 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "Raoul Ossombe"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "raoulOssombe@shopcart.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -60,6 +52,16 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "secret123"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+237653982736",
+                                        "nullable": true
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Yaounde,Melen",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -117,7 +119,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "raoulossombe@shopcart.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -213,169 +215,6 @@
                 ]
             }
         },
-        "/api/v1/cart": {
-            "get": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Afficher le contenu du panier",
-                "description": "Retourne la liste des articles actuellement dans le panier de l'utilisateur.",
-                "operationId": "getCartContent",
-                "responses": {
-                    "200": {
-                        "description": "Contenu du panier récupéré.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CartItem"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Ajouter un produit au panier",
-                "description": "Ajoute un produit au panier ou met à jour la quantité si le produit existe déjà.",
-                "operationId": "addItemToCart",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "product_id",
-                                    "quantity"
-                                ],
-                                "properties": {
-                                    "product_id": {
-                                        "type": "integer",
-                                        "example": 10
-                                    },
-                                    "quantity": {
-                                        "type": "integer",
-                                        "example": 1
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Article ajouté/mis à jour dans le panier."
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/cart/{productId}": {
-            "put": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Mettre à jour la quantité d'un article dans le panier",
-                "description": "Modifie la quantité d'un produit spécifique dans le panier. Utilisez 0 pour supprimer l'article.",
-                "operationId": "updateCartItemQuantity",
-                "parameters": [
-                    {
-                        "name": "productId",
-                        "in": "path",
-                        "description": "ID du produit dans le panier (ou ID de l'article du panier)",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "quantity"
-                                ],
-                                "properties": {
-                                    "quantity": {
-                                        "type": "integer",
-                                        "example": 3
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Quantité mise à jour."
-                    },
-                    "404": {
-                        "description": "Article non trouvé dans le panier."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Cart"
-                ],
-                "summary": "Supprimer un article du panier",
-                "description": "Supprime un produit spécifique du panier de l'utilisateur.",
-                "operationId": "removeCartItem",
-                "parameters": [
-                    {
-                        "name": "productId",
-                        "in": "path",
-                        "description": "ID du produit à supprimer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Article supprimé avec succès."
-                    },
-                    "404": {
-                        "description": "Article non trouvé dans le panier."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/": {
             "get": {
                 "tags": [
@@ -401,141 +240,38 @@
                 }
             }
         },
-        "/api/v1/orders": {
-            "get": {
-                "tags": [
-                    "Orders"
-                ],
-                "summary": "Obtenir la liste des commandes de l'utilisateur",
-                "description": "Retourne toutes les commandes passées par l'utilisateur authentifié.",
-                "operationId": "getOrdersList",
-                "responses": {
-                    "200": {
-                        "description": "Liste des commandes récupérée avec succès.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Order"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
+        "/api/v1/notifications/test-registration": {
             "post": {
                 "tags": [
-                    "Orders"
+                    "Notifications"
                 ],
-                "summary": "Créer une nouvelle commande",
-                "description": "Passe une nouvelle commande en utilisant le contenu du panier de l'utilisateur.",
-                "operationId": "storeOrder",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "shipping_address": {
-                                        "type": "string",
-                                        "example": "123 Rue de la Livraion"
-                                    },
-                                    "payment_method": {
-                                        "type": "string",
-                                        "example": "credit_card"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Commande créée avec succès.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Non autorisé."
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/products": {
-            "get": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Obtenir la liste complète des produits",
-                "description": "Retourne tous les produits (peut nécessiter une pagination).",
-                "operationId": "getProductsList",
+                "summary": "Teste l'envoi de l'e-mail de confirmation d'inscription.",
+                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
+                "operationId": "testRegistrationEmail",
                 "responses": {
                     "200": {
-                        "description": "Liste des produits récupérée avec succès.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Product"
-                                    }
-                                }
-                            }
-                        }
+                        "description": "E-mail de test d'inscription envoyé avec succès (Vérifiez la console pour les erreurs)."
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé."
+                    },
+                    "500": {
+                        "description": "Erreur d'envoi d'e-mail."
                     }
                 }
             }
         },
-        "/api/v1/products/{id}": {
-            "get": {
+        "/api/v1/notifications/test-order": {
+            "post": {
                 "tags": [
-                    "Products"
+                    "Notifications"
                 ],
-                "summary": "Obtenir un produit par son ID",
-                "description": "Retourne les détails d'un produit spécifique.",
-                "operationId": "getProductById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID du produit à récupérer",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
+                "summary": "Teste l'envoi de l'e-mail de confirmation de commande.",
+                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
+                "operationId": "testOrderEmail",
                 "responses": {
                     "200": {
-                        "description": "Détails du produit récupérés.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Product"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Produit non trouvé."
+                        "description": "E-mail de test de commande envoyé avec succès."
                     }
                 }
             }
@@ -543,191 +279,6 @@
     },
     "components": {
         "schemas": {
-            "CartItem": {
-                "title": "CartItem",
-                "description": "Modèle de données pour un article dans le panier",
-                "properties": {
-                    "id": {
-                        "description": "ID de l'article dans le panier",
-                        "type": "integer"
-                    },
-                    "cart_id": {
-                        "description": "ID du panier auquel l'article appartient",
-                        "type": "integer"
-                    },
-                    "product_id": {
-                        "description": "ID du produit dans cet article",
-                        "type": "integer"
-                    },
-                    "quantity": {
-                        "description": "Quantité du produit",
-                        "type": "integer"
-                    },
-                    "product": {
-                        "$ref": "#/components/schemas/Product"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "Order": {
-                "title": "Order",
-                "description": "Modèle de données pour une commande client",
-                "properties": {
-                    "id": {
-                        "description": "ID de la commande",
-                        "type": "integer"
-                    },
-                    "order_number": {
-                        "description": "Numéro unique de la commande",
-                        "type": "string"
-                    },
-                    "user_id": {
-                        "description": "ID de l'utilisateur qui a passé la commande (null si invité)",
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "status": {
-                        "description": "Statut de la commande",
-                        "type": "string",
-                        "enum": [
-                            "pending",
-                            "processing",
-                            "completed",
-                            "cancelled"
-                        ]
-                    },
-                    "customer_email": {
-                        "description": "Email du client",
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "subtotal": {
-                        "description": "Sous-total des articles",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "shipping": {
-                        "description": "Coût de la livraison",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "tax": {
-                        "description": "Taxes appliquées",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "discount": {
-                        "description": "Réduction appliquée",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "total": {
-                        "description": "Montant total de la commande",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "payment_method": {
-                        "description": "Méthode de paiement (ex: credit_card)",
-                        "type": "string"
-                    },
-                    "payment_status": {
-                        "description": "Statut du paiement (ex: paid, failed)",
-                        "type": "string"
-                    },
-                    "shipping_address": {
-                        "description": "Adresse de livraison complète",
-                        "type": "string"
-                    },
-                    "shipping_city": {
-                        "description": "Ville de livraison",
-                        "type": "string"
-                    },
-                    "shipping_country": {
-                        "description": "Pays de livraison",
-                        "type": "string"
-                    },
-                    "items": {
-                        "description": "Liste des articles de la commande",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OrderItem"
-                        }
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "completed_at": {
-                        "description": "Date de finalisation de la commande",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "OrderItem": {
-                "title": "OrderItem",
-                "description": "Modèle de données pour un article individuel dans une commande",
-                "properties": {
-                    "id": {
-                        "description": "ID de l'article de commande",
-                        "type": "integer"
-                    },
-                    "order_id": {
-                        "description": "ID de la commande parente",
-                        "type": "integer"
-                    },
-                    "product_id": {
-                        "description": "ID du produit commandé",
-                        "type": "integer"
-                    },
-                    "product_name": {
-                        "description": "Nom du produit (stocké au moment de la commande)",
-                        "type": "string"
-                    },
-                    "product_sku": {
-                        "description": "SKU du produit",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "quantity": {
-                        "description": "Quantité commandée",
-                        "type": "integer"
-                    },
-                    "unit_price": {
-                        "description": "Prix unitaire au moment de la commande",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "total": {
-                        "description": "Prix total de cet article (quantity * unit_price)",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "options": {
-                        "description": "Options du produit (taille, couleur, etc.)",
-                        "type": "object"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
             "Product": {
                 "title": "Product",
                 "description": "Modèle de données pour un produit de la boutique",
@@ -886,20 +437,12 @@
             "description": "Opérations d'authentification et de gestion des utilisateurs."
         },
         {
-            "name": "Cart",
-            "description": "Opérations sur le panier d'achat de l'utilisateur."
-        },
-        {
             "name": "Home",
             "description": "Points d'accès pour la page d'accueil et les informations générales."
         },
         {
-            "name": "Orders",
-            "description": "Opérations de gestion des commandes."
-        },
-        {
-            "name": "Products",
-            "description": "Opérations sur les produits de la boutique."
+            "name": "Notifications",
+            "description": "Opérations de test pour l'envoi de notifications par e-mail (Mailable)."
         }
     ]
 }

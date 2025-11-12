@@ -19,11 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost:5500', // Go Live
-        'http://localhost:8000', // Ajout du port Laravel par défaut
-        'http://127.0.0.1:8000', // Souvent utilisé aussi
-    ],
+    'allowed_origins' => ['*'],
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
@@ -32,6 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
 ];

@@ -8,7 +8,7 @@ class StoreProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // On change temporairement pour tester sans auth
+        return auth()->check() && auth()->user()->role === 'admin';
     }
 
     public function rules(): array

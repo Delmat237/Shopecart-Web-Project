@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UserRegistered; // Import du Mailable pour l'envoi d'e-mail
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail; // Ajout pour l'envoi d'e-mail
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -20,10 +22,6 @@ use Illuminate\Validation\ValidationException;
  * bearerFormat="Sanctum",
  * description="Entrez le jeton Bearer obtenu après la connexion."
  * )
- * )
- * * @OA\Server(
- * url="http://localhost:8000",
- * description="Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
  * )
  */
 
@@ -74,6 +72,17 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'USER',
         ]);
+
+        // ===============================================
+        // ENVOI DE L'E-MAIL DE CONFIRMATION
+        // ===============================================
+        try {
+            Mail::to($user->email)->send(new UserRegistered($user));
+        } catch (\Exception $e) {
+            // Optionnel : Enregistrer l'erreur sans bloquer l'utilisateur
+            //\Log::error('Échec de l\'envoi de l\'e-mail d\'inscription: ' . $e->getMessage());
+        }
+        // ===============================================
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

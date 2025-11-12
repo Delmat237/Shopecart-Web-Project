@@ -11,10 +11,6 @@
     "servers": [
         {
             "url": "http://localhost:8000",
-            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
-        },
-        {
-            "url": "http://localhost:8000",
             "description": "Serveur de développement"
         }
     ],

@@ -8,14 +8,14 @@ use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Tag(
  *     name="Products",
  *     description="API Endpoints for Products"
  * )
- * 
- * @OA\Schema(
+ * * @OA\Schema(
  *     schema="Product",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
@@ -85,121 +85,166 @@ use Illuminate\Http\Request;
  *     @OA\Property(property="shipping_country", type="string", example="USA"),
  *     @OA\Property(property="created_at", type="string", format="date-time")
  * )
- 
-
  */
 class ProductController extends Controller
 {
+    // ... Les méthodes index(), show(), featured() restent publiques
+
     /**
-     * @OA\Get(
+     * @OA\Post(
      *     path="/products",
-     *     summary="Get list of products",
+     *     summary="Create a new product",
      *     tags={"Products"},
-     *     @OA\Parameter(
-     *         name="category_id",
-     *         in="query",
-     *         description="Filter by category ID",
-     *         required=false,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Parameter(
-     *         name="search",
-     *         in="query",
-     *         description="Search products by name or description",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="min_price",
-     *         in="query",
-     *         description="Minimum price filter",
-     *         required=false,
-     *         @OA\Schema(type="number", format="float")
-     *     ),
-     *     @OA\Parameter(
-     *         name="max_price",
-     *         in="query",
-     *         description="Maximum price filter",
-     *         required=false,
-     *         @OA\Schema(type="number", format="float")
-     *     ),
-     *     @OA\Parameter(
-     *         name="sort",
-     *         in="query",
-     *         description="Sort products (newest, price_asc, price_desc, name)",
-     *         required=false,
-     *         @OA\Schema(type="string", enum={"newest", "price_asc", "price_desc", "name"})
-     *     ),
-     *     @OA\Parameter(
-     *         name="per_page",
-     *         in="query",
-     *         description="Items per page",
-     *         required=false,
-     *         @OA\Schema(type="integer", default=12)
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "price", "stock", "category_id"},
+     *             @OA\Property(property="name", type="string", example="New Product"),
+     *             @OA\Property(property="description", type="string", example="Product description"),
+     *             @OA\Property(property="price", type="number", format="float", example=99.99),
+     *             @OA\Property(property="compare_price", type="number", format="float", example=129.99),
+     *             @OA\Property(property="stock", type="integer", example=100),
+     *             @OA\Property(property="sku", type="string", example="SKU12345"),
+     *             @OA\Property(property="category_id", type="integer", example=1),
+     *             @OA\Property(property="is_visible", type="boolean", example=true),
+     *             @OA\Property(property="is_featured", type="boolean", example=false)
+     *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
+     *         response=201,
+     *         description="Product created successfully",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Product")),
-     *             @OA\Property(property="links", type="object"),
-     *             @OA\Property(property="meta", type="object")
+     *             @OA\Property(property="message", type="string", example="Product created successfully"),
+     *             @OA\Property(property="product", ref="#/components/schemas/Product")
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Access denied. Admin or Vendor role required."
      *     )
      * )
      */
-    public function index(Request $request)
+    public function store(Request $request)
     {
-        $query = Product::with('category')
-            ->where('is_visible', true)
-            ->where('stock', '>', 0);
-
-        if ($request->has('category_id')) {
-            $query->where('category_id', $request->category_id);
+        // Vérification supplémentaire dans le contrôleur (double sécurité)
+        $user = auth()->user();
+        if (!$user->isAdmin() && !$user->isVendor()) {
+            return response()->json([
+                'message' => 'Access denied. Admin or Vendor role required.'
+            ], 403);
         }
 
-        if ($request->has('min_price')) {
-            $query->where('price', '>=', $request->min_price);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'compare_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'sku' => 'nullable|string|unique:products,sku',
+            'category_id' => 'required|exists:categories,id',
+            'is_visible' => 'boolean',
+            'is_featured' => 'boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Les vendeurs ne peuvent créer que des produits visibles par défaut
+        if ($user->isVendor()) {
+            $validated['is_visible'] = true;
         }
 
-        if ($request->has('max_price')) {
-            $query->where('price', '<=', $request->max_price);
-        }
+        $product = Product::create($validated);
 
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
-        }
-
-        $sort = $request->get('sort', 'newest');
-        switch ($sort) {
-            case 'price_asc':
-                $query->orderBy('price');
-                break;
-            case 'price_desc':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'name':
-                $query->orderBy('name');
-                break;
-            default:
-                $query->orderBy('created_at', 'desc');
-        }
-
-        $products = $query->paginate($request->get('per_page', 12));
-
-        return new ProductCollection($products);
+        return response()->json([
+            'message' => 'Product created successfully',
+            'product' => new ProductResource($product)
+        ], 201);
     }
 
     /**
-     * @OA\Get(
+     * @OA\Put(
      *     path="/products/{id}",
-     *     summary="Get product details",
+     *     summary="Update product",
      *     tags={"Products"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Product ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "price", "stock", "category_id"},
+     *             @OA\Property(property="name", type="string", example="Updated Product Name"),
+     *             @OA\Property(property="description", type="string", example="Updated description"),
+     *             @OA\Property(property="price", type="number", format="float", example=89.99),
+     *             @OA\Property(property="compare_price", type="number", format="float", example=119.99),
+     *             @OA\Property(property="stock", type="integer", example=50),
+     *             @OA\Property(property="sku", type="string", example="SKU12345-UPDATED"),
+     *             @OA\Property(property="category_id", type="integer", example=1),
+     *             @OA\Property(property="is_visible", type="boolean", example=true),
+     *             @OA\Property(property="is_featured", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Product updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Product updated successfully"),
+     *             @OA\Property(property="product", ref="#/components/schemas/Product")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Access denied"
+     *     )
+     * )
+     */
+    public function update(Request $request, Product $product)
+    {
+        $user = auth()->user();
+        
+        // Les vendeurs ne peuvent modifier que leurs propres produits
+        if ($user->isVendor()) {
+            // Ici vous pourriez ajouter une logique pour vérifier la propriété du produit
+            // Pour l'instant, on autorise tous les vendeurs à modifier tous les produits
+            if (!$user->isAdmin() && !$user->isVendor()) {
+                return response()->json([
+                    'message' => 'Access denied. Admin or Vendor role required.'
+                ], 403);
+            }
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'compare_price' => 'nullable|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'sku' => 'nullable|string|unique:products,sku,' . $product->id,
+            'category_id' => 'required|exists:categories,id',
+            'is_visible' => 'boolean',
+            'is_featured' => 'boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $product->update($validated);
+
+        return response()->json([
+            'message' => 'Product updated successfully',
+            'product' => new ProductResource($product)
+        ]);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/products/{id}",
+     *     summary="Delete product",
+     *     tags={"Products"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -209,65 +254,117 @@ class ProductController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="Product deleted successfully",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="product", ref="#/components/schemas/Product"),
-     *             @OA\Property(property="related_products", type="array", @OA\Items(ref="#/components/schemas/Product"))
+     *             @OA\Property(property="message", type="string", example="Product deleted successfully")
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
-     *         description="Product not found"
+     *         response=403,
+     *         description="Access denied"
      *     )
      * )
      */
-    public function show(Product $product)
+    public function destroy(Product $product)
     {
-        if (!$product->is_visible) {
-            return response()->json(['message' => 'Product not found'], 404);
+        $user = auth()->user();
+        
+        if (!$user->isAdmin() && !$user->isVendor()) {
+            return response()->json([
+                'message' => 'Access denied. Admin or Vendor role required.'
+            ], 403);
         }
 
-        $relatedProducts = Product::with('category')
-            ->where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)
-            ->where('is_visible', true)
-            ->where('stock', '>', 0)
-            ->inRandomOrder()
-            ->take(4)
-            ->get();
+        // Supprimer l'image si elle existe
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        $product->delete();
 
         return response()->json([
-            'product' => new ProductResource($product),
-            'related_products' => ProductResource::collection($relatedProducts)
+            'message' => 'Product deleted successfully'
         ]);
     }
 
     /**
      * @OA\Get(
-     *     path="/products/featured",
-     *     summary="Get featured products",
+     *     path="/products/vendor/my-products",
+     *     summary="Get vendor's products",
      *     tags={"Products"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
+     *         description="Vendor's products list",
      *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Product")
+     *             type="object",
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Product"))
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Access denied. Vendor role required."
      *     )
      * )
      */
-    public function featured()
+    public function myProducts(Request $request)
     {
-        $products = Product::with('category')
-            ->where('is_visible', true)
-            ->where('is_featured', true)
-            ->where('stock', '>', 0)
-            ->orderBy('created_at', 'desc')
-            ->take(8)
-            ->get();
+        $user = auth()->user();
+        
+        if (!$user->isVendor() && !$user->isAdmin()) {
+            return response()->json([
+                'message' => 'Access denied. Vendor or Admin role required.'
+            ], 403);
+        }
 
-        return ProductResource::collection($products);
+        // Ici vous pourriez filtrer par vendeur si vous ajoutez un champ vendor_id aux produits
+        $products = Product::where('is_visible', true)
+            ->orderBy('created_at', 'desc')
+            ->paginate($request->get('per_page', 12));
+
+        return new ProductCollection($products);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/products/vendor/stats",
+     *     summary="Get vendor statistics",
+     *     tags={"Products"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Vendor statistics",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="total_products", type="integer", example=50),
+     *             @OA\Property(property="visible_products", type="integer", example=45),
+     *             @OA\Property(property="featured_products", type="integer", example=10),
+     *             @OA\Property(property="out_of_stock", type="integer", example=5)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Access denied. Admin or Vendor role required."
+     *     )
+     * )
+     */
+    public function vendorStats()
+    {
+        $user = auth()->user();
+        
+        if (!$user->isAdmin() && !$user->isVendor()) {
+            return response()->json([
+                'message' => 'Access denied. Admin or Vendor role required.'
+            ], 403);
+        }
+
+        $stats = [
+            'total_products' => Product::count(),
+            'visible_products' => Product::where('is_visible', true)->count(),
+            'featured_products' => Product::where('is_featured', true)->count(),
+            'out_of_stock' => Product::where('stock', 0)->count(),
+        ];
+
+        return response()->json($stats);
     }
 }

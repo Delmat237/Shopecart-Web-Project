@@ -50,4 +50,30 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+
+     // === ROUTES ADMIN SEULEMENT ===
+    Route::middleware('admin')->group(function () {
+        // Gestion des utilisateurs (Admin seulement)
+        Route::apiResource('users', UserController::class);
+        Route::get('/users/roles/stats', [UserController::class, 'roleStats']);
+        
+        // Gestion des catégories (Admin seulement)
+        Route::post('/categories', [CategoryController::class, 'store']);
+        Route::put('/categories/{category}', [CategoryController::class, 'update']);
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+    });
+
+    // === ROUTES ADMIN OU VENDEUR ===
+    Route::middleware('admin_or_vendor')->group(function () {
+        // Gestion des produits (Admin et Vendeurs)
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::put('/products/{product}', [ProductController::class, 'update']);
+        Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+        
+        // Statistiques produits (Admin et Vendeurs)
+        Route::get('/products/vendor/stats', [ProductController::class, 'vendorStats']);
+    });
+
+    // Routes accessibles à tous les rôles authentifiés mais avec restrictions dans les contrôleurs
+    Route::get('/products/vendor/my-products', [ProductController::class, 'myProducts']);
 });

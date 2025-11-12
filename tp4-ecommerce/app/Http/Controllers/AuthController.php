@@ -19,9 +19,15 @@ use Illuminate\Validation\ValidationException;
  * @OA\Schema(
  *     schema="User",
  *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="name", type="string"),
- *     @OA\Property(property="email", type="string"),
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="name", type="string", example="John Doe"),
+ *     @OA\Property(property="email", type="string", example="john@example.com"),
+ *     @OA\Property(
+ *         property="role", 
+ *         type="string", 
+ *         enum={"client", "admin", "vendor", "delivery"},
+ *         example="client"
+ *     ),
  *     @OA\Property(property="email_verified_at", type="string", format="date-time"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time")
@@ -62,12 +68,14 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
+             'role' => 'sometimes|in:client,admin,vendor,delivery',
         ]);
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+             'role' => $validated['role'] ?? 'client'
         ]);
 
         $token = $user->createToken('auth-token')->plainTextToken;

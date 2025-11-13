@@ -5,12 +5,8 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-<<<<<<< HEAD
                 // MODIFICATION : Titre de l'API mis à jour
                 'title' => 'Shopecart E-commerce API',
-=======
-                'title' => 'L5 Swagger UI',
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             ],
 
             'routes' => [
@@ -49,10 +45,7 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-<<<<<<< HEAD
                     // MODIFICATION : Scan de tout le dossier 'app' pour trouver les annotations
-=======
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     base_path('app'),
                 ],
             ],
@@ -202,35 +195,13 @@ return [
                 ],
                 */
 
-<<<<<<< HEAD
                 // MODIFICATION : Décommenter et utiliser la sécurité SANCTUM pour l'API
-=======
-                /* Open API 3.0 support
-                'passport' => [ // Unique name of security
-                    'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Laravel passport oauth2 security.',
-                    'in' => 'header',
-                    'scheme' => 'https',
-                    'flows' => [
-                        "password" => [
-                            "authorizationUrl" => config('app.url') . '/oauth/authorize',
-                            "tokenUrl" => config('app.url') . '/oauth/token',
-                            "refreshUrl" => config('app.url') . '/token/refresh',
-                            "scopes" => []
-                        ],
-                    ],
-                ],
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                 'sanctum' => [ // Unique name of security
                     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Enter token in format (Bearer <token>)',
                     'name' => 'Authorization', // The name of the header or query parameter to be used.
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
-<<<<<<< HEAD
-=======
-                */
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             ],
             'security' => [
                 /*
@@ -328,12 +299,8 @@ return [
          * Constants which can be used in annotations
          */
         'constants' => [
-<<<<<<< HEAD
             // MODIFICATION : Utilise APP_URL défini dans votre .env comme hôte par défaut
             'L5_SWAGGER_CONST_HOST' => env('APP_URL', 'http://127.0.0.1:8000'),
-=======
-            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
         ],
     ],
 ];

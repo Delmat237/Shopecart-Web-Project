@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD:tp4-ecommerce/app/Http/Controllers/OrdersController.php
-use App\Models\Orders;
-=======
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OrderCollection;
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/app/Http/Controllers/OrderController.php
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-<<<<<<< HEAD:tp4-ecommerce/app/Http/Controllers/OrdersController.php
-class OrdersController extends Controller
-=======
 /**
  * @OA\Tag(
  *     name="Orders",
@@ -25,7 +18,6 @@ class OrdersController extends Controller
  * )
  */
 class OrderController extends Controller
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/app/Http/Controllers/OrderController.php
 {
     /**
      * @OA\Get(
@@ -233,14 +225,7 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
-<<<<<<< HEAD:tp4-ecommerce/app/Http/Controllers/OrdersController.php
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Orders $orders)
-=======
     private function getCurrentCart(Request $request)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/app/Http/Controllers/OrderController.php
     {
         if (auth()->check()) {
             return Cart::where('user_id', auth()->id())->first();
@@ -250,14 +235,7 @@ class OrderController extends Controller
         return Cart::where('session_id', $sessionId)->first();
     }
 
-<<<<<<< HEAD:tp4-ecommerce/app/Http/Controllers/OrdersController.php
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Orders $orders)
-=======
     private function updateCartTotals(Cart $cart)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/app/Http/Controllers/OrderController.php
     {
         $cart->load('items');
         
@@ -266,16 +244,4 @@ class OrderController extends Controller
             'total' => $cart->items->sum('total')
         ]);
     }
-<<<<<<< HEAD:tp4-ecommerce/app/Http/Controllers/OrdersController.php
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Orders $orders)
-    {
-        //
-    }
 }
-=======
-}
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/app/Http/Controllers/OrderController.php

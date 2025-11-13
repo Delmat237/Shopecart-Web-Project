@@ -47,6 +47,7 @@ return [
                 'annotations' => [
                     // MODIFICATION : Scan de tout le dossier 'app' pour trouver les annotations
                     base_path('app'),
+                    base_path('app/Swagger'), 
                 ],
             ],
         ],

@@ -6,25 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('discount_codes', function (Blueprint $table) {
             $table->id();
+            
+            // Relation avec la remise
+            $table->foreignId('discount_id')
+                  ->constrained('discounts')
+                  ->onDelete('cascade'); // Si la remise est supprimée, supprimer les codes
+            
+            // Le code promo lui-même
+            $table->string('code')->unique(); // Ex: "NOEL2024", "BIENVENUE10"
+            
+            // Limites d'utilisation
+            $table->integer('max_uses')->nullable(); // Nombre max d'utilisations du code (null = illimité)
+            $table->integer('max_uses_per_user')->default(1); // Max par utilisateur
+            $table->integer('current_uses')->default(0); // Compteur actuel
+            
+            // Statut
+            $table->boolean('is_active')->default(true); // Actif/Inactif
+            
             $table->timestamps();
-         
-            $table->string("code");
-            $table->foreignId("discountId")
-                ->references("id")
-                ->on("discounts");
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('discount_codes');

@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
+<<<<<<< HEAD
 <<<<<<<< HEAD:tp4-ecommerce/database/migrations/2025_11_10_093111_create_order_items_table.php
             $table->id();
             $table->timestamps();
@@ -26,6 +27,8 @@ return new class extends Migration
                 ->on("product_variants");
         });
 ========
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     $table->id();
     $table->foreignId('order_id')->constrained()->onDelete('cascade');
     $table->foreignId('product_id')->constrained()->onDelete('cascade');
@@ -37,7 +40,10 @@ return new class extends Migration
     $table->json('options')->nullable();
     $table->timestamps();
 });
+<<<<<<< HEAD
 >>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/database/migrations/2025_11_12_150118_create_order_items_table.php
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     }
 
     /**

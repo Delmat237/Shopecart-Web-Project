@@ -2,6 +2,7 @@
     "openapi": "3.0.0",
     "info": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "title": "Shopecart E-commerce API Documentation",
         "description": "Documentation des points d'accès (endpoints) de l'API Shopecart.",
         "contact": {
@@ -24,6 +25,8 @@
                 "summary": "Enregistrement d'un nouvel utilisateur",
                 "operationId": "registerUser",
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
         "title": "Nom de l'API",
         "version": "1.0.0"
     },
@@ -35,6 +38,9 @@
                 ],
                 "summary": "Register a new user",
                 "operationId": "0903f2e0df1a8857bee538fc055417f0",
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                 "requestBody": {
                     "required": true,
@@ -51,7 +57,11 @@
                                     "name": {
                                         "type": "string",
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         "example": "Raoul Ossombe"
+=======
+                                        "example": "John Doe"
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 =======
                                         "example": "John Doe"
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
@@ -60,7 +70,11 @@
                                         "type": "string",
                                         "format": "email",
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         "example": "raoulOssombe@shopcart.com"
+=======
+                                        "example": "john@example.com"
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 =======
                                         "example": "john@example.com"
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
@@ -69,7 +83,11 @@
                                         "type": "string",
                                         "format": "password",
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         "example": "secret123"
+=======
+                                        "example": "password123"
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 =======
                                         "example": "password123"
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
@@ -77,6 +95,7 @@
                                     "password_confirmation": {
                                         "type": "string",
                                         "format": "password",
+<<<<<<< HEAD
 <<<<<<< HEAD
                                         "example": "secret123"
                                     },
@@ -92,6 +111,9 @@
 =======
                                         "example": "password123"
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
+                                        "example": "password123"
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     }
                                 },
                                 "type": "object"
@@ -102,7 +124,11 @@
                 "responses": {
                     "201": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "description": "Enregistrement réussi. Retourne le jeton d'accès.",
+=======
+                        "description": "User registered successfully",
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 =======
                         "description": "User registered successfully",
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
@@ -111,6 +137,7 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
+<<<<<<< HEAD
 <<<<<<< HEAD
                                             "type": "string",
                                             "example": "Registered"
@@ -122,6 +149,8 @@
                                         "user": {
                                             "type": "object"
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                             "type": "string"
                                         },
                                         "user": {
@@ -129,6 +158,9 @@
                                         },
                                         "token": {
                                             "type": "string"
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                         }
                                     },
@@ -137,15 +169,19 @@
                             }
                         }
 <<<<<<< HEAD
+<<<<<<< HEAD
                     },
                     "422": {
                         "description": "Erreur de validation des données."
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 =======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     }
                 }
             }
         },
+<<<<<<< HEAD
 <<<<<<< HEAD
         "/api/v1/login": {
             "post": {
@@ -155,6 +191,8 @@
                 "summary": "Connexion de l'utilisateur",
                 "operationId": "loginUser",
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
         "/cart": {
             "get": {
                 "tags": [
@@ -204,12 +242,16 @@
                         }
                     }
                 ],
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+<<<<<<< HEAD
 <<<<<<< HEAD
                                 "required": [
                                     "email",
@@ -226,11 +268,16 @@
                                         "format": "password",
                                         "example": "secret123"
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                 "required": [],
                                 "properties": {
                                     "quantity": {
                                         "type": "integer",
                                         "example": 1
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     }
                                 },
@@ -242,8 +289,11 @@
                 "responses": {
                     "200": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "description": "Connexion réussie. Retourne le jeton d'accès.",
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "description": "Item added to cart",
                         "content": {
                             "application/json": {
@@ -757,6 +807,9 @@
                 "responses": {
                     "201": {
                         "description": "Product created successfully",
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "content": {
                             "application/json": {
@@ -764,6 +817,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
+<<<<<<< HEAD
 <<<<<<< HEAD
                                             "example": "Login successful"
                                         },
@@ -773,6 +827,8 @@
                                         },
                                         "user": {
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                             "example": "Product created successfully"
                                         },
                                         "product": {
@@ -1089,6 +1145,9 @@
                                             "type": "object"
                                         },
                                         "meta": {
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                             "type": "object"
                                         }
@@ -1099,6 +1158,7 @@
                         }
                     },
                     "401": {
+<<<<<<< HEAD
 <<<<<<< HEAD
                         "description": "Identifiants invalides."
                     }
@@ -1120,6 +1180,8 @@
                     "401": {
                         "description": "Non authentifié."
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "description": "Unauthorized"
                     }
                 },
@@ -1204,6 +1266,9 @@
                     },
                     "422": {
                         "description": "Validation error"
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     }
                 },
@@ -1214,6 +1279,7 @@
                 ]
             }
         },
+<<<<<<< HEAD
 <<<<<<< HEAD
         "/api/v1/user": {
             "get": {
@@ -1227,6 +1293,8 @@
                     "200": {
                         "description": "Informations utilisateur récupérées.",
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
         "/users/{id}": {
             "get": {
                 "tags": [
@@ -1248,6 +1316,9 @@
                 "responses": {
                     "200": {
                         "description": "User details",
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "content": {
                             "application/json": {
@@ -1258,9 +1329,12 @@
                         }
                     },
 <<<<<<< HEAD
+<<<<<<< HEAD
                     "401": {
                         "description": "Non authentifié."
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     "404": {
                         "description": "User not found"
                     }
@@ -1403,6 +1477,9 @@
                     },
                     "404": {
                         "description": "User not found"
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     }
                 },
@@ -1413,6 +1490,7 @@
                 ]
             }
         },
+<<<<<<< HEAD
 <<<<<<< HEAD
         "/": {
             "get": {
@@ -1433,6 +1511,8 @@
                                         "$ref": "#/components/schemas/Product"
                                     }
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
         "/users/roles/stats": {
             "get": {
                 "tags": [
@@ -1469,11 +1549,15 @@
                                         }
                                     },
                                     "type": "object"
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                 }
                             }
                         }
                     }
+<<<<<<< HEAD
 <<<<<<< HEAD
                 }
             }
@@ -1513,18 +1597,24 @@
                     }
                 }
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                 },
                 "security": [
                     {
                         "bearerAuth": []
                     }
                 ]
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             }
         }
     },
     "components": {
         "schemas": {
+<<<<<<< HEAD
 <<<<<<< HEAD
             "Product": {
                 "title": "Product",
@@ -1652,6 +1742,8 @@
                     "created_at": {
                         "description": "Date de création de l'utilisateur",
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             "User": {
                 "properties": {
                     "id": {
@@ -1681,13 +1773,19 @@
                         "format": "date-time"
                     },
                     "created_at": {
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "type": "string",
                         "format": "date-time"
                     },
                     "updated_at": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         "description": "Date de dernière mise à jour",
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 =======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "type": "string",
@@ -1695,6 +1793,7 @@
                     }
                 },
                 "type": "object"
+<<<<<<< HEAD
 <<<<<<< HEAD
             }
         },
@@ -1711,6 +1810,8 @@
                 "name": "Authorization",
                 "in": "header"
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             },
             "Product": {
                 "properties": {
@@ -1930,12 +2031,16 @@
                     }
                 },
                 "type": "object"
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             }
         }
     },
     "tags": [
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             "name": "Auth",
             "description": "Opérations d'authentification et de gestion des utilisateurs."
@@ -1948,6 +2053,8 @@
             "name": "Notifications",
             "description": "Opérations de test pour l'envoi de notifications par e-mail (Mailable)."
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             "name": "Authentication",
             "description": "API Endpoints for Authentication"
         },
@@ -1970,6 +2077,9 @@
         {
             "name": "Users",
             "description": "API Endpoints for User Management"
+<<<<<<< HEAD
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
         }
     ]

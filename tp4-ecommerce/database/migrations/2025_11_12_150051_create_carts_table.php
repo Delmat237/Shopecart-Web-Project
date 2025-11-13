@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carts', function (Blueprint $table) {
+<<<<<<< HEAD
 <<<<<<<< HEAD:tp4-ecommerce/database/migrations/2025_11_10_091251_create_carts_table.php
             $table->id();
             $table->timestamps();
@@ -22,6 +23,8 @@ return new class extends Migration
                   ->onDelete("cascade");
         });
 ========
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     $table->id();
     $table->string('session_id')->nullable();
     $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
@@ -32,7 +35,10 @@ return new class extends Migration
     $table->index(['session_id']);
     $table->index(['user_id']);
 });
+<<<<<<< HEAD
 >>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/database/migrations/2025_11_12_150051_create_carts_table.php
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     }
 
     /**

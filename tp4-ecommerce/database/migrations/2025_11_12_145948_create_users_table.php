@@ -13,6 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+<<<<<<< HEAD
 <<<<<<< HEAD:tp4-ecommerce/database/migrations/2014_10_12_000000_create_users_table.php
             $table->id();
             $table->string('name');
@@ -24,6 +25,8 @@ return new class extends Migration
             $table->enum("role",array_column(Roles::cases(),"value"))->default(Roles::USER->value);
         });
 =======
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     $table->id();
     $table->string('name');
     $table->string('email')->unique();
@@ -32,7 +35,10 @@ return new class extends Migration
     $table->rememberToken();
     $table->timestamps();
 });
+<<<<<<< HEAD
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/database/migrations/2025_11_12_145948_create_users_table.php
+=======
+>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     }
 
     /**

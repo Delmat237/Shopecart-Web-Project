@@ -7,6 +7,14 @@ info:
     name: Équipe TP4
     email: contact@shopcart.com
 
+tags:
+  - name: Auth
+    description: Opérations d'authentification et de profil utilisateur
+  - name: Category
+    description: Gestion des catégories de produits (Admin requis pour le CRUD)
+  - name: Product
+    description: Gestion des produits (Admin requis pour le CRUD)
+
 servers:
   - url: http://localhost:8000/api/v1
     description: Local API
@@ -14,6 +22,7 @@ servers:
     description: Production API
 
 paths:
+  # --- AUTHENTIFICATION ---
   /register:
     post:
       summary: Inscription utilisateur
@@ -24,7 +33,7 @@ paths:
           application/json:
             schema:
               type: object
-              required: [name, email, password, password_confirmation,phone,address]
+              required: [name, email, password, password_confirmation, phone, address]
               properties:
                 name:
                   type: string
@@ -120,8 +129,238 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
+  # --- CATÉGORIES (CRUD) ---
+  /categories:
+    get:
+      summary: Liste de toutes les catégories
+      tags: [Category]
+      responses:
+        '200':
+          description: Liste des catégories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+    post:
+      summary: Créer une nouvelle catégorie (Admin requis)
+      tags: [Category]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+      responses:
+        '201':
+          description: Catégorie créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '401':
+          description: Non authentifié
+        '403':
+          description: Accès interdit (rôle non-ADMIN)
+        '422':
+          description: Erreur de validation
+
+  /categories/{id}:
+    get:
+      summary: Obtenir une catégorie par ID
+      tags: [Category]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détails de la catégorie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Catégorie non trouvée
+    patch:
+      summary: Mettre à jour une catégorie (Admin requis)
+      tags: [Category]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+      responses:
+        '200':
+          description: Catégorie mise à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '401':
+          description: Non authentifié
+        '403':
+          description: Accès interdit (rôle non-ADMIN)
+        '404':
+          description: Catégorie non trouvée
+        '422':
+          description: Erreur de validation
+    delete:
+      summary: Supprimer une catégorie (Admin requis)
+      tags: [Category]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Catégorie supprimée avec succès (No Content)
+        '401':
+          description: Non authentifié
+        '403':
+          description: Accès interdit (rôle non-ADMIN)
+        '404':
+          description: Catégorie non trouvée
+
+  # --- PRODUITS (CRUD) ---
+  /products:
+    get:
+      summary: Liste de tous les produits
+      tags: [Product]
+      parameters:
+        - name: category_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filtrer par ID de catégorie
+      responses:
+        '200':
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Créer un nouveau produit (Admin requis)
+      tags: [Product]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '201':
+          description: Produit créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          description: Non authentifié
+        '403':
+          description: Accès interdit (rôle non-ADMIN)
+        '422':
+          description: Erreur de validation
+
+  /products/{id}:
+    get:
+      summary: Obtenir un produit par ID
+      tags: [Product]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détails du produit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Produit non trouvé
+    patch:
+      summary: Mettre à jour un produit (Admin requis)
+      tags: [Product]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductRequestUpdate'
+      responses:
+        '200':
+          description: Produit mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          description: Non authentifié
+        '403':
+          description: Accès interdit (rôle non-ADMIN)
+        '404':
+          description: Produit non trouvé
+        '422':
+          description: Erreur de validation
+    delete:
+      summary: Supprimer un produit (Admin requis)
+      tags: [Product]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Produit supprimé avec succès (No Content)
+        '401':
+          description: Non authentifié
+        '403':
+          description: Accès interdit (rôle non-ADMIN)
+        '404':
+          description: Produit non trouvé
+
 components:
   schemas:
+    # --- SCHÉMAS UTILISATEUR ---
     User:
       type: object
       properties:
@@ -146,6 +385,105 @@ components:
         updated_at:
           type: string
           format: date-time
+
+    # --- SCHÉMAS CATÉGORIE ---
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CategoryRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: "Électronique"
+
+    # --- SCHÉMAS PRODUIT ---
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        image_url:
+          type: string
+          format: url
+          nullable: true
+        category_id:
+          type: integer
+        category:
+          $ref: '#/components/schemas/Category'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ProductRequest:
+      type: object
+      required: [name, description, price, category_id, image]
+      properties:
+        name:
+          type: string
+          example: "Smartphone X10"
+        description:
+          type: string
+          example: "Un téléphone haut de gamme avec une super caméra."
+        price:
+          type: number
+          format: float
+          example: 799.99
+        category_id:
+          type: integer
+          example: 1
+        image:
+          type: string
+          format: binary
+          description: Fichier image du produit (pour multipart/form-data)
+
+    ProductRequestUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Smartphone X10 Pro"
+        description:
+          type: string
+          example: "Un téléphone haut de gamme avec une super caméra."
+        price:
+          type: number
+          format: float
+          example: 899.99
+        category_id:
+          type: integer
+          example: 1
+        image:
+          type: string
+          format: binary
+          description: Nouveau fichier image du produit (optionnel)
+          nullable: true
 
   securitySchemes:
     bearerAuth:

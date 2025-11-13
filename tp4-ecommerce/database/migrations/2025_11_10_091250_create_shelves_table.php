@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-<<<<<<<< HEAD:tp4-ecommerce/database/migrations/2025_11_10_091250_create_shelves_table.php
         Schema::create('shelves', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -21,7 +20,7 @@ return new class extends Migration
                 ->references("id")
                 ->on("users");
         });
-========
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
     $table->string('email')->primary();
     $table->string('token');

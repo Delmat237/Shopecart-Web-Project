@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-<<<<<<<< HEAD:tp4-ecommerce/database/migrations/2025_11_10_091250_create_shelves_table.php
         Schema::create('shelves', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -21,13 +20,11 @@ return new class extends Migration
                 ->references("id")
                 ->on("users");
         });
-========
         Schema::create('password_reset_tokens', function (Blueprint $table) {
     $table->string('email')->primary();
     $table->string('token');
     $table->timestamp('created_at')->nullable();
 });
->>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/database/migrations/2025_11_12_145959_create_password_reset_tokens_table.php
     }
 
     /**
@@ -35,10 +32,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-<<<<<<<< HEAD:tp4-ecommerce/database/migrations/2025_11_10_091250_create_shelves_table.php
         Schema::dropIfExists('shelves');
-========
         Schema::dropIfExists('password_reset_tokens');
->>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/database/migrations/2025_11_12_145959_create_password_reset_tokens_table.php
     }
 };

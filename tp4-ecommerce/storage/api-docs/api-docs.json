@@ -1,0 +1,1334 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Shopecart E-commerce API Documentation",
+        "description": "Documentation des points d'accès (endpoints) de l'API Shopecart.",
+        "contact": {
+            "email": "contact@shopecart.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
+        },
+        {
+            "url": "http://localhost:8000",
+            "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
+        },
+        {
+            "url": "http://localhost:8000",
+            "description": "Serveur de développement"
+        }
+    ],
+    "paths": {
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Enregistrement d'un nouvel utilisateur",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Enregistrement réussi. Retourne le jeton d'accès.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registered"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation des données."
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Connexion de l'utilisateur",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie. Retourne le jeton d'accès.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "2|yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants invalides."
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Déconnexion de l'utilisateur",
+                "description": "Supprime le jeton d'accès actuel de l'utilisateur.",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Déconnexion réussie."
+                    },
+                    "401": {
+                        "description": "Non authentifié."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Obtenir les informations de l'utilisateur actuel",
+                "description": "Retourne les données de l'utilisateur authentifié via le jeton Bearer.",
+                "operationId": "getCurrentUser",
+                "responses": {
+                    "200": {
+                        "description": "Informations utilisateur récupérées.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/cart": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Afficher le contenu du panier",
+                "description": "Retourne la liste des articles actuellement dans le panier de l'utilisateur.",
+                "operationId": "getCartContent",
+                "responses": {
+                    "200": {
+                        "description": "Contenu du panier récupéré.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CartItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Ajouter un produit au panier",
+                "description": "Ajoute un produit au panier ou met à jour la quantité si le produit existe déjà.",
+                "operationId": "addItemToCart",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Article ajouté/mis à jour dans le panier."
+                    },
+                    "401": {
+                        "description": "Non authentifié."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/cart/{productId}": {
+            "put": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Mettre à jour la quantité d'un article dans le panier",
+                "description": "Modifie la quantité d'un produit spécifique dans le panier. Utilisez 0 pour supprimer l'article.",
+                "operationId": "updateCartItemQuantity",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID du produit dans le panier (ou ID de l'article du panier)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Quantité mise à jour."
+                    },
+                    "404": {
+                        "description": "Article non trouvé dans le panier."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Supprimer un article du panier",
+                "description": "Supprime un produit spécifique du panier de l'utilisateur.",
+                "operationId": "removeCartItem",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID du produit à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Article supprimé avec succès."
+                    },
+                    "404": {
+                        "description": "Article non trouvé dans le panier."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Récupérer les produits phares pour la page d'accueil",
+                "description": "Retourne une liste limitée (max 8) des produits visibles, en stock et marqués comme 'featured'.",
+                "operationId": "getFeaturedProducts",
+                "responses": {
+                    "200": {
+                        "description": "Opération réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/orders": {
+            "get": {
+                "tags": [
+                    "Commandes"
+                ],
+                "summary": "Liste des commandes de l'utilisateur",
+                "description": "Récupère l'historique des commandes de l'utilisateur authentifié avec pagination",
+                "operationId": "listOrders",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre de résultats par page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des commandes récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "orders": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "order_number": {
+                                                                "type": "string",
+                                                                "example": "ORD-000001"
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "example": "delivered"
+                                                            },
+                                                            "total_amount": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 67500
+                                                            },
+                                                            "items_count": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-11-12 15:30:00"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 73
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Commandes"
+                ],
+                "summary": "Créer une commande (Checkout)",
+                "description": "Transforme le panier actuel en commande. Calcule automatiquement les totaux, applique les remises et décrémente le stock.",
+                "operationId": "createOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "shipping_address",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "discount_code": {
+                                        "description": "Code promo optionnel",
+                                        "type": "string",
+                                        "example": "PROMO10"
+                                    },
+                                    "shipping_address": {
+                                        "description": "Adresse de livraison complète",
+                                        "type": "string",
+                                        "example": "123 Avenue de la Liberté, Yaoundé, Cameroun"
+                                    },
+                                    "phone": {
+                                        "description": "Numéro de téléphone",
+                                        "type": "string",
+                                        "example": "+237 6 XX XX XX XX"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Commande créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Commande créée avec succès"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order_number": {
+                                                            "type": "string",
+                                                            "example": "ORD-000001"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "pending"
+                                                        },
+                                                        "subtotal": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 75000
+                                                        },
+                                                        "discount_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 7500
+                                                        },
+                                                        "shipping_cost": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0
+                                                        },
+                                                        "total_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 67500
+                                                        },
+                                                        "items": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "product_name": {
+                                                                        "type": "string",
+                                                                        "example": "iPhone 15 Pro"
+                                                                    },
+                                                                    "variant_name": {
+                                                                        "type": "string",
+                                                                        "example": "256GB Noir"
+                                                                    },
+                                                                    "quantity": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "unit_price": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    },
+                                                                    "subtotal": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 15:30:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur lors de la création (panier vide, stock insuffisant, etc.)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la création de la commande"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Stock insuffisant pour iPhone 15 Pro - Disponible: 2, Demandé: 5"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Commandes"
+                ],
+                "summary": "Détails d'une commande",
+                "description": "Récupère tous les détails d'une commande spécifique (articles, montants, informations de livraison)",
+                "operationId": "getOrderDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la commande",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de la commande récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order_number": {
+                                                            "type": "string",
+                                                            "example": "ORD-000001"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "delivered"
+                                                        },
+                                                        "subtotal": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 75000
+                                                        },
+                                                        "discount_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 7500
+                                                        },
+                                                        "discount_code": {
+                                                            "type": "string",
+                                                            "example": "PROMO10",
+                                                            "nullable": true
+                                                        },
+                                                        "shipping_cost": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0
+                                                        },
+                                                        "total_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 67500
+                                                        },
+                                                        "shipping_address": {
+                                                            "type": "string",
+                                                            "example": "123 Avenue de la Liberté, Yaoundé"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+237 6 XX XX XX XX"
+                                                        },
+                                                        "items": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "product_name": {
+                                                                        "type": "string",
+                                                                        "example": "iPhone 15 Pro"
+                                                                    },
+                                                                    "variant_name": {
+                                                                        "type": "string",
+                                                                        "example": "256GB Noir"
+                                                                    },
+                                                                    "quantity": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "unit_price": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    },
+                                                                    "subtotal": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    },
+                                                                    "image": {
+                                                                        "type": "string",
+                                                                        "example": "http://localhost:8000/storage/products/iphone15.jpg",
+                                                                        "nullable": true
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 15:30:00"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 15:30:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Commande introuvable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Commande introuvable"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/orders/{id}/status": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Mettre à jour le statut d'une commande (Admin uniquement)",
+                "description": "Permet à un administrateur de changer le statut d'une commande (ex: de 'paid' à 'preparing')",
+                "operationId": "updateOrderStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la commande",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "description": "Nouveau statut de la commande",
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "paid",
+                                            "preparing",
+                                            "shipped",
+                                            "delivered",
+                                            "canceled"
+                                        ],
+                                        "example": "preparing"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statut mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut de la commande mis à jour"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order_number": {
+                                                            "type": "string",
+                                                            "example": "ORD-000001"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "preparing"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 16:00:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Transition de statut invalide",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transition de statut invalide: delivered → preparing"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accès refusé (pas administrateur)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Accès non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Commande introuvable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Commande introuvable"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtenir la liste complète des produits",
+                "description": "Retourne tous les produits (peut nécessiter une pagination).",
+                "operationId": "getProductsList",
+                "responses": {
+                    "200": {
+                        "description": "Liste des produits récupérée avec succès.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtenir un produit par son ID",
+                "description": "Retourne les détails d'un produit spécifique.",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du produit à récupérer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails du produit récupérés.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produit non trouvé."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CartItem": {
+                "title": "CartItem",
+                "description": "Modèle de données pour un article dans le panier",
+                "properties": {
+                    "id": {
+                        "description": "ID de l'article dans le panier",
+                        "type": "integer"
+                    },
+                    "cart_id": {
+                        "description": "ID du panier auquel l'article appartient",
+                        "type": "integer"
+                    },
+                    "product_id": {
+                        "description": "ID du produit dans cet article",
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "description": "Quantité du produit",
+                        "type": "integer"
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/Product"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "title": "Product",
+                "description": "Modèle de données pour un produit de la boutique",
+                "properties": {
+                    "id": {
+                        "description": "ID du produit",
+                        "type": "integer"
+                    },
+                    "category_id": {
+                        "description": "ID de la catégorie associée",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "name": {
+                        "description": "Nom du produit",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "description": "Slug unique pour l'URL",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description détaillée",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "price": {
+                        "description": "Prix actuel",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "compare_price": {
+                        "description": "Ancien prix pour afficher une réduction",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "stock": {
+                        "description": "Quantité en stock",
+                        "type": "integer"
+                    },
+                    "sku": {
+                        "description": "Code SKU",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "barcode": {
+                        "description": "Code-barres",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_visible": {
+                        "description": "Visibilité sur la boutique (true/false)",
+                        "type": "boolean"
+                    },
+                    "is_featured": {
+                        "description": "Produit mis en avant sur la page d'accueil",
+                        "type": "boolean"
+                    },
+                    "published_at": {
+                        "description": "Date de publication",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "meta_title": {
+                        "description": "Titre SEO",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "meta_description": {
+                        "description": "Description SEO",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "image": {
+                        "description": "Chemin de l'image principale",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "gallery": {
+                        "description": "Galerie d'images",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "Modèle de données pour un utilisateur",
+                "properties": {
+                    "id": {
+                        "description": "ID de l'utilisateur",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nom complet de l'utilisateur",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Adresse email unique",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "role": {
+                        "description": "Rôle de l'utilisateur (ex: USER, ADMIN)",
+                        "type": "string",
+                        "enum": [
+                            "USER",
+                            "ADMIN"
+                        ]
+                    },
+                    "created_at": {
+                        "description": "Date de création de l'utilisateur",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière mise à jour",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Entrez le jeton Bearer obtenu après la connexion.",
+                "bearerFormat": "Sanctum",
+                "scheme": "bearer"
+            },
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Opérations d'authentification et de gestion des utilisateurs."
+        },
+        {
+            "name": "Cart",
+            "description": "Opérations sur le panier d'achat de l'utilisateur."
+        },
+        {
+            "name": "Home",
+            "description": "Points d'accès pour la page d'accueil et les informations générales."
+        },
+        {
+            "name": "Products",
+            "description": "Opérations sur les produits de la boutique."
+        },
+        {
+            "name": "Commandes",
+            "description": "Commandes"
+        },
+        {
+            "name": "Admin",
+            "description": "Admin"
+        }
+    ]
+}

@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // AJOUTEZ CE GUARD API
+        'api' => [
+            'driver' => 'sanctum', // ou 'token' si vous voulez une solution basique
+            'provider' => 'users',
+        ],
     ],
 
     /*

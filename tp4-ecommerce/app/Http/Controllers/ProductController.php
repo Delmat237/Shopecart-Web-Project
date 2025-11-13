@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
  *     name="Products",
  *     description="API Endpoints for Products"
  * )
- * * @OA\Schema(
+ * @OA\Schema(
  *     schema="Product",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
@@ -147,12 +147,14 @@ class ProductController extends Controller
             'is_featured' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        $slug = \Illuminate\Support\Str::slug($validated['name']);
 
         // Les vendeurs ne peuvent créer que des produits visibles par défaut
         if ($user->isVendor()) {
             $validated['is_visible'] = true;
-        }
 
+        }
+        $validated['slug'] = $slug;
         $product = Product::create($validated);
 
         return response()->json([

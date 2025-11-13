@@ -43,7 +43,7 @@ class CartController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/cart/add/{product}",
+     *     path="/api/cart/add/{product}",
      *     summary="Add item to cart",
      *     tags={"Cart"},
      *     security={{"bearerAuth":{}}},
@@ -124,7 +124,7 @@ class CartController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/cart/items/{cartItem}",
+     *     path="/api/cart/items/{cartItem}",
      *     summary="Update cart item quantity",
      *     tags={"Cart"},
      *     security={{"bearerAuth":{}}},

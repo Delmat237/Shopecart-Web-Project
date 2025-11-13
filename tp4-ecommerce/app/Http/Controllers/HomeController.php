@@ -2,64 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ * version="1.0.0",
+ * title="Shopecart E-commerce API Documentation",
+ * description="Documentation des points d'accès (endpoints) de l'API Shopecart.",
+ * @OA\Contact(
+ * email="contact@shopecart.com"
+ * )
+ * )
+ * @OA\Server(
+ * url=L5_SWAGGER_CONST_HOST,
+ * description="Serveur de développement"
+ * )
+ * @OA\Tag(
+ * name="Home",
+ * description="Points d'accès pour la page d'accueil et les informations générales."
+ * )
+ */
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     * path="/",
+     * operationId="getFeaturedProducts",
+     * tags={"Home"},
+     * summary="Récupérer les produits phares pour la page d'accueil",
+     * description="Retourne une liste limitée (max 8) des produits visibles, en stock et marqués comme 'featured'.",
+     * @OA\Response(
+     * response=200,
+     * description="Opération réussie",
+     * @OA\JsonContent(
+     * type="array",
+     * @OA\Items(ref="#/components/schemas/Product")
+     * )
+     * )
+     * )
      */
+    
     public function index()
     {
-        //
+        $featuredProducts = Product::with('category')
+            ->where('is_visible', true)
+            ->where('is_featured', true)
+            ->where('stock', '>', 0)
+            ->orderBy('created_at', 'desc')
+            ->take(8)
+            ->get();
+
+        $categories = Category::where('is_visible', true)
+            ->orderBy('position')
+            ->take(6)
+            ->get();
+
+        return view('pages.home', compact('featuredProducts', 'categories'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Afficher la page À propos
      */
-    public function create()
+    public function about()
     {
-        //
+        return view('pages.about');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Afficher la page Contact
      */
-    public function store(Request $request)
+    public function contact()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrderItem $orderItem)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrderItem $orderItem)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, OrderItem $orderItem)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(OrderItem $orderItem)
-    {
-        //
+        return view('pages.contact');
     }
 }

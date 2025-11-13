@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
-// Routes d'authentification temporaires
-Route::get('/login', function () {
-    return "Page de connexion - À implémenter";
-})->name('login');
+Route::get('/default', function () {
+    return view('welcome');
+});
 
-Route::get('/register', function () {
-    return "Page d'inscription - À implémenter";
-})->name('register');
-
-// SUPPRIMEZ ou COMMENCEZ cette ligne :
-// require __DIR__.'/auth.php';
+Route::get('/', function () {
+    return view('home');;
+});

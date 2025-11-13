@@ -3,7 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,4 +31,23 @@ Route::prefix("cart")->group(function(){
     Route::post("/abs",[CartController::class,"store"]);
     Route::get("/user/{userId}/empty",[CartController::class,"emptyCart"]);
 });
-Route::get("/abs",[CartController::class,"store"]);
+
+Route::prefix("cartItems")->group(function(){
+    //get cart items
+    //add cart item
+    //remove cart item
+    //update cart item
+    Route::get("/cart/{cartId}",[CartItemController::class,"getAllCartItems"]);
+    Route::get("/{cartItemId}",[CartItemController::class,"getCartItem"]);
+    Route::post("/",[CartItemController::class,"addCartItem"]);
+    Route::put("/{cartItemId}",[CartItemController::class,"updateCartItem"]);
+     Route::delete("/{cartItemId}",[CartItemController::class,"deleteCartItem"]);
+
+});
+Route::prefix("payment")->group(
+    function(){
+        Route::post("/create-payment-intent/order/{orderId}",[PaymentController::class,"createPaymentIntentWithCardd"]);
+        Route::post("/store",[PaymentController::class,"storePayment"]);
+
+    }
+);

@@ -1,9 +1,9 @@
 <?php
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
-use app\Models\DiscountCodes;
-use app\Providers\DiscountServiceProvider;
+use App\Models\DiscountCodes;
+use App\Providers\DiscountServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 

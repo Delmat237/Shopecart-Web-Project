@@ -18,7 +18,7 @@
             "description": "Serveur de l'API locale (Corrigé pour utiliser le port 8000)"
         },
         {
-            "url": "http://localhost",
+            "url": "http://localhost:8000",
             "description": "Serveur de développement"
         }
     ],
@@ -404,21 +404,113 @@
         "/api/v1/orders": {
             "get": {
                 "tags": [
-                    "Orders"
+                    "Commandes"
                 ],
-                "summary": "Obtenir la liste des commandes de l'utilisateur",
-                "description": "Retourne toutes les commandes passées par l'utilisateur authentifié.",
-                "operationId": "getOrdersList",
+                "summary": "Liste des commandes de l'utilisateur",
+                "description": "Récupère l'historique des commandes de l'utilisateur authentifié avec pagination",
+                "operationId": "listOrders",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre de résultats par page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "example": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Liste des commandes récupérée avec succès.",
+                        "description": "Liste des commandes récupérée avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Order"
-                                    }
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "orders": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "order_number": {
+                                                                "type": "string",
+                                                                "example": "ORD-000001"
+                                                            },
+                                                            "status": {
+                                                                "type": "string",
+                                                                "example": "delivered"
+                                                            },
+                                                            "total_amount": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 67500
+                                                            },
+                                                            "items_count": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-11-12 15:30:00"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 73
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -426,30 +518,41 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "sanctum": []
                     }
                 ]
             },
             "post": {
                 "tags": [
-                    "Orders"
+                    "Commandes"
                 ],
-                "summary": "Créer une nouvelle commande",
-                "description": "Passe une nouvelle commande en utilisant le contenu du panier de l'utilisateur.",
-                "operationId": "storeOrder",
+                "summary": "Créer une commande (Checkout)",
+                "description": "Transforme le panier actuel en commande. Calcule automatiquement les totaux, applique les remises et décrémente le stock.",
+                "operationId": "createOrder",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "shipping_address",
+                                    "phone"
+                                ],
                                 "properties": {
-                                    "shipping_address": {
+                                    "discount_code": {
+                                        "description": "Code promo optionnel",
                                         "type": "string",
-                                        "example": "123 Rue de la Livraion"
+                                        "example": "PROMO10"
                                     },
-                                    "payment_method": {
+                                    "shipping_address": {
+                                        "description": "Adresse de livraison complète",
                                         "type": "string",
-                                        "example": "credit_card"
+                                        "example": "123 Avenue de la Liberté, Yaoundé, Cameroun"
+                                    },
+                                    "phone": {
+                                        "description": "Numéro de téléphone",
+                                        "type": "string",
+                                        "example": "+237 6 XX XX XX XX"
                                     }
                                 },
                                 "type": "object"
@@ -459,22 +562,495 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Commande créée avec succès.",
+                        "description": "Commande créée avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Order"
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Commande créée avec succès"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order_number": {
+                                                            "type": "string",
+                                                            "example": "ORD-000001"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "pending"
+                                                        },
+                                                        "subtotal": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 75000
+                                                        },
+                                                        "discount_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 7500
+                                                        },
+                                                        "shipping_cost": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0
+                                                        },
+                                                        "total_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 67500
+                                                        },
+                                                        "items": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "product_name": {
+                                                                        "type": "string",
+                                                                        "example": "iPhone 15 Pro"
+                                                                    },
+                                                                    "variant_name": {
+                                                                        "type": "string",
+                                                                        "example": "256GB Noir"
+                                                                    },
+                                                                    "quantity": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "unit_price": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    },
+                                                                    "subtotal": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 15:30:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur lors de la création (panier vide, stock insuffisant, etc.)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la création de la commande"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Stock insuffisant pour iPhone 15 Pro - Disponible: 2, Demandé: 5"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Non autorisé."
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Commandes"
+                ],
+                "summary": "Détails d'une commande",
+                "description": "Récupère tous les détails d'une commande spécifique (articles, montants, informations de livraison)",
+                "operationId": "getOrderDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la commande",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de la commande récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order_number": {
+                                                            "type": "string",
+                                                            "example": "ORD-000001"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "delivered"
+                                                        },
+                                                        "subtotal": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 75000
+                                                        },
+                                                        "discount_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 7500
+                                                        },
+                                                        "discount_code": {
+                                                            "type": "string",
+                                                            "example": "PROMO10",
+                                                            "nullable": true
+                                                        },
+                                                        "shipping_cost": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 0
+                                                        },
+                                                        "total_amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 67500
+                                                        },
+                                                        "shipping_address": {
+                                                            "type": "string",
+                                                            "example": "123 Avenue de la Liberté, Yaoundé"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+237 6 XX XX XX XX"
+                                                        },
+                                                        "items": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "product_name": {
+                                                                        "type": "string",
+                                                                        "example": "iPhone 15 Pro"
+                                                                    },
+                                                                    "variant_name": {
+                                                                        "type": "string",
+                                                                        "example": "256GB Noir"
+                                                                    },
+                                                                    "quantity": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "unit_price": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    },
+                                                                    "subtotal": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 750000
+                                                                    },
+                                                                    "image": {
+                                                                        "type": "string",
+                                                                        "example": "http://localhost:8000/storage/products/iphone15.jpg",
+                                                                        "nullable": true
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 15:30:00"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 15:30:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Commande introuvable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Commande introuvable"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/orders/{id}/status": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Mettre à jour le statut d'une commande (Admin uniquement)",
+                "description": "Permet à un administrateur de changer le statut d'une commande (ex: de 'paid' à 'preparing')",
+                "operationId": "updateOrderStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la commande",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "description": "Nouveau statut de la commande",
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "paid",
+                                            "preparing",
+                                            "shipped",
+                                            "delivered",
+                                            "canceled"
+                                        ],
+                                        "example": "preparing"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statut mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut de la commande mis à jour"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "order_number": {
+                                                            "type": "string",
+                                                            "example": "ORD-000001"
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "preparing"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-11-12 16:00:00"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Transition de statut invalide",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transition de statut invalide: delivered → preparing"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Accès refusé (pas administrateur)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Accès non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Commande introuvable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Commande introuvable"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
                     }
                 ]
             }
@@ -565,157 +1141,6 @@
                     },
                     "product": {
                         "$ref": "#/components/schemas/Product"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "Order": {
-                "title": "Order",
-                "description": "Modèle de données pour une commande client",
-                "properties": {
-                    "id": {
-                        "description": "ID de la commande",
-                        "type": "integer"
-                    },
-                    "order_number": {
-                        "description": "Numéro unique de la commande",
-                        "type": "string"
-                    },
-                    "user_id": {
-                        "description": "ID de l'utilisateur qui a passé la commande (null si invité)",
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "status": {
-                        "description": "Statut de la commande",
-                        "type": "string",
-                        "enum": [
-                            "pending",
-                            "processing",
-                            "completed",
-                            "cancelled"
-                        ]
-                    },
-                    "customer_email": {
-                        "description": "Email du client",
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "subtotal": {
-                        "description": "Sous-total des articles",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "shipping": {
-                        "description": "Coût de la livraison",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "tax": {
-                        "description": "Taxes appliquées",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "discount": {
-                        "description": "Réduction appliquée",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "total": {
-                        "description": "Montant total de la commande",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "payment_method": {
-                        "description": "Méthode de paiement (ex: credit_card)",
-                        "type": "string"
-                    },
-                    "payment_status": {
-                        "description": "Statut du paiement (ex: paid, failed)",
-                        "type": "string"
-                    },
-                    "shipping_address": {
-                        "description": "Adresse de livraison complète",
-                        "type": "string"
-                    },
-                    "shipping_city": {
-                        "description": "Ville de livraison",
-                        "type": "string"
-                    },
-                    "shipping_country": {
-                        "description": "Pays de livraison",
-                        "type": "string"
-                    },
-                    "items": {
-                        "description": "Liste des articles de la commande",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OrderItem"
-                        }
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "completed_at": {
-                        "description": "Date de finalisation de la commande",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "OrderItem": {
-                "title": "OrderItem",
-                "description": "Modèle de données pour un article individuel dans une commande",
-                "properties": {
-                    "id": {
-                        "description": "ID de l'article de commande",
-                        "type": "integer"
-                    },
-                    "order_id": {
-                        "description": "ID de la commande parente",
-                        "type": "integer"
-                    },
-                    "product_id": {
-                        "description": "ID du produit commandé",
-                        "type": "integer"
-                    },
-                    "product_name": {
-                        "description": "Nom du produit (stocké au moment de la commande)",
-                        "type": "string"
-                    },
-                    "product_sku": {
-                        "description": "SKU du produit",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "quantity": {
-                        "description": "Quantité commandée",
-                        "type": "integer"
-                    },
-                    "unit_price": {
-                        "description": "Prix unitaire au moment de la commande",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "total": {
-                        "description": "Prix total de cet article (quantity * unit_price)",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "options": {
-                        "description": "Options du produit (taille, couleur, etc.)",
-                        "type": "object"
                     },
                     "created_at": {
                         "type": "string",
@@ -894,12 +1319,16 @@
             "description": "Points d'accès pour la page d'accueil et les informations générales."
         },
         {
-            "name": "Orders",
-            "description": "Opérations de gestion des commandes."
-        },
-        {
             "name": "Products",
             "description": "Opérations sur les produits de la boutique."
+        },
+        {
+            "name": "Commandes",
+            "description": "Commandes"
+        },
+        {
+            "name": "Admin",
+            "description": "Admin"
         }
     ]
 }

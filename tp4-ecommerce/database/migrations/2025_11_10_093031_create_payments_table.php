@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum("status",array_column(PaymentStatus::cases(),"value"))->default(PaymentStatus::PENDING);
             $table->string("paymentMethod");
             $table->string("transactionId");
+            $table->float("amount");
         });
     }
 

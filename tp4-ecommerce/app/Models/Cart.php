@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * type="array",
  * description="Liste des articles dans le panier.",
  * @OA\Items(
- * ref="#/components/schemas/CartItem" // Vous devrez peut-être définir CartItem si cela cause une autre erreur
+ * ref="#/components/schemas/CartItem"
  * )
  * ),
  * @OA\Property(

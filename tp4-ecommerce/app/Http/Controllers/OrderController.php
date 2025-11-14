@@ -48,7 +48,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/orders",
+     *     path="/order",
      *     summary="Create a new order",
      *     tags={"Orders"},
      *     security={{"bearerAuth":{}}},

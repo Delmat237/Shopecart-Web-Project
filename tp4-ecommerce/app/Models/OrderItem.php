@@ -4,8 +4,93 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @OA\Schema(
+ * schema="OrderItem",
+ * title="OrderItem",
+ * description="Modèle de données pour un article spécifique dans une commande.",
+ * @OA\Property(
+ * property="id",
+ * type="integer",
+ * format="int64",
+ * description="ID unique de l'article de commande."
+ * ),
+ * @OA\Property(
+ * property="order_id",
+ * type="integer",
+ * format="int64",
+ * description="ID de la commande parente."
+ * ),
+ * @OA\Property(
+ * property="product_id",
+ * type="integer",
+ * format="int64",
+ * description="ID du produit original."
+ * ),
+ * @OA\Property(
+ * property="product_name",
+ * type="string",
+ * description="Nom du produit au moment de la commande."
+ * ),
+ * @OA\Property(
+ * property="product_sku",
+ * type="string",
+ * description="SKU du produit au moment de la commande."
+ * ),
+ * @OA\Property(
+ * property="quantity",
+ * type="integer",
+ * format="int32",
+ * description="Quantité commandée."
+ * ),
+ * @OA\Property(
+ * property="unit_price",
+ * type="number",
+ * format="float",
+ * description="Prix unitaire du produit au moment de la commande."
+ * ),
+ * @OA\Property(
+ * property="total",
+ * type="number",
+ * format="float",
+ * description="Prix total (quantité * prix unitaire)."
+ * ),
+ * example={
+ * "id": 1,
+ * "order_id": 10,
+ * "product_id": 5,
+ * "product_name": "T-Shirt Bleu",
+ * "product_sku": "TSH-BLU-SM",
+ * "quantity": 2,
+ * "unit_price": 25.00,
+ * "total": 50.00
+ * }
+ * )
+ */
 class OrderItem extends Model
 {
     use HasFactory;
+    
+    // Assurez-vous d'avoir les relations et $fillable nécessaires ici
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'quantity',
+        'unit_price',
+        'total',
+        'product_name',
+        'product_sku',
+    ];
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

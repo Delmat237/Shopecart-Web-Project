@@ -53,6 +53,8 @@ footer {
   margin-top: auto;
   padding: 50px 0 0 0;
   font-family: Arial, sans-serif;
+  width:100%;
+  min-width: 100%;
 }
 
 /* Section des avantages du nouveau footer */
@@ -61,6 +63,7 @@ footer {
   margin: 0 auto;
   padding: 0 40px 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
 }
 
 .benefits {
@@ -98,6 +101,7 @@ footer {
   margin: 0 auto;
   padding: 40px 40px 20px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .footer-section h3 {
@@ -443,4 +447,49 @@ footer {
   .newsletter-form button {
     font-size: 13px;
   }
+}
+
+/* Ajouter ces media queries supplémentaires */
+
+@media (max-width: 480px) {
+    .footer-container {
+        padding: 20px 15px 15px;
+    }
+    
+    .footer-top {
+        padding: 0 15px 20px;
+    }
+    
+    .benefit {
+        max-width: 130px;
+    }
+    
+    .benefit i {
+        font-size: 28px;
+    }
+    
+    .benefit p {
+        font-size: 13px;
+    }
+    
+    .footer-section h3 {
+        font-size: 16px;
+    }
+    
+    .footer-section ul li a {
+        font-size: 13px;
+    }
+    
+    .footer-bottom {
+        padding: 15px;
+        text-align: center;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
+    
+    .payment-icons {
+        justify-content: center;
+    }
 }

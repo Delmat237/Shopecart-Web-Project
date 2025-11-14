@@ -591,7 +591,7 @@
    ============================================ */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px;
     margin-bottom: 30px;
 }
@@ -1471,4 +1471,68 @@
     width: 16.666667%; /* 1/6 */
     max-width: 6.25rem;
     background-color: var(--color-gray-300); /* Gris clair - segment inactif */
+}
+
+
+
+/* Correction pour les filtres sur mobile */
+@media (max-width: 768px) {
+    .tag-buttons-group {
+        padding-bottom: 150px;
+        margin-bottom: -120px;
+        justify-content: flex-start;
+        overflow-x: auto;
+    }
+    
+    .main-content-container {
+        padding: 1rem;
+    }
+    
+    .hero-banner {
+        margin: 20px 10px;
+        padding: 20px 10px;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tag-buttons-group {
+        padding-bottom: 120px;
+        margin-bottom: -100px;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .product-card {
+        padding: 15px;
+    }
+    
+    .product-frame,
+    .product-image-wrapper,
+    .product-image {
+        height: 180px;
+    }
+}
+
+/* Correction pour la barre de progression */
+@media (max-width: 768px) {
+    .progress-bar-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .progress-bar-segment-1,
+    .progress-bar-segment-2,
+    .progress-bar-segment-3 {
+        width: 80%;
+        max-width: none;
+    }
 }

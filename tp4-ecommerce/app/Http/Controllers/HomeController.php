@@ -6,24 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-/**
- * @OA\Info(
- * version="1.0.0",
- * title="Shopecart E-commerce API Documentation",
- * description="Documentation des points d'accès (endpoints) de l'API Shopecart.",
- * @OA\Contact(
- * email="contact@shopecart.com"
- * )
- * )
- * @OA\Server(
- * url=L5_SWAGGER_CONST_HOST,
- * description="Serveur de développement"
- * )
- * @OA\Tag(
- * name="Home",
- * description="Points d'accès pour la page d'accueil et les informations générales."
- * )
- */
+
 class HomeController extends Controller
 {
     /**

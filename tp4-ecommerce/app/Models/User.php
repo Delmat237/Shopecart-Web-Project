@@ -152,48 +152,6 @@ class User extends Authenticatable
         return $query->where('role', self::ROLE_CLIENT);
     }
 
-     public function isAdmin(): bool
-    {
-        return $this->role === self::ROLE_ADMIN;
-    }
-
-    public function isVendor(): bool
-    {
-        return $this->role === self::ROLE_VENDOR;
-    }
-
-    public function isDelivery(): bool
-    {
-        return $this->role === self::ROLE_DELIVERY;
-    }
-
-    public function isClient(): bool
-    {
-        return $this->role === self::ROLE_CLIENT;
-    }
-
-    /**
-     * Scope pour filtrer par rôle
-     */
-    public function scopeAdmins($query)
-    {
-        return $query->where('role', self::ROLE_ADMIN);
-    }
-
-    public function scopeVendors($query)
-    {
-        return $query->where('role', self::ROLE_VENDOR);
-    }
-
-    public function scopeDelivery($query)
-    {
-        return $query->where('role', self::ROLE_DELIVERY);
-    }
-
-    public function scopeClients($query)
-    {
-        return $query->where('role', self::ROLE_CLIENT);
-    }
 
 }
 

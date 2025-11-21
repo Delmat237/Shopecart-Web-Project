@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-use App\Models\Product;
-=======
-=======
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+
+
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductCollection;
-<<<<<<< HEAD
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
-=======
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -139,11 +131,11 @@ class ProductController extends Controller
     {
         // Vérification supplémentaire dans le contrôleur (double sécurité)
         $user = auth()->user();
-        if (!$user->isAdmin() && !$user->isVendor()) {
-            return response()->json([
-                'message' => 'Access denied. Admin or Vendor role required.'
-            ], 403);
-        }
+        // if (!$user->isAdmin() && !$user->isVendor()) {
+        //     return response()->json([
+        //         'message' => 'Access denied. Admin or Vendor role required.'
+        //     ], 403);
+        // }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -159,9 +151,9 @@ class ProductController extends Controller
         ]);
 
         // Les vendeurs ne peuvent créer que des produits visibles par défaut
-        if ($user->isVendor()) {
-            $validated['is_visible'] = true;
-        }
+        // if ($user->isVendor()) {
+        //     $validated['is_visible'] = true;
+        // }
 
         $product = Product::create($validated);
 
@@ -213,15 +205,9 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function show(Product $product)
-=======
+
+
     public function update(Request $request, Product $product)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
-=======
-    public function update(Request $request, Product $product)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
         $user = auth()->user();
         
@@ -283,15 +269,9 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function edit(Product $product)
-=======
+
+
     public function destroy(Product $product)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
-=======
-    public function destroy(Product $product)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
         $user = auth()->user();
         
@@ -333,15 +313,7 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function update(Request $request, Product $product)
-=======
     public function myProducts(Request $request)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
-=======
-    public function myProducts(Request $request)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
         $user = auth()->user();
         
@@ -382,15 +354,8 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function destroy(Product $product)
-=======
+
     public function vendorStats()
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
-=======
-    public function vendorStats()
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
         $user = auth()->user();
         

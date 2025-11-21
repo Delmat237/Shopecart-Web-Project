@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Tag(
- *     name="Products",
+ *     name="Product",
  *     description="API Endpoints for Products"
  * )
  * @OA\Schema(
- *     schema="Product",
+ *     schema="ProductsForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="name", type="string", example="iPhone 15 Pro"),
@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="Category",
+ *     schema="CategoryForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="name", type="string", example="Electronics"),
@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="Cart",
+ *     schema="CartForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="total", type="number", format="float", example=199.98),
@@ -57,7 +57,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="CartItem",
+ *     schema="CartItemForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="quantity", type="integer", example=2),
@@ -67,7 +67,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="Order",
+ *     schema="OrderForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="order_number", type="string", example="ORD-20231215-ABC123"),
@@ -128,6 +128,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // Vérification supplémentaire dans le contrôleur (double sécurité)
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         if (!$user->isAdmin() && !$user->isVendor()) {
             return response()->json([
@@ -207,6 +208,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         // Les vendeurs ne peuvent modifier que leurs propres produits
@@ -269,6 +271,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         if (!$user->isAdmin() && !$user->isVendor()) {
@@ -311,6 +314,7 @@ class ProductController extends Controller
      */
     public function myProducts(Request $request)
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         if (!$user->isVendor() && !$user->isAdmin()) {
@@ -352,6 +356,7 @@ class ProductController extends Controller
      */
     public function vendorStats()
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         if (!$user->isAdmin() && !$user->isVendor()) {

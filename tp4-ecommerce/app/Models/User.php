@@ -29,6 +29,18 @@ use Laravel\Sanctum\HasApiTokens;
  * format="email",
  * description="Adresse email unique"
  * ),
+ * * @OA\Property(
+ * property="phone",
+ * type="string",
+ * format="string",
+ * description="Numero de telephone"
+ * ),
+ *  * @OA\Property(
+ * property="address",
+ * type="string",
+ * format="string",
+ * description="Adresse"
+ * ),
  * @OA\Property(
  * property="role",
  * type="string",
@@ -101,7 +113,7 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Order::class);
     }
 
     // public function notifications()

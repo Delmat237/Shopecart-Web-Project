@@ -34,7 +34,7 @@ class PaymentController extends Controller
         ]);
 
 
-        Stripe::setApiKey(env.)
+        //Stripe::setApiKey(env.)
 
         $paymentIntent = PaymentIntent::create([
         "amount" => $payment->amount,

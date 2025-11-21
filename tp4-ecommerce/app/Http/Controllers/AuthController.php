@@ -31,7 +31,7 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     * path="/api/v1/register",
+     * path="/api/register",
      * operationId="registerUser",
      * tags={"Auth"},
      * summary="Enregistrement d'un nouvel utilisateur",
@@ -94,7 +94,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/v1/login", 
+     * path="/api/login", 
      * operationId="loginUser",
      * tags={"Auth"},
      * summary="Connexion de l'utilisateur",
@@ -147,7 +147,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/v1/logout", 
+     * path="/api/logout", 
      * operationId="logoutUser",
      * tags={"Auth"},
      * summary="Déconnexion de l'utilisateur",
@@ -171,7 +171,7 @@ class AuthController extends Controller
 
  /**
  * @OA\Get(
- *     path="/api/v1/user", 
+ *     path="/api/user", 
  *     operationId="getCurrentUser",
  *     tags={"Auth"},
  *     summary="Obtenir les informations de l'utilisateur actuel",

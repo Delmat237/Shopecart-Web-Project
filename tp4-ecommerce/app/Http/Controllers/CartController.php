@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
-use App\Http\Resources\CartResource;
+use Illuminate\Http\Resources\Json\JsonResource as CartResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

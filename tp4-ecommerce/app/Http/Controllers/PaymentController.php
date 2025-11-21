@@ -27,11 +27,37 @@ class PaymentController extends Controller
 
         
         */
+        $payment=Payment::create([
+            "amount"=>$data["amount"],
+            "paymentMethod"=>$data["paymentMethod"],
+            "transactionId"=>null
+        ]);
+
+
+        Stripe::setApiKey(env.)
+
+        $paymentIntent = PaymentIntent::create([
+        "amount" => $payment->amount,
+        "currency" => "usd", // Stripe does NOT support XAF (important)
+        "metadata" => [
             
-            return "hi";
+            "payment_id" => $payment->id
+        ],
+    
+    ]);
+
+    // 4. Return client secret to the frontend
+    return response()->json([
+        "clientSecret" => $paymentIntent->client_secret,
+        "payment" => $payment
+    ]);
+            
+            
 
       
     }
+
+    
 
 
     public function storePayment(Request $request)

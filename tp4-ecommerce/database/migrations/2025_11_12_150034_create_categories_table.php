@@ -4,10 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 use App\Enums\PaymentStatus;
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
+
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
 return new class extends Migration
 {
     /**
@@ -15,6 +19,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         Schema::create('categories', function (Blueprint $table) {
 <<<<<<<< HEAD:tp4-ecommerce/database/migrations/2025_11_10_091252_create_categories_table.php
@@ -41,6 +46,9 @@ return new class extends Migration
 ========
         Schema::create('categories', function (Blueprint $table) {
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
+        Schema::create('categories', function (Blueprint $table) {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
     $table->id();
     $table->string('name');
     $table->string('slug')->unique();
@@ -53,7 +61,10 @@ return new class extends Migration
     
     $table->index(['is_visible', 'position']);
 });
+<<<<<<< HEAD
 >>>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c:tp4-ecommerce/database/migrations/2025_11_12_150034_create_categories_table.php
+=======
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
     }
 
     /**
@@ -62,9 +73,13 @@ return new class extends Migration
     public function down(): void
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         Schema::dropIfExists('categories');
 =======
         Schema::dropIfExists('payments');
 >>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+=======
+        Schema::dropIfExists('categories');
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
     }
 };

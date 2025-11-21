@@ -1,6 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
+<<<<<<< HEAD
         "title": "Shopecart E-commerce API Documentation",
         "description": "Documentation des points d'accès (endpoints) de l'API Shopecart.",
         "contact": {
@@ -22,6 +23,20 @@
                 ],
                 "summary": "Enregistrement d'un nouvel utilisateur",
                 "operationId": "registerUser",
+=======
+        "title": "Ecommerce API",
+        "description": "API for Ecommerce application",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -36,21 +51,34 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
+<<<<<<< HEAD
                                         "example": "Raoul Ossombe"
+=======
+                                        "example": "John Doe"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
+<<<<<<< HEAD
                                         "example": "raoulOssombe@shopcart.com"
+=======
+                                        "example": "john@example.com"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
+<<<<<<< HEAD
                                         "example": "secret123"
+=======
+                                        "example": "password123"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                     },
                                     "password_confirmation": {
                                         "type": "string",
                                         "format": "password",
+<<<<<<< HEAD
                                         "example": "secret123"
                                     },
                                     "phone": {
@@ -62,6 +90,9 @@
                                         "type": "string",
                                         "example": "Yaounde,Melen",
                                         "nullable": true
+=======
+                                        "example": "password123"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                     }
                                 },
                                 "type": "object"
@@ -71,12 +102,17 @@
                 },
                 "responses": {
                     "201": {
+<<<<<<< HEAD
                         "description": "Enregistrement réussi. Retourne le jeton d'accès.",
+=======
+                        "description": "User registered successfully",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
+<<<<<<< HEAD
                                             "type": "string",
                                             "example": "Registered"
                                         },
@@ -86,19 +122,32 @@
                                         },
                                         "user": {
                                             "type": "object"
+=======
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
+<<<<<<< HEAD
                     },
                     "422": {
                         "description": "Erreur de validation des données."
+=======
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                     }
                 }
             }
         },
+<<<<<<< HEAD
         "/api/v1/login": {
             "post": {
                 "tags": [
@@ -106,6 +155,15 @@
                 ],
                 "summary": "Connexion de l'utilisateur",
                 "operationId": "loginUser",
+=======
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login user",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -119,12 +177,20 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
+<<<<<<< HEAD
                                         "example": "raoulossombe@shopcart.com"
+=======
+                                        "example": "john@example.com"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
+<<<<<<< HEAD
                                         "example": "secret123"
+=======
+                                        "example": "password123"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                     }
                                 },
                                 "type": "object"
@@ -134,7 +200,11 @@
                 },
                 "responses": {
                     "200": {
+<<<<<<< HEAD
                         "description": "Connexion réussie. Retourne le jeton d'accès.",
+=======
+                        "description": "Login successful",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -143,12 +213,21 @@
                                             "type": "string",
                                             "example": "Login successful"
                                         },
+<<<<<<< HEAD
                                         "token": {
                                             "type": "string",
                                             "example": "2|yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
                                         },
                                         "user": {
                                             "type": "object"
+=======
+                                        "user": {
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|randomtoken123"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                         }
                                     },
                                     "type": "object"
@@ -157,11 +236,16 @@
                         }
                     },
                     "401": {
+<<<<<<< HEAD
                         "description": "Identifiants invalides."
+=======
+                        "description": "Invalid credentials"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                     }
                 }
             }
         },
+<<<<<<< HEAD
         "/api/v1/logout": {
             "post": {
                 "tags": [
@@ -176,6 +260,34 @@
                     },
                     "401": {
                         "description": "Non authentifié."
+=======
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                     }
                 },
                 "security": [
@@ -185,6 +297,7 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/api/v1/user": {
             "get": {
                 "tags": [
@@ -229,12 +342,32 @@
                                         }
                                     },
                                     "type": "object"
+=======
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get current user",
+                "operationId": "7c1cf647d76fad4b3eb1549fa4fe2f4c",
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                 }
                             }
                         }
                     },
                     "401": {
+<<<<<<< HEAD
                         "description": "Non authentifié."
+=======
+                        "description": "Unauthenticated"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                     }
                 },
                 "security": [
@@ -275,13 +408,21 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/cart/add/{product}": {
+=======
+        "/api/cart/add/{product}": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "post": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Add item to cart",
+<<<<<<< HEAD
                 "operationId": "3a555efc77232dd5675d9508999038d7",
+=======
+                "operationId": "510618525eea2bfafef7e7c9f3223cc2",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "product",
@@ -337,13 +478,21 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/cart/items/{cartItem}": {
+=======
+        "/api/cart/items/{cartItem}": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "put": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Update cart item quantity",
+<<<<<<< HEAD
                 "operationId": "d9d5cdbc12955841d6609a62a59b2903",
+=======
+                "operationId": "4821dca79c7ed9c583c1598cb450fc5d",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "cartItem",
@@ -405,7 +554,11 @@
                     "Cart"
                 ],
                 "summary": "Remove item from cart",
+<<<<<<< HEAD
                 "operationId": "cecec54eaa5f542e7028e3ce94ade057",
+=======
+                "operationId": "8d114a15678817e115627d0eace73231",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "cartItem",
@@ -441,13 +594,21 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/cart/clear": {
+=======
+        "/api/cart/clear": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "delete": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Clear the cart",
+<<<<<<< HEAD
                 "operationId": "6c16eeec461bf91618968113b533465a",
+=======
+                "operationId": "c2cf94402630acad1cc6d317ec806693",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "responses": {
                     "200": {
                         "description": "Cart cleared successfully",
@@ -475,6 +636,7 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/api/cartItems/cart/{cartId}": {
             "get": {
                 "tags": [
@@ -814,15 +976,48 @@
             }
         },
         "/categories": {
+=======
+        "/api/categories": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Categories"
                 ],
+<<<<<<< HEAD
                 "summary": "Get list of categories",
                 "operationId": "ead5fb1cf2a7453acb2e37928a1b1eaf",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
+=======
+                "summary": "Get all categories",
+                "operationId": "3f5817a34833d0a1f4af4548dd3aeaba",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of categories",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -832,6 +1027,15 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Category"
                                             }
+<<<<<<< HEAD
+=======
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                         }
                                     },
                                     "type": "object"
@@ -840,15 +1044,70 @@
                         }
                     }
                 }
+<<<<<<< HEAD
             }
         },
         "/categories/{id}": {
+=======
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "operationId": "71fcad552bb0eaba9fb191fd8d8dcab0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Electronics"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Electronic devices"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories/{id}": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Categories"
                 ],
+<<<<<<< HEAD
                 "summary": "Get category details with products",
                 "operationId": "4cdf41756315109f1efc72787db5830a",
+=======
+                "summary": "Get category details",
+                "operationId": "c68e76d323c008827a9e47398b1583de",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "id",
@@ -862,11 +1121,76 @@
                 ],
                 "responses": {
                     "200": {
+<<<<<<< HEAD
                         "description": "Successful operation",
+=======
+                        "description": "Category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update category",
+                "operationId": "0e686b2748211cc688333ed705dc111f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Electronics Updated"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated description"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "example": "electronics-updated.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+<<<<<<< HEAD
                                         "category": {
                                             "$ref": "#/components/schemas/Category"
                                         },
@@ -885,6 +1209,140 @@
                                                     "type": "object"
                                                 }
                                             },
+=======
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Category updated successfully"
+                                        },
+                                        "category": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "403": {
+                        "description": "Access denied. Admin role required."
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category",
+                "operationId": "4c12e22a7f8c617bd83bfa1fdc05428d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Category deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied. Admin role required."
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories/{id}/products": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get products by category",
+                "operationId": "b9a3e96d5deeddcc49cd06d071546057",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products in category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                                             "type": "object"
                                         }
                                     },
@@ -899,6 +1357,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "/api/v1/notifications/test-registration": {
             "post": {
                 "tags": [
@@ -936,12 +1395,19 @@
             }
         },
         "/orders": {
+=======
+        "/api/orders": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Get user's orders",
+<<<<<<< HEAD
                 "operationId": "325fd3d55bbe9bb39645269928fa4983",
+=======
+                "operationId": "2cd7e03021e72d9d799c12dfe179c865",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -973,15 +1439,23 @@
                         "bearerAuth": []
                     }
                 ]
+<<<<<<< HEAD
             }
         },
         "/order": {
+=======
+            },
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "post": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Create a new order",
+<<<<<<< HEAD
                 "operationId": "7ba54becef4b6acf5e298e3b83936d12",
+=======
+                "operationId": "d690d6834318e9b064df441e854de8b9",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1092,13 +1566,21 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/orders/{id}": {
+=======
+        "/api/orders/{id}": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Get order details",
+<<<<<<< HEAD
                 "operationId": "f088d34a2737782215f435f854e31de5",
+=======
+                "operationId": "c29621029e70f65247909d3e09031118",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "id",
@@ -1135,13 +1617,348 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/users": {
+=======
+        "/api/products": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create a new product",
+                "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "stock",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "New Product"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Product description"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 99.99
+                                    },
+                                    "compare_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 129.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "sku": {
+                                        "type": "string",
+                                        "example": "SKU12345"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "is_visible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product created successfully"
+                                        },
+                                        "product": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied. Admin or Vendor role required."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update product",
+                "operationId": "6a7e11900844cd85cff66e662b82bd4c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "stock",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Product Name"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated description"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 89.99
+                                    },
+                                    "compare_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 119.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 50
+                                    },
+                                    "sku": {
+                                        "type": "string",
+                                        "example": "SKU12345-UPDATED"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "is_visible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated successfully"
+                                        },
+                                        "product": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete product",
+                "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/vendor/my-products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get vendor's products",
+                "operationId": "e1caf79623d4afd8e2e296f0c244e580",
+                "responses": {
+                    "200": {
+                        "description": "Vendor's products list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied. Vendor role required."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/vendor/stats": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get vendor statistics",
+                "operationId": "8fc21d52bf9442ce22f18079d9c2056d",
+                "responses": {
+                    "200": {
+                        "description": "Vendor statistics",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_products": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "visible_products": {
+                                            "type": "integer",
+                                            "example": 45
+                                        },
+                                        "featured_products": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "out_of_stock": {
+                                            "type": "integer",
+                                            "example": 5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied. Admin or Vendor role required."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get all users",
+<<<<<<< HEAD
                 "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+=======
+                "operationId": "c457726701591d1183b53aa71fc13441",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "role",
@@ -1219,7 +2036,11 @@
                     "Users"
                 ],
                 "summary": "Create a new user",
+<<<<<<< HEAD
                 "operationId": "a1fce870c566eb5fc0cf3178ec5d2fed",
+=======
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1298,13 +2119,21 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/users/{id}": {
+=======
+        "/api/users/{id}": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user details",
+<<<<<<< HEAD
                 "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+=======
+                "operationId": "36a33ff774d5cba33c039dec2c3e0287",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "id",
@@ -1342,7 +2171,11 @@
                     "Users"
                 ],
                 "summary": "Update user",
+<<<<<<< HEAD
                 "operationId": "ddfe232db1870b82493bf8bd25596d37",
+=======
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "id",
@@ -1438,7 +2271,11 @@
                     "Users"
                 ],
                 "summary": "Delete user",
+<<<<<<< HEAD
                 "operationId": "43dd20becb1f47444e484cbb18ce345c",
+=======
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "parameters": [
                     {
                         "name": "id",
@@ -1478,13 +2315,21 @@
                 ]
             }
         },
+<<<<<<< HEAD
         "/users/roles/stats": {
+=======
+        "/api/users/roles/stats": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user statistics by role",
+<<<<<<< HEAD
                 "operationId": "501b86e714c1f5ff569e8b2802b4522e",
+=======
+                "operationId": "11d0cfb8621a067c0812df82ba34640c",
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                 "responses": {
                     "200": {
                         "description": "User statistics",
@@ -1529,6 +2374,7 @@
     },
     "components": {
         "schemas": {
+<<<<<<< HEAD
             "Cart": {
                 "title": "Cart",
                 "description": "Modèle de données pour un panier d'achat.",
@@ -1881,6 +2727,36 @@
                             "type": "string"
                         }
                     },
+=======
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "client",
+                            "admin",
+                            "vendor",
+                            "delivery"
+                        ],
+                        "example": "client"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                     "created_at": {
                         "type": "string",
                         "format": "date-time"
@@ -1892,6 +2768,7 @@
                 },
                 "type": "object"
             },
+<<<<<<< HEAD
             "User": {
                 "title": "User",
                 "description": "Modèle de données pour un utilisateur",
@@ -1919,11 +2796,225 @@
                     },
                     "created_at": {
                         "description": "Date de création de l'utilisateur",
+=======
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "iPhone 15 Pro"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "iphone-15-pro"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Latest iPhone with advanced features"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 999.99
+                    },
+                    "compare_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1099.99
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "sku": {
+                        "type": "string",
+                        "example": "IP15PRO256"
+                    },
+                    "is_visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "is_featured": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "products/iphone15.jpg"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                         "type": "string",
                         "format": "date-time"
                     },
                     "updated_at": {
+<<<<<<< HEAD
                         "description": "Date de dernière mise à jour",
+=======
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Electronics"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "electronics"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Electronic devices and accessories"
+                    },
+                    "is_visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "position": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Cart": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 199.98
+                    },
+                    "items_count": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CartItem"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CartItem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "unit_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 99.99
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 199.98
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/Product"
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order_number": {
+                        "type": "string",
+                        "example": "ORD-20231215-ABC123"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "subtotal": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 199.98
+                    },
+                    "shipping": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 10
+                    },
+                    "tax": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 229.98
+                    },
+                    "customer_email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "customer_first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "customer_last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "shipping_address": {
+                        "type": "string",
+                        "example": "123 Main St"
+                    },
+                    "shipping_city": {
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "shipping_zipcode": {
+                        "type": "string",
+                        "example": "10001"
+                    },
+                    "shipping_country": {
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "created_at": {
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
                         "type": "string",
                         "format": "date-time"
                     }
@@ -1934,6 +3025,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+<<<<<<< HEAD
                 "description": "Entrez le jeton Bearer obtenu après la connexion.",
                 "bearerFormat": "Sanctum",
                 "scheme": "bearer"
@@ -1943,13 +3035,22 @@
                 "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
                 "in": "header"
+=======
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
             }
         }
     },
     "tags": [
         {
+<<<<<<< HEAD
             "name": "Auth",
             "description": "Opérations d'authentification et de gestion des utilisateurs."
+=======
+            "name": "Authentication",
+            "description": "API Endpoints for Authentication"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
         },
         {
             "name": "Cart",
@@ -1957,23 +3058,41 @@
         },
         {
             "name": "Categories",
+<<<<<<< HEAD
             "description": "API Endpoints for Categories"
         },
         {
             "name": "Notifications",
             "description": "Opérations de test pour l'envoi de notifications par e-mail (Mailable)."
+=======
+            "description": "API Endpoints for Category Management"
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
         },
         {
             "name": "Orders",
             "description": "API Endpoints for Orders"
         },
         {
+<<<<<<< HEAD
             "name": "Users",
             "description": "API Endpoints for User Management"
         },
         {
             "name": "CartItem",
             "description": "CartItem"
+=======
+            "name": "Products",
+            "description": "API Endpoints for Products"
+        },
+        {
+            "name": "Users",
+            "description": "API Endpoints for User Management"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+>>>>>>> 4cb05ea554260cd90d6ada91d316a864b9978857
         }
     ]
 }

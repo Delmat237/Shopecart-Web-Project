@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         // Nouveaux middlewares
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'admin_or_vendor' => \App\Http\Middleware\AdminOrVendorMiddleware::class,
+         'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
     ];
 }

@@ -18,7 +18,7 @@ class UserController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/users",
+     *     path="/api/users",
      *     summary="Get all users",
      *     tags={"Users"},
      *     security={{"bearerAuth":{}}},
@@ -92,7 +92,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/users",
+     *     path="/api/users",
      *     summary="Create a new user",
      *     tags={"Users"},
      *     security={{"bearerAuth":{}}},
@@ -157,7 +157,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Get user details",
      *     tags={"Users"},
      *     security={{"bearerAuth":{}}},
@@ -186,7 +186,7 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Update user",
      *     tags={"Users"},
      *     security={{"bearerAuth":{}}},
@@ -264,7 +264,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Delete user",
      *     tags={"Users"},
      *     security={{"bearerAuth":{}}},
@@ -299,7 +299,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/roles/stats",
+     *     path="/api/users/roles/stats",
      *     summary="Get user statistics by role",
      *     tags={"Users"},
      *     security={{"bearerAuth":{}}},

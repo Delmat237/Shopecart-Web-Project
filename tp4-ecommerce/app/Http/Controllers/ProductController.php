@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
@@ -17,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
  *     name="Products",
  *     description="API Endpoints for Products"
  * )
- * * @OA\Schema(
+ * @OA\Schema(
  *     schema="Product",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
@@ -94,7 +92,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/products",
+     *     path="/api/products",
      *     summary="Create a new product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -131,11 +129,11 @@ class ProductController extends Controller
     {
         // Vérification supplémentaire dans le contrôleur (double sécurité)
         $user = auth()->user();
-        // if (!$user->isAdmin() && !$user->isVendor()) {
-        //     return response()->json([
-        //         'message' => 'Access denied. Admin or Vendor role required.'
-        //     ], 403);
-        // }
+        if (!$user->isAdmin() && !$user->isVendor()) {
+            return response()->json([
+                'message' => 'Access denied. Admin or Vendor role required.'
+            ], 403);
+        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -149,12 +147,14 @@ class ProductController extends Controller
             'is_featured' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        $slug = \Illuminate\Support\Str::slug($validated['name']);
 
         // Les vendeurs ne peuvent créer que des produits visibles par défaut
-        // if ($user->isVendor()) {
-        //     $validated['is_visible'] = true;
-        // }
+        if ($user->isVendor()) {
+            $validated['is_visible'] = true;
 
+        }
+        $validated['slug'] = $slug;
         $product = Product::create($validated);
 
         return response()->json([
@@ -165,7 +165,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/products/{id}",
+     *     path="/api/products/{id}",
      *     summary="Update product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -205,8 +205,6 @@ class ProductController extends Controller
      *     )
      * )
      */
-
-
     public function update(Request $request, Product $product)
     {
         $user = auth()->user();
@@ -245,7 +243,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/products/{id}",
+     *     path="/api/products/{id}",
      *     summary="Delete product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -269,8 +267,6 @@ class ProductController extends Controller
      *     )
      * )
      */
-
-
     public function destroy(Product $product)
     {
         $user = auth()->user();
@@ -295,7 +291,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/products/vendor/my-products",
+     *     path="/api/products/vendor/my-products",
      *     summary="Get vendor's products",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -333,7 +329,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/products/vendor/stats",
+     *     path="/api/products/vendor/stats",
      *     summary="Get vendor statistics",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -354,7 +350,6 @@ class ProductController extends Controller
      *     )
      * )
      */
-
     public function vendorStats()
     {
         $user = auth()->user();

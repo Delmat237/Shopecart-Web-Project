@@ -21,7 +21,7 @@ class OrderController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/orders",
+     *     path="/api/orders",
      *     summary="Get user's orders",
      *     tags={"Orders"},
      *     security={{"bearerAuth":{}}},
@@ -48,7 +48,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/order",
+     *     path="/api/orders",
      *     summary="Create a new order",
      *     tags={"Orders"},
      *     security={{"bearerAuth":{}}},
@@ -184,7 +184,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/orders/{id}",
+     *     path="/api/orders/{id}",
      *     summary="Get order details",
      *     tags={"Orders"},
      *     security={{"bearerAuth":{}}},

@@ -64,7 +64,7 @@ class UserController extends Controller
         $query = User::orderBy('created_at', 'desc');
 
         // Filtrage par rôle
-        if ($request->has('role') && in_array($request->role, ['client', 'admin', 'vendor', 'delivery'])) {
+        if ($request->has('role') && in_array($request->role, ['USER', 'ADMIN', 'VENDOR', 'DELIVERY'])) {
             $query->where('role', $request->role);
         }
 

@@ -11,28 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+       Schema::create('products', function (Blueprint $table) {
     $table->id();
+    $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
     $table->string('name');
     $table->string('slug')->unique();
     $table->text('description')->nullable();
     $table->decimal('price', 10, 2);
     $table->decimal('compare_price', 10, 2)->nullable();
     $table->integer('stock')->default(0);
-    $table->string('sku')->unique()->nullable();
-    $table->string('barcode')->unique()->nullable();
-    $table->boolean('is_visible')->default(false);
+    $table->string('sku')->nullable();
+    $table->string('barcode')->nullable();
+    $table->boolean('is_visible')->default(true);
     $table->boolean('is_featured')->default(false);
     $table->timestamp('published_at')->nullable();
+    $table->string('meta_title')->nullable();
+    $table->string('meta_description')->nullable();
     $table->string('image')->nullable();
     $table->json('gallery')->nullable();
-    $table->foreignId('category_id')->constrained()->onDelete('cascade');
-    $table->timestamps();
     $table->softDeletes();
-    
-    $table->index(['is_visible', 'published_at']);
-    $table->index(['category_id', 'is_visible']);
+    $table->timestamps();
 });
+
     }
 
     /**

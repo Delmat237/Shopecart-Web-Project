@@ -29,6 +29,18 @@ use Laravel\Sanctum\HasApiTokens;
  * format="email",
  * description="Adresse email unique"
  * ),
+ * * @OA\Property(
+ * property="phone",
+ * type="string",
+ * format="string",
+ * description="Numero de telephone"
+ * ),
+ *  * @OA\Property(
+ * property="address",
+ * type="string",
+ * format="string",
+ * description="Adresse"
+ * ),
  * @OA\Property(
  * property="role",
  * type="string",
@@ -53,6 +65,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ROLE_ADMIN = 'ADMIN';
+    const ROLE_VENDOR = 'VENDOR';
+    const ROLE_CLIENT = 'USER';
+    const ROLE_DELIVERY = 'DELIVERY';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -63,11 +80,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-<<<<<<< HEAD
         'phone',
         'address'
-=======
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     ];
 
     /**
@@ -99,7 +113,7 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Order::class);
     }
 
     // public function notifications()
@@ -154,6 +168,7 @@ class User extends Authenticatable
     {
         return $query->where('role', self::ROLE_CLIENT);
     }
+
 
 }
 

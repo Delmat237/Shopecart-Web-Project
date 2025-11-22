@@ -4,9 +4,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,19 +19,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-use App\Http\Controllers\NotificationController;
 
-// Route de test (racine)
-Route::get('/', function () {
-    return response()->json([
-        'message' => 'Shopcart API v1',
-        'version' => '1.0.0',
-        'endpoints' => [
-            'register' => '/api/v1/register',
-            'login' => '/api/v1/login',
-            'docs' => '/api/documentation'
-        ]
-    ]);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
 // Public routes
@@ -39,7 +31,7 @@ Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 
-// Auth routes
+// Auth routes 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 

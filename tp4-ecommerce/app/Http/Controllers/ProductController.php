@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-use App\Models\Product;
-=======
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductCollection;
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Tag(
- *     name="Products",
+ *     name="Product",
  *     description="API Endpoints for Products"
  * )
- * * @OA\Schema(
- *     schema="Product",
+ * @OA\Schema(
+ *     schema="ProductsForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="name", type="string", example="iPhone 15 Pro"),
@@ -39,7 +35,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="Category",
+ *     schema="CategoryForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="name", type="string", example="Electronics"),
@@ -52,7 +48,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="Cart",
+ *     schema="CartForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="total", type="number", format="float", example=199.98),
@@ -61,7 +57,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="CartItem",
+ *     schema="CartItemForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="quantity", type="integer", example=2),
@@ -71,7 +67,7 @@ use Illuminate\Support\Facades\Storage;
  * )
  * 
  * @OA\Schema(
- *     schema="Order",
+ *     schema="OrderForProduct",
  *     type="object",
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="order_number", type="string", example="ORD-20231215-ABC123"),
@@ -96,7 +92,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/products",
+     *     path="/api/products",
      *     summary="Create a new product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -132,6 +128,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // Vérification supplémentaire dans le contrôleur (double sécurité)
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         if (!$user->isAdmin() && !$user->isVendor()) {
             return response()->json([
@@ -151,12 +148,14 @@ class ProductController extends Controller
             'is_featured' => 'boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        $slug = \Illuminate\Support\Str::slug($validated['name']);
 
         // Les vendeurs ne peuvent créer que des produits visibles par défaut
         if ($user->isVendor()) {
             $validated['is_visible'] = true;
-        }
 
+        }
+        $validated['slug'] = $slug;
         $product = Product::create($validated);
 
         return response()->json([
@@ -167,7 +166,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/products/{id}",
+     *     path="/api/products/{id}",
      *     summary="Update product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -207,12 +206,9 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-    public function show(Product $product)
-=======
     public function update(Request $request, Product $product)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         // Les vendeurs ne peuvent modifier que leurs propres produits
@@ -249,7 +245,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/products/{id}",
+     *     path="/api/products/{id}",
      *     summary="Delete product",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -273,12 +269,9 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-    public function edit(Product $product)
-=======
     public function destroy(Product $product)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         if (!$user->isAdmin() && !$user->isVendor()) {
@@ -301,7 +294,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/products/vendor/my-products",
+     *     path="/api/products/vendor/my-products",
      *     summary="Get vendor's products",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -319,12 +312,9 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-    public function update(Request $request, Product $product)
-=======
     public function myProducts(Request $request)
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         if (!$user->isVendor() && !$user->isAdmin()) {
@@ -343,7 +333,7 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/products/vendor/stats",
+     *     path="/api/products/vendor/stats",
      *     summary="Get vendor statistics",
      *     tags={"Products"},
      *     security={{"bearerAuth":{}}},
@@ -364,12 +354,9 @@ class ProductController extends Controller
      *     )
      * )
      */
-<<<<<<< HEAD
-    public function destroy(Product $product)
-=======
     public function vendorStats()
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         
         if (!$user->isAdmin() && !$user->isVendor()) {

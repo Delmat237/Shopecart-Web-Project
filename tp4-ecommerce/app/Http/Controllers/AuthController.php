@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\UserRegistered; // Import du Mailable pour l'envoi d'e-mail
 use App\Models\User;
-use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail; // Ajout pour l'envoi d'e-mail
@@ -31,7 +30,7 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     * path="/api/v1/register",
+     * path="/api/register",
      * operationId="registerUser",
      * tags={"Auth"},
      * summary="Enregistrement d'un nouvel utilisateur",
@@ -81,7 +80,6 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
 
-        $cart=Cart::create(["userId"=>$user->id]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -94,7 +92,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/v1/login", 
+     * path="/api/login", 
      * operationId="loginUser",
      * tags={"Auth"},
      * summary="Connexion de l'utilisateur",
@@ -147,7 +145,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/v1/logout", 
+     * path="/api/logout", 
      * operationId="logoutUser",
      * tags={"Auth"},
      * summary="Déconnexion de l'utilisateur",
@@ -169,25 +167,34 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out']);
     }
 
-    /**
-     * @OA\Get(
-     * path="/api/v1/user", 
-     * operationId="getCurrentUser",
-     * tags={"Auth"},
-     * summary="Obtenir les informations de l'utilisateur actuel",
-     * description="Retourne les données de l'utilisateur authentifié via le jeton Bearer.",
-     * security={{"bearerAuth": {}}},
-     * @OA\Response(
-     * response=200,
-     * description="Informations utilisateur récupérées.",
-     * @OA\JsonContent(ref="#/components/schemas/User")
-     * ),
-     * @OA\Response(
-     * response=401,
-     * description="Non authentifié."
-     * )
-     * )
-     */
+ /**
+ * @OA\Get(
+ *     path="/api/user", 
+ *     operationId="getCurrentUser",
+ *     tags={"Auth"},
+ *     summary="Obtenir les informations de l'utilisateur actuel",
+ *     description="Retourne les données de l'utilisateur authentifié via le jeton Bearer.",
+ *     security={{"bearerAuth": {}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Informations utilisateur récupérées.",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="name", type="string", example="John Doe"),
+ *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+ *             @OA\Property(property="role", type="string", example="USER"),
+ *             @OA\Property(property="created_at", type="string", format="date-time", example="2025-11-13T12:00:00Z"),
+ *             @OA\Property(property="updated_at", type="string", format="date-time", example="2025-11-13T12:00:00Z")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non authentifié."
+ *     )
+ * )
+ */
+
     public function user(Request $request)
     {
         return response()->json($request->user());

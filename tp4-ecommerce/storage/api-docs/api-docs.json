@@ -1,7 +1,6 @@
 {
     "openapi": "3.0.0",
     "info": {
-<<<<<<< HEAD
         "title": "Shopecart E-commerce API Documentation",
         "description": "Documentation des points d'accès (endpoints) de l'API Shopecart.",
         "contact": {
@@ -12,30 +11,17 @@
     "servers": [
         {
             "url": "http://localhost:8000",
-            "description": "Serveur de développement"
+            "description": "Serveur de l'API locale"
         }
     ],
     "paths": {
-        "/api/v1/register": {
+        "/api/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Enregistrement d'un nouvel utilisateur",
                 "operationId": "registerUser",
-=======
-        "title": "Nom de l'API",
-        "version": "1.0.0"
-    },
-    "paths": {
-        "/register": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Register a new user",
-                "operationId": "0903f2e0df1a8857bee538fc055417f0",
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -50,34 +36,21 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-<<<<<<< HEAD
                                         "example": "Raoul Ossombe"
-=======
-                                        "example": "John Doe"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-<<<<<<< HEAD
                                         "example": "raoulOssombe@shopcart.com"
-=======
-                                        "example": "john@example.com"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-<<<<<<< HEAD
                                         "example": "secret123"
-=======
-                                        "example": "password123"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     },
                                     "password_confirmation": {
                                         "type": "string",
                                         "format": "password",
-<<<<<<< HEAD
                                         "example": "secret123"
                                     },
                                     "phone": {
@@ -89,9 +62,6 @@
                                         "type": "string",
                                         "example": "Yaounde,Melen",
                                         "nullable": true
-=======
-                                        "example": "password123"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     }
                                 },
                                 "type": "object"
@@ -101,17 +71,12 @@
                 },
                 "responses": {
                     "201": {
-<<<<<<< HEAD
                         "description": "Enregistrement réussi. Retourne le jeton d'accès.",
-=======
-                        "description": "User registered successfully",
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-<<<<<<< HEAD
                                             "type": "string",
                                             "example": "Registered"
                                         },
@@ -121,40 +86,164 @@
                                         },
                                         "user": {
                                             "type": "object"
-=======
-                                            "type": "string"
-                                        },
-                                        "user": {
-                                            "$ref": "#/components/schemas/User"
-                                        },
-                                        "token": {
-                                            "type": "string"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-<<<<<<< HEAD
                     },
                     "422": {
                         "description": "Erreur de validation des données."
-=======
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     }
                 }
             }
         },
-<<<<<<< HEAD
-        "/api/v1/login": {
+        "/api/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Connexion de l'utilisateur",
                 "operationId": "loginUser",
-=======
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "raoulossombe@shopcart.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie. Retourne le jeton d'accès.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "2|yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants invalides."
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Déconnexion de l'utilisateur",
+                "description": "Supprime le jeton d'accès actuel de l'utilisateur.",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Déconnexion réussie."
+                    },
+                    "401": {
+                        "description": "Non authentifié."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Obtenir les informations de l'utilisateur actuel",
+                "description": "Retourne les données de l'utilisateur authentifié via le jeton Bearer.",
+                "operationId": "getCurrentUser",
+                "responses": {
+                    "200": {
+                        "description": "Informations utilisateur récupérées.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "john@example.com"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "USER"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-11-13T12:00:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-11-13T12:00:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/cart": {
             "get": {
                 "tags": [
@@ -186,13 +275,13 @@
                 ]
             }
         },
-        "/cart/add/{product}": {
+        "/api/cart/add/{product}": {
             "post": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Add item to cart",
-                "operationId": "3a555efc77232dd5675d9508999038d7",
+                "operationId": "510618525eea2bfafef7e7c9f3223cc2",
                 "parameters": [
                     {
                         "name": "product",
@@ -204,34 +293,16 @@
                         }
                     }
                 ],
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-<<<<<<< HEAD
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "raoulossombe@shopcart.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "secret123"
-=======
                                 "required": [],
                                 "properties": {
                                     "quantity": {
                                         "type": "integer",
                                         "example": 1
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                     }
                                 },
                                 "type": "object"
@@ -241,9 +312,6 @@
                 },
                 "responses": {
                     "200": {
-<<<<<<< HEAD
-                        "description": "Connexion réussie. Retourne le jeton d'accès.",
-=======
                         "description": "Item added to cart",
                         "content": {
                             "application/json": {
@@ -269,13 +337,13 @@
                 ]
             }
         },
-        "/cart/items/{cartItem}": {
+        "/api/cart/items/{cartItem}": {
             "put": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Update cart item quantity",
-                "operationId": "d9d5cdbc12955841d6609a62a59b2903",
+                "operationId": "4821dca79c7ed9c583c1598cb450fc5d",
                 "parameters": [
                     {
                         "name": "cartItem",
@@ -337,7 +405,7 @@
                     "Cart"
                 ],
                 "summary": "Remove item from cart",
-                "operationId": "cecec54eaa5f542e7028e3ce94ade057",
+                "operationId": "8d114a15678817e115627d0eace73231",
                 "parameters": [
                     {
                         "name": "cartItem",
@@ -373,13 +441,13 @@
                 ]
             }
         },
-        "/cart/clear": {
+        "/api/cart/clear": {
             "delete": {
                 "tags": [
                     "Cart"
                 ],
                 "summary": "Clear the cart",
-                "operationId": "6c16eeec461bf91618968113b533465a",
+                "operationId": "c2cf94402630acad1cc6d317ec806693",
                 "responses": {
                     "200": {
                         "description": "Cart cleared successfully",
@@ -407,16 +475,376 @@
                 ]
             }
         },
-        "/categories": {
+        "/api/cartItems/cart/{cartId}": {
+            "get": {
+                "tags": [
+                    "CartItem"
+                ],
+                "summary": "Get all cart items for a specific cart",
+                "operationId": "ca52ae915104f3d82d08b03c601cee47",
+                "parameters": [
+                    {
+                        "name": "cartId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of cart items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "cartId": {
+                                                "type": "integer",
+                                                "example": 5
+                                            },
+                                            "productVariantId": {
+                                                "type": "integer",
+                                                "example": 10
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cart not found"
+                    }
+                }
+            }
+        },
+        "/api/cartItem/{cartItemId}": {
+            "get": {
+                "tags": [
+                    "CartItem"
+                ],
+                "summary": "Get a single cart item by ID",
+                "operationId": "9a07881aaa06684db74cb3a4e8d923ec",
+                "parameters": [
+                    {
+                        "name": "cartItemId",
+                        "in": "path",
+                        "description": "ID of the cart item",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cart item retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "cartId": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "productVariantId": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-11-13T12:00:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-11-13T12:05:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cart item not found"
+                    }
+                }
+            }
+        },
+        "/api/cartItem": {
+            "post": {
+                "tags": [
+                    "CartItem"
+                ],
+                "summary": "Add a new cart item",
+                "operationId": "2c559e984b1c3affc8ca86e782dbcd46",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "cartId",
+                                    "productVariantId"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "cartId": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "productVariantId": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cart item created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "cartId": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "productVariantId": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-11-13T12:00:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-11-13T12:05:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product variant not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/cart-item/{cartItemId}": {
+            "put": {
+                "tags": [
+                    "CartItem"
+                ],
+                "summary": "Update an existing cart item",
+                "operationId": "9872194a3ff8cb859ac317c7f99e560c",
+                "parameters": [
+                    {
+                        "name": "cartItemId",
+                        "in": "path",
+                        "description": "ID of the cart item to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "cartId",
+                                    "productVariantId"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "cartId": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "productVariantId": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cart item updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cart item updated successfully"
+                                        },
+                                        "cartItem": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "cartId": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "productVariantId": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-11-13T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-11-13T12:05:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cart item or product variant not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CartItem"
+                ],
+                "summary": "Delete a cart item",
+                "operationId": "6159fa6c5467be9d6f07e8d940671c9c",
+                "parameters": [
+                    {
+                        "name": "cartItemId",
+                        "in": "path",
+                        "description": "ID of the cart item to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cart item deleted successfully"
+                    },
+                    "404": {
+                        "description": "Cart item not found"
+                    }
+                }
+            }
+        },
+        "/api/categories": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
-                "summary": "Get list of categories",
-                "operationId": "ead5fb1cf2a7453acb2e37928a1b1eaf",
+                "summary": "Get all categories",
+                "operationId": "3f5817a34833d0a1f4af4548dd3aeaba",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "List of categories",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -426,6 +854,12 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Category"
                                             }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -434,15 +868,59 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "operationId": "71fcad552bb0eaba9fb191fd8d8dcab0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Electronics"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Electronic devices"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/categories/{id}": {
+        "/api/categories/{id}": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
-                "summary": "Get category details with products",
-                "operationId": "4cdf41756315109f1efc72787db5830a",
+                "summary": "Get category details",
+                "operationId": "c68e76d323c008827a9e47398b1583de",
                 "parameters": [
                     {
                         "name": "id",
@@ -456,29 +934,203 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update category",
+                "operationId": "0e686b2748211cc688333ed705dc111f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Electronics Updated"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Updated description"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "example": "electronics-updated.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Category updated successfully"
+                                        },
                                         "category": {
                                             "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "403": {
+                        "description": "Access denied. Admin role required."
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category",
+                "operationId": "4c12e22a7f8c617bd83bfa1fdc05428d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Category deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied. Admin role required."
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories/{id}/products": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get products by category",
+                "operationId": "b9a3e96d5deeddcc49cd06d071546057",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products in category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
                                         },
-                                        "products": {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/Product"
-                                                    }
-                                                },
-                                                "links": {
-                                                    "type": "object"
-                                                },
-                                                "meta": {
-                                                    "type": "object"
-                                                }
-                                            },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
                                             "type": "object"
                                         }
                                     },
@@ -493,13 +1145,49 @@
                 }
             }
         },
-        "/orders": {
+        "/api/v1/notifications/test-registration": {
+            "post": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Teste l'envoi de l'e-mail de confirmation d'inscription.",
+                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
+                "operationId": "testRegistrationEmail",
+                "responses": {
+                    "200": {
+                        "description": "E-mail de test d'inscription envoyé avec succès (Vérifiez la console pour les erreurs)."
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé."
+                    },
+                    "500": {
+                        "description": "Erreur d'envoi d'e-mail."
+                    }
+                }
+            }
+        },
+        "/api/v1/notifications/test-order": {
+            "post": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Teste l'envoi de l'e-mail de confirmation de commande.",
+                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
+                "operationId": "testOrderEmail",
+                "responses": {
+                    "200": {
+                        "description": "E-mail de test de commande envoyé avec succès."
+                    }
+                }
+            }
+        },
+        "/api/orders": {
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Get user's orders",
-                "operationId": "325fd3d55bbe9bb39645269928fa4983",
+                "operationId": "2cd7e03021e72d9d799c12dfe179c865",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -537,7 +1225,7 @@
                     "Orders"
                 ],
                 "summary": "Create a new order",
-                "operationId": "445bab4f7dc9ea6fcd54f286c0209478",
+                "operationId": "d690d6834318e9b064df441e854de8b9",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -648,13 +1336,13 @@
                 ]
             }
         },
-        "/orders/{id}": {
+        "/api/orders/{id}": {
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Get order details",
-                "operationId": "f088d34a2737782215f435f854e31de5",
+                "operationId": "c29621029e70f65247909d3e09031118",
                 "parameters": [
                     {
                         "name": "id",
@@ -691,13 +1379,13 @@
                 ]
             }
         },
-        "/products": {
+        "/api/products": {
             "post": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Create a new product",
-                "operationId": "399770d33fa4672f1216707d0e236763",
+                "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -757,22 +1445,12 @@
                 "responses": {
                     "201": {
                         "description": "Product created successfully",
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-<<<<<<< HEAD
-                                            "example": "Login successful"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "2|yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
-                                        },
-                                        "user": {
-=======
                                             "example": "Product created successfully"
                                         },
                                         "product": {
@@ -795,13 +1473,13 @@
                 ]
             }
         },
-        "/products/{id}": {
+        "/api/products/{id}": {
             "put": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Update product",
-                "operationId": "1419d479f9340e30e67fe21a2ca525b7",
+                "operationId": "6a7e11900844cd85cff66e662b82bd4c",
                 "parameters": [
                     {
                         "name": "id",
@@ -904,7 +1582,7 @@
                     "Products"
                 ],
                 "summary": "Delete product",
-                "operationId": "fe34b364a3f192305598b65d04d06b5d",
+                "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
                 "parameters": [
                     {
                         "name": "id",
@@ -944,13 +1622,13 @@
                 ]
             }
         },
-        "/products/vendor/my-products": {
+        "/api/products/vendor/my-products": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Get vendor's products",
-                "operationId": "a63d01e86683192f305f845caa3df11e",
+                "operationId": "e1caf79623d4afd8e2e296f0c244e580",
                 "responses": {
                     "200": {
                         "description": "Vendor's products list",
@@ -981,13 +1659,13 @@
                 ]
             }
         },
-        "/products/vendor/stats": {
+        "/api/products/vendor/stats": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Get vendor statistics",
-                "operationId": "0689fb5e8cb75144e5fd373325e54ee2",
+                "operationId": "8fc21d52bf9442ce22f18079d9c2056d",
                 "responses": {
                     "200": {
                         "description": "Vendor statistics",
@@ -1028,13 +1706,13 @@
                 ]
             }
         },
-        "/users": {
+        "/api/users": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get all users",
-                "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+                "operationId": "c457726701591d1183b53aa71fc13441",
                 "parameters": [
                     {
                         "name": "role",
@@ -1089,7 +1767,6 @@
                                             "type": "object"
                                         },
                                         "meta": {
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                             "type": "object"
                                         }
                                     },
@@ -1099,27 +1776,6 @@
                         }
                     },
                     "401": {
-<<<<<<< HEAD
-                        "description": "Identifiants invalides."
-                    }
-                }
-            }
-        },
-        "/api/v1/logout": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Déconnexion de l'utilisateur",
-                "description": "Supprime le jeton d'accès actuel de l'utilisateur.",
-                "operationId": "logoutUser",
-                "responses": {
-                    "200": {
-                        "description": "Déconnexion réussie."
-                    },
-                    "401": {
-                        "description": "Non authentifié."
-=======
                         "description": "Unauthorized"
                     }
                 },
@@ -1134,7 +1790,7 @@
                     "Users"
                 ],
                 "summary": "Create a new user",
-                "operationId": "a1fce870c566eb5fc0cf3178ec5d2fed",
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1204,7 +1860,6 @@
                     },
                     "422": {
                         "description": "Validation error"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     }
                 },
                 "security": [
@@ -1214,26 +1869,13 @@
                 ]
             }
         },
-<<<<<<< HEAD
-        "/api/v1/user": {
-            "get": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Obtenir les informations de l'utilisateur actuel",
-                "description": "Retourne les données de l'utilisateur authentifié via le jeton Bearer.",
-                "operationId": "getCurrentUser",
-                "responses": {
-                    "200": {
-                        "description": "Informations utilisateur récupérées.",
-=======
-        "/users/{id}": {
+        "/api/users/{id}": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user details",
-                "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+                "operationId": "36a33ff774d5cba33c039dec2c3e0287",
                 "parameters": [
                     {
                         "name": "id",
@@ -1248,7 +1890,6 @@
                 "responses": {
                     "200": {
                         "description": "User details",
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1257,10 +1898,6 @@
                             }
                         }
                     },
-<<<<<<< HEAD
-                    "401": {
-                        "description": "Non authentifié."
-=======
                     "404": {
                         "description": "User not found"
                     }
@@ -1276,7 +1913,7 @@
                     "Users"
                 ],
                 "summary": "Update user",
-                "operationId": "ddfe232db1870b82493bf8bd25596d37",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
                 "parameters": [
                     {
                         "name": "id",
@@ -1372,7 +2009,7 @@
                     "Users"
                 ],
                 "summary": "Delete user",
-                "operationId": "43dd20becb1f47444e484cbb18ce345c",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
                 "parameters": [
                     {
                         "name": "id",
@@ -1403,7 +2040,6 @@
                     },
                     "404": {
                         "description": "User not found"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                     }
                 },
                 "security": [
@@ -1413,33 +2049,13 @@
                 ]
             }
         },
-<<<<<<< HEAD
-        "/": {
-            "get": {
-                "tags": [
-                    "Home"
-                ],
-                "summary": "Récupérer les produits phares pour la page d'accueil",
-                "description": "Retourne une liste limitée (max 8) des produits visibles, en stock et marqués comme 'featured'.",
-                "operationId": "getFeaturedProducts",
-                "responses": {
-                    "200": {
-                        "description": "Opération réussie",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Product"
-                                    }
-=======
-        "/users/roles/stats": {
+        "/api/users/roles/stats": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user statistics by role",
-                "operationId": "501b86e714c1f5ff569e8b2802b4522e",
+                "operationId": "11d0cfb8621a067c0812df82ba34640c",
                 "responses": {
                     "200": {
                         "description": "User statistics",
@@ -1469,63 +2085,505 @@
                                         }
                                     },
                                     "type": "object"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                                 }
                             }
                         }
                     }
-<<<<<<< HEAD
-                }
-            }
-        },
-        "/api/v1/notifications/test-registration": {
-            "post": {
-                "tags": [
-                    "Notifications"
-                ],
-                "summary": "Teste l'envoi de l'e-mail de confirmation d'inscription.",
-                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
-                "operationId": "testRegistrationEmail",
-                "responses": {
-                    "200": {
-                        "description": "E-mail de test d'inscription envoyé avec succès (Vérifiez la console pour les erreurs)."
-                    },
-                    "404": {
-                        "description": "Utilisateur non trouvé."
-                    },
-                    "500": {
-                        "description": "Erreur d'envoi d'e-mail."
-                    }
-                }
-            }
-        },
-        "/api/v1/notifications/test-order": {
-            "post": {
-                "tags": [
-                    "Notifications"
-                ],
-                "summary": "Teste l'envoi de l'e-mail de confirmation de commande.",
-                "description": "Nécessite qu'un utilisateur avec l'ID 1 existe.",
-                "operationId": "testOrderEmail",
-                "responses": {
-                    "200": {
-                        "description": "E-mail de test de commande envoyé avec succès."
-                    }
-                }
-=======
                 },
                 "security": [
                     {
                         "bearerAuth": []
                     }
                 ]
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             }
         }
     },
     "components": {
         "schemas": {
-<<<<<<< HEAD
+            "ProductsForProduct": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "iPhone 15 Pro"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "iphone-15-pro"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Latest iPhone with advanced features"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 999.99
+                    },
+                    "compare_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1099.99
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "sku": {
+                        "type": "string",
+                        "example": "IP15PRO256"
+                    },
+                    "is_visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "is_featured": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "products/iphone15.jpg"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryForProduct": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Electronics"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "electronics"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Electronic devices and accessories"
+                    },
+                    "is_visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "position": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CartForProduct": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 199.98
+                    },
+                    "items_count": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CartItem"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CartItemForProduct": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "unit_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 99.99
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 199.98
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/Product"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderForProduct": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order_number": {
+                        "type": "string",
+                        "example": "ORD-20231215-ABC123"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "subtotal": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 199.98
+                    },
+                    "shipping": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 10
+                    },
+                    "tax": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 20
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 229.98
+                    },
+                    "customer_email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "customer_first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "customer_last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "shipping_address": {
+                        "type": "string",
+                        "example": "123 Main St"
+                    },
+                    "shipping_city": {
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "shipping_zipcode": {
+                        "type": "string",
+                        "example": "10001"
+                    },
+                    "shipping_country": {
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Cart": {
+                "title": "Cart",
+                "description": "Modèle de données pour un panier d'achat.",
+                "properties": {
+                    "id": {
+                        "description": "ID unique du panier.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "description": "ID de l'utilisateur associé à ce panier.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "items": {
+                        "description": "Liste des articles dans le panier.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CartItem"
+                        }
+                    },
+                    "total_price": {
+                        "description": "Prix total du panier.",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "user_id": 101,
+                    "items": [],
+                    "total_price": 49.99
+                }
+            },
+            "CartItem": {
+                "title": "CartItem",
+                "description": "Modèle de données pour un article dans un panier.",
+                "properties": {
+                    "product_id": {
+                        "description": "ID du produit.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "quantity": {
+                        "description": "Quantité de ce produit dans le panier.",
+                        "type": "integer"
+                    },
+                    "unit_price": {
+                        "description": "Prix unitaire au moment de l'ajout.",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "product_id": 5,
+                    "quantity": 2,
+                    "unit_price": 24.99
+                }
+            },
+            "Category": {
+                "title": "Category",
+                "description": "Modèle de données pour une catégorie de produits.",
+                "properties": {
+                    "id": {
+                        "description": "ID unique de la catégorie.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "Nom de la catégorie.",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "description": "Slug pour URL.",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Description de la catégorie.",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_visible": {
+                        "description": "Visibilité de la catégorie (true si visible).",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "Électronique",
+                    "slug": "electronique",
+                    "description": "Appareils et gadgets électroniques.",
+                    "is_visible": true
+                }
+            },
+            "Order": {
+                "title": "Order",
+                "description": "Modèle de données pour une commande client.",
+                "properties": {
+                    "id": {
+                        "description": "ID unique de la commande.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "user_id": {
+                        "description": "ID de l'utilisateur qui a passé la commande.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "order_number": {
+                        "description": "Numéro unique de la commande (ex: ORD-20251114-abcxyz).",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "Statut de la commande (ex: pending, processing, shipped, completed).",
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "processing",
+                            "shipped",
+                            "completed",
+                            "cancelled"
+                        ]
+                    },
+                    "subtotal": {
+                        "description": "Sous-total des articles.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "shipping": {
+                        "description": "Frais de livraison.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "tax": {
+                        "description": "Taxes appliquées.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "total": {
+                        "description": "Prix total final de la commande.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "customer_first_name": {
+                        "description": "Prénom du client.",
+                        "type": "string"
+                    },
+                    "customer_last_name": {
+                        "description": "Nom de famille du client.",
+                        "type": "string"
+                    },
+                    "customer_email": {
+                        "description": "Email du client.",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "customer_phone": {
+                        "description": "Téléphone du client.",
+                        "type": "string"
+                    },
+                    "shipping_address": {
+                        "description": "Adresse de livraison.",
+                        "type": "string"
+                    },
+                    "shipping_city": {
+                        "description": "Ville de livraison.",
+                        "type": "string"
+                    },
+                    "shipping_zipcode": {
+                        "description": "Code postal de livraison.",
+                        "type": "string"
+                    },
+                    "shipping_country": {
+                        "description": "Pays de livraison.",
+                        "type": "string"
+                    },
+                    "payment_method": {
+                        "description": "Méthode de paiement utilisée.",
+                        "type": "string"
+                    },
+                    "items": {
+                        "description": "Articles inclus dans la commande (relation OrderItem).",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "order_number": "ORD-20251114-ABCDEF",
+                    "status": "pending",
+                    "total": 125,
+                    "customer_email": "jane.doe@example.com",
+                    "shipping_city": "Paris",
+                    "items": []
+                }
+            },
+            "OrderItem": {
+                "title": "OrderItem",
+                "description": "Modèle de données pour un article spécifique dans une commande.",
+                "properties": {
+                    "id": {
+                        "description": "ID unique de l'article de commande.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "order_id": {
+                        "description": "ID de la commande parente.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "product_id": {
+                        "description": "ID du produit original.",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "product_name": {
+                        "description": "Nom du produit au moment de la commande.",
+                        "type": "string"
+                    },
+                    "product_sku": {
+                        "description": "SKU du produit au moment de la commande.",
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "Quantité commandée.",
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unit_price": {
+                        "description": "Prix unitaire du produit au moment de la commande.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "total": {
+                        "description": "Prix total (quantité * prix unitaire).",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "order_id": 10,
+                    "product_id": 5,
+                    "product_name": "T-Shirt Bleu",
+                    "product_sku": "TSH-BLU-SM",
+                    "quantity": 2,
+                    "unit_price": 25,
+                    "total": 50
+                }
+            },
             "Product": {
                 "title": "Product",
                 "description": "Modèle de données pour un produit de la boutique",
@@ -1641,6 +2699,16 @@
                         "type": "string",
                         "format": "email"
                     },
+                    "phone": {
+                        "description": "Numero de telephone",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "address": {
+                        "description": "Adresse",
+                        "type": "string",
+                        "format": "string"
+                    },
                     "role": {
                         "description": "Rôle de l'utilisateur (ex: USER, ADMIN)",
                         "type": "string",
@@ -1651,51 +2719,16 @@
                     },
                     "created_at": {
                         "description": "Date de création de l'utilisateur",
-=======
-            "User": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "John Doe"
-                    },
-                    "email": {
-                        "type": "string",
-                        "example": "john@example.com"
-                    },
-                    "role": {
-                        "type": "string",
-                        "enum": [
-                            "client",
-                            "admin",
-                            "vendor",
-                            "delivery"
-                        ],
-                        "example": "client"
-                    },
-                    "email_verified_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "created_at": {
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "type": "string",
                         "format": "date-time"
                     },
                     "updated_at": {
-<<<<<<< HEAD
                         "description": "Date de dernière mise à jour",
-=======
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
                         "type": "string",
                         "format": "date-time"
                     }
                 },
                 "type": "object"
-<<<<<<< HEAD
             }
         },
         "securitySchemes": {
@@ -1710,246 +2743,13 @@
                 "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
                 "in": "header"
-=======
-            },
-            "Product": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "iPhone 15 Pro"
-                    },
-                    "slug": {
-                        "type": "string",
-                        "example": "iphone-15-pro"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Latest iPhone with advanced features"
-                    },
-                    "price": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 999.99
-                    },
-                    "compare_price": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 1099.99
-                    },
-                    "stock": {
-                        "type": "integer",
-                        "example": 50
-                    },
-                    "sku": {
-                        "type": "string",
-                        "example": "IP15PRO256"
-                    },
-                    "is_visible": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "is_featured": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "image": {
-                        "type": "string",
-                        "example": "products/iphone15.jpg"
-                    },
-                    "category_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "Category": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Electronics"
-                    },
-                    "slug": {
-                        "type": "string",
-                        "example": "electronics"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Electronic devices and accessories"
-                    },
-                    "is_visible": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "position": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "Cart": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "total": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 199.98
-                    },
-                    "items_count": {
-                        "type": "integer",
-                        "example": 2
-                    },
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CartItem"
-                        }
-                    }
-                },
-                "type": "object"
-            },
-            "CartItem": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "quantity": {
-                        "type": "integer",
-                        "example": 2
-                    },
-                    "unit_price": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 99.99
-                    },
-                    "total": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 199.98
-                    },
-                    "product": {
-                        "$ref": "#/components/schemas/Product"
-                    }
-                },
-                "type": "object"
-            },
-            "Order": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "order_number": {
-                        "type": "string",
-                        "example": "ORD-20231215-ABC123"
-                    },
-                    "status": {
-                        "type": "string",
-                        "example": "pending"
-                    },
-                    "subtotal": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 199.98
-                    },
-                    "shipping": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 10
-                    },
-                    "tax": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 20
-                    },
-                    "total": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 229.98
-                    },
-                    "customer_email": {
-                        "type": "string",
-                        "example": "john@example.com"
-                    },
-                    "customer_first_name": {
-                        "type": "string",
-                        "example": "John"
-                    },
-                    "customer_last_name": {
-                        "type": "string",
-                        "example": "Doe"
-                    },
-                    "shipping_address": {
-                        "type": "string",
-                        "example": "123 Main St"
-                    },
-                    "shipping_city": {
-                        "type": "string",
-                        "example": "New York"
-                    },
-                    "shipping_zipcode": {
-                        "type": "string",
-                        "example": "10001"
-                    },
-                    "shipping_country": {
-                        "type": "string",
-                        "example": "USA"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
             }
         }
     },
     "tags": [
         {
-<<<<<<< HEAD
             "name": "Auth",
             "description": "Opérations d'authentification et de gestion des utilisateurs."
-        },
-        {
-            "name": "Home",
-            "description": "Points d'accès pour la page d'accueil et les informations générales."
-        },
-        {
-            "name": "Notifications",
-            "description": "Opérations de test pour l'envoi de notifications par e-mail (Mailable)."
-=======
-            "name": "Authentication",
-            "description": "API Endpoints for Authentication"
         },
         {
             "name": "Cart",
@@ -1957,20 +2757,27 @@
         },
         {
             "name": "Categories",
-            "description": "API Endpoints for Categories"
+            "description": "API Endpoints for Category Management"
+        },
+        {
+            "name": "Notifications",
+            "description": "Opérations de test pour l'envoi de notifications par e-mail (Mailable)."
         },
         {
             "name": "Orders",
             "description": "API Endpoints for Orders"
         },
         {
-            "name": "Products",
-            "description": "API Endpoints for Products"
-        },
-        {
             "name": "Users",
             "description": "API Endpoints for User Management"
->>>>>>> e522c3c00ac8b71bb74283329c57d127c6d0411c
+        },
+        {
+            "name": "CartItem",
+            "description": "CartItem"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
         }
     ]
 }

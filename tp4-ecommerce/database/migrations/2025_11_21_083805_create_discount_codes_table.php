@@ -11,17 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('discount_code_usages', function (Blueprint $table) {
+        Schema::create('discount_codes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-           
-            $table->string("nbUsages");
-            $table->foreignId("userId")
-                ->references("id")
-                ->on("users");
-            $table->foreignId("discountCodeId")
-                ->references("id")
-                ->on("discount_codes");
         });
     }
 
@@ -30,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('discount_code_usages');
+        Schema::dropIfExists('discount_codes');
     }
 };

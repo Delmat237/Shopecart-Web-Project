@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 <script src="{{ asset('assets/js/header.js') }}"></script>
 <script defer src="{{ asset('assets/js/newsletter.js') }}"></script>
-<img src="{{ asset('assets/images/shopcart-logo.png') }}" alt="Shopcart Logo">
+
 
   <!-- Utilisation de Font Awesome pour les icônes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
